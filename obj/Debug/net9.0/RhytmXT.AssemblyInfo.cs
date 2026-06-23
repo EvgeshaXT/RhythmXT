@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RhytmXT")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+12c231896b4e5042ea066627746dbc5b4e744d26")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fa0832e25c7409e90d8ad351ddb7cf652f88520a")]
 [assembly: System.Reflection.AssemblyProductAttribute("RhytmXT")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RhytmXT")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

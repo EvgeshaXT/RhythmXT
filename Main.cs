@@ -9,16 +9,22 @@ public class Main : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 
+    Cursor _cursor;
+
     public Main()
     {
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
-        IsMouseVisible = true;
+
+        IsFixedTimeStep = false;
+        _graphics.SynchronizeWithVerticalRetrace = false;
+        _graphics.ApplyChanges();
     }
 
     protected override void Initialize()
     {
-        // TODO: Add your initialization logic here
+        _cursor = new Cursor();
+        FullScreen(_graphics);
 
         base.Initialize();
     }
@@ -27,7 +33,7 @@ public class Main : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-        // TODO: use this.Content to load your game content here
+        _cursor.LoadContent(Content);
     }
 
     protected override void Update(GameTime gameTime)
@@ -35,17 +41,30 @@ public class Main : Game
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
 
-        // TODO: Add your update logic here
+        _cursor.Update();
 
         base.Update(gameTime);
     }
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.CornflowerBlue);
+        GraphicsDevice.Clear(Color.Black);
+        _spriteBatch.Begin();
 
-        // TODO: Add your drawing code here
+        _cursor.Draw(_spriteBatch);
 
+        _spriteBatch.End();
         base.Draw(gameTime);
+    }
+
+    void FullScreen(GraphicsDeviceManager graphics)
+    {
+        var displayMode = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode;
+
+        graphics.PreferredBackBufferWidth = displayMode.Width;
+        graphics.PreferredBackBufferHeight = displayMode.Height;
+
+        graphics.IsFullScreen = true;
+        graphics.ApplyChanges();
     }
 }

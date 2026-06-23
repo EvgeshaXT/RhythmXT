@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using RhytmXT.Core;
 
 namespace RhytmXT;
 
@@ -10,6 +11,8 @@ public class Main : Game
     private SpriteBatch _spriteBatch;
 
     Cursor _cursor;
+    MainMenu _mainMenu;
+    int _screenWidth, _screenHeight;
 
     public Main()
     {
@@ -23,8 +26,13 @@ public class Main : Game
 
     protected override void Initialize()
     {
-        _cursor = new Cursor();
         FullScreen(_graphics);
+
+        _screenWidth = GraphicsDevice.Viewport.Width;
+        _screenHeight = GraphicsDevice.Viewport.Height;
+
+        _mainMenu = new(_screenWidth, _screenHeight);
+        _cursor = new();
 
         base.Initialize();
     }
@@ -33,6 +41,7 @@ public class Main : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+        _mainMenu.LoadContent(Content);
         _cursor.LoadContent(Content);
     }
 
@@ -41,7 +50,9 @@ public class Main : Game
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
 
+        MouseInputManager.Update();
         _cursor.Update();
+        _mainMenu.Update();
 
         base.Update(gameTime);
     }
@@ -51,6 +62,7 @@ public class Main : Game
         GraphicsDevice.Clear(Color.Black);
         _spriteBatch.Begin();
 
+        _mainMenu.Draw(_spriteBatch);
         _cursor.Draw(_spriteBatch);
 
         _spriteBatch.End();

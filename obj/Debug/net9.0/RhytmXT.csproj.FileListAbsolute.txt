@@ -33,3 +33,4 @@ D:\MyProjects\RhytmXT\obj\Debug\net9.0\RhytmXT.pdb
 D:\MyProjects\RhytmXT\obj\Debug\net9.0\RhytmXT.genruntimeconfig.cache
 D:\MyProjects\RhytmXT\obj\Debug\net9.0\ref\RhytmXT.dll
 D:\MyProjects\RhytmXT\bin\Debug\net9.0\Content\cursor.xnb
+D:\MyProjects\RhytmXT\bin\Debug\net9.0\Content\mainMenuXTCircle.xnb

@@ -2,15 +2,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using RhytmXT.Core;
 
 namespace RhytmXT;
 
 public class Cursor
 {
     Texture2D _texture;
-    MouseState lastMouseState;
-    Vector2 _position;
-    Vector2 _origin;
+    Vector2 _position, _origin;
 
     public void LoadContent(ContentManager content)
     {
@@ -18,16 +17,7 @@ public class Cursor
         _origin = new Vector2(_texture.Width / 2, _texture.Height / 2);
     }
 
-    public void Update()
-    {
-        MouseState currentMouseState = Mouse.GetState();
-
-        if (currentMouseState.X != lastMouseState.X ||
-            currentMouseState.Y != lastMouseState.Y)
-            _position = new Vector2(currentMouseState.X, currentMouseState.Y);
-
-        lastMouseState = currentMouseState;
-    }
+    public void Update() => _position = MouseInputManager.MousePosition;
 
     public void Draw(SpriteBatch spriteBatch)
     {

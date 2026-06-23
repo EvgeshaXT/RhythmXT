@@ -5,8 +5,10 @@
   <Config />
   <SourceFiles>
     <File>D:/MyProjects/RhytmXT/Content/cursor.png</File>
+    <File>D:/MyProjects/RhytmXT/Content/mainMenuXTCircle.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
   </DestFiles>
 </SourceFileCollection>

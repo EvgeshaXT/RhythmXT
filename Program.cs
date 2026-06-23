@@ -1,2 +1,2 @@
-﻿using var game = new RhytmXT.Game1();
+﻿using var game = new RhytmXT.Main();
 game.Run();

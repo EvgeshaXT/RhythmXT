@@ -1,2 +1,2 @@
 # RhytmXT
-Arcade Rhytm Game **RhytmXT** - v0.0.2
+Rhytm Arcade Game - v0.0.2

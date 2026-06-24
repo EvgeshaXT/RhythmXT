@@ -49,7 +49,6 @@ public class MainMenuXTCircle
         UpdateDeltaTime();
 
         mainMenuXTCircle_Clicked();
-        mainMenuXTCircle_Animation();
     }
 
     public void Draw(SpriteBatch spriteBatch)
@@ -82,6 +81,8 @@ public class MainMenuXTCircle
 
             if (stopwatchMainMenuXTCircle_ClickedAnimation.IsRunning) stopwatchMainMenuXTCircle_ClickedAnimation.Restart();
         }
+
+        mainMenuXTCircle_Animation();
     }
 
     void mainMenuXTCircle_Animation()
@@ -97,17 +98,10 @@ public class MainMenuXTCircle
                 _isUnClicked = true;
                 _isClicked = false;
             }
-
-            newPosition = new(screenWidth / 3, screenHeight / 2);
-            newScale = 0.45f;
         }
-        else
-        {
-            newPosition = new(screenWidth / 2, screenHeight / 2);
 
-            if (ContainsCursor(MouseInputManager.MousePosition)) newScale = 0.75f;
-            else newScale = 0.7f;
-        }
+        UpdateDirectionForAnimation();
+
 
         if (_scale != newScale || _position != newPosition)
         {
@@ -122,6 +116,22 @@ public class MainMenuXTCircle
             if (Math.Abs(_scale - newScale) < 0.001f) _scale = newScale;
 
             if (_isUnClicked && _position == newPosition) _isUnClicked = false;
+        }
+    }
+
+    void UpdateDirectionForAnimation()
+    {
+        if (_isClicked)
+        {
+            newPosition = new(screenWidth / 3, screenHeight / 2);
+            newScale = 0.45f;
+        }
+        else
+        {
+            newPosition = new(screenWidth / 2, screenHeight / 2);
+
+            if (ContainsCursor(MouseInputManager.MousePosition)) newScale = 0.75f;
+            else newScale = 0.7f;
         }
     }
 }

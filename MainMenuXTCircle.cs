@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Diagnostics;
 
 namespace RhytmXT;
 
@@ -11,9 +12,9 @@ public class MainMenuXTCircle
     Vector2 _position, _origin;
     float _scale, newScale;
     float radius;
-
-    DateTime nowDateTime;
-    DateTime lastDateTime;
+    
+    Stopwatch stopwatch;
+    double lastUpdateTime;
     
     public MainMenuXTCircle(int screenWidth, int screenHeight)
     {
@@ -22,8 +23,8 @@ public class MainMenuXTCircle
         _scale = 0.7f;
         newScale = _scale;
 
-        nowDateTime = DateTime.Now;
-        lastDateTime = nowDateTime;
+        stopwatch = Stopwatch.StartNew();
+        lastUpdateTime = 0d;
     }
 
     public void LoadContent(ContentManager content)
@@ -54,9 +55,9 @@ public class MainMenuXTCircle
 
     void ScaleUpdate()
     {
-        nowDateTime = DateTime.Now;
-        double deltaTime = (nowDateTime - lastDateTime).TotalSeconds;
-        lastDateTime = nowDateTime;
+        double nowUpdateTime = stopwatch.Elapsed.TotalSeconds;
+        double deltaTime = nowUpdateTime - lastUpdateTime;
+        lastUpdateTime = nowUpdateTime;
 
         if (ContainsCursor(MouseInputManager.MousePosition)) newScale = 0.75f;
         else newScale = 0.7f;

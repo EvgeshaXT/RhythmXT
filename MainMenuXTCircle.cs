@@ -14,10 +14,10 @@ public class MainMenuXTCircle
     float _scale, newScale;
     float radius;
     
-    Stopwatch stopwatch;
+    Stopwatch stopwatch, stopwatchMainMenuXTCircle_ClickedAnimation;
     double deltaTime, lastUpdateTime;
 
-    bool _isClicked;
+    bool _isClicked, _isUnClicked;
     
     public MainMenuXTCircle(int screenWidth, int screenHeight)
     {
@@ -30,9 +30,11 @@ public class MainMenuXTCircle
         newScale = _scale;
 
         stopwatch = Stopwatch.StartNew();
+        stopwatchMainMenuXTCircle_ClickedAnimation = new();
         deltaTime = 0d; lastUpdateTime = 0d;
 
         _isClicked = false;
+        _isUnClicked = false;
     }
 
     public void LoadContent(ContentManager content)
@@ -46,13 +48,8 @@ public class MainMenuXTCircle
     {
         UpdateDeltaTime();
 
-        if (!_isClicked)
-        {
-            mainMenuXTCircle_MouseHover();
-            mainMenuXTCircle_Clicked();
-        }
-
-        if (_isClicked) mainMenuXTCircle_ClickedAnimation();
+        mainMenuXTCircle_Clicked();
+        mainMenuXTCircle_Animation();
     }
 
     public void Draw(SpriteBatch spriteBatch)
@@ -76,34 +73,55 @@ public class MainMenuXTCircle
         lastUpdateTime = nowUpdateTime;
     }
 
-    void mainMenuXTCircle_MouseHover()
-    {
-        if (ContainsCursor(MouseInputManager.MousePosition)) newScale = 0.75f;
-        else newScale = 0.7f;
-
-        float lerpFactor = 1 - (float)Math.Exp(-8f * deltaTime);
-        _scale += (newScale - _scale) * lerpFactor;
-        
-        if (Math.Abs(_scale - newScale) < 0.001f) _scale = newScale;
-        CalculateRadius();
-    }
-
     void mainMenuXTCircle_Clicked()
     {
-        if (MouseInputManager.MouseLeftClickPressed && ContainsCursor(MouseInputManager.MousePosition)) _isClicked = true;
+        if (MouseInputManager.MouseLeftClickPressed && ContainsCursor(MouseInputManager.MousePosition))
+        {
+            _isClicked = true;
+            _isUnClicked = false;
+
+            if (stopwatchMainMenuXTCircle_ClickedAnimation.IsRunning) stopwatchMainMenuXTCircle_ClickedAnimation.Restart();
+        }
     }
 
-    void mainMenuXTCircle_ClickedAnimation()
+    void mainMenuXTCircle_Animation()
     {
-        newPosition = new(screenWidth / 3, screenHeight / 2);
-        newScale = 0.45f;
+        if (_isClicked)
+        {
+            stopwatchMainMenuXTCircle_ClickedAnimation.Start();
 
-        float lerpFactor = 1 - (float)Math.Exp(-8f * deltaTime);
+            if (stopwatchMainMenuXTCircle_ClickedAnimation.Elapsed.TotalSeconds >= 5d)
+            {
+                stopwatchMainMenuXTCircle_ClickedAnimation.Reset();
 
-        _position += (newPosition - _position) * lerpFactor;
-        _scale += (newScale - _scale) * lerpFactor;
+                _isUnClicked = true;
+                _isClicked = false;
+            }
 
-        if ((_position - newPosition).Length() < 0.001f) _position = newPosition;
-        if ((_scale - newScale) < 0.001f) _scale = newScale;
+            newPosition = new(screenWidth / 3, screenHeight / 2);
+            newScale = 0.45f;
+        }
+        else
+        {
+            newPosition = new(screenWidth / 2, screenHeight / 2);
+
+            if (ContainsCursor(MouseInputManager.MousePosition)) newScale = 0.75f;
+            else newScale = 0.7f;
+        }
+
+        if (_scale != newScale || _position != newPosition)
+        {
+            CalculateRadius();
+
+            float lerpFactor = 1 - (float)Math.Exp(-8f * deltaTime);
+
+            _position += (newPosition - _position) * lerpFactor;
+            _scale += (newScale - _scale) * lerpFactor;
+
+            if (Vector2.Distance(_position, newPosition) < 1f) _position = newPosition;
+            if (Math.Abs(_scale - newScale) < 0.001f) _scale = newScale;
+
+            if (_isUnClicked && _position == newPosition) _isUnClicked = false;
+        }
     }
 }

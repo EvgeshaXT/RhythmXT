@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace RhytmXT.Core;
+namespace RhytmXT;
 
 public static class MouseInputManager
 {

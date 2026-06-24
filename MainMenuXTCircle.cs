@@ -88,7 +88,7 @@ public class MainMenuXTCircle
     {
         if (_isClicked)
         {
-            stopwatchMainMenuXTCircle_ClickedAnimation.Start();
+            if (MouseInputManager.MouseLeftClickPrReleased) stopwatchMainMenuXTCircle_ClickedAnimation.Start();
 
             if (stopwatchMainMenuXTCircle_ClickedAnimation.Elapsed.TotalSeconds >= 5d)
             {

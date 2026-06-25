@@ -24,7 +24,7 @@ public class MainMenuXTCircle : IContainsCursor
     Stopwatch stopwatch;
 
     public bool IsClicked { get; private set; }
-    bool _isUnClicked;
+    public bool IsUnClicked { get; private set; }
     
     public MainMenuXTCircle(int screenWidth, int screenHeight, IContainsCursor[] containsCursors)
     {
@@ -41,7 +41,7 @@ public class MainMenuXTCircle : IContainsCursor
         stopwatch = Stopwatch.StartNew();
 
         IsClicked = false;
-        _isUnClicked = false;
+        IsUnClicked = false;
     }
 
     public void LoadContent(ContentManager content)
@@ -75,7 +75,7 @@ public class MainMenuXTCircle : IContainsCursor
         if (MouseInputManager.MouseLeftClickPressed && ContainsCursor())
         {
             IsClicked = true;
-            _isUnClicked = false;
+            IsUnClicked = false;
 
             if (stopwatch.IsRunning) stopwatch.Restart();
         }
@@ -94,7 +94,7 @@ public class MainMenuXTCircle : IContainsCursor
             {
                 stopwatch.Reset();
 
-                _isUnClicked = true;
+                IsUnClicked = true;
                 IsClicked = false;
             }
         }
@@ -112,7 +112,7 @@ public class MainMenuXTCircle : IContainsCursor
             if (Vector2.Distance(_position, newPosition) < 1f) _position = newPosition;
             if (Math.Abs(_scale - newScale) < 0.001f) _scale = newScale;
 
-            if (_isUnClicked && _position == newPosition) _isUnClicked = false;
+            if (IsUnClicked && _position == newPosition) IsUnClicked = false;
         }
     }
 

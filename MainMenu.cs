@@ -39,20 +39,45 @@ public class MainMenu
         UpdateDeltaTime();
 
         _mainMenuXTCircle.Update(deltaTime);
-        if (_mainMenuXTCircle.IsClicked) _mainMenuSoloButton.Update(deltaTime);
+        MainMenuButtonsUpdate();
+
         if (_mainMenuXTCircle.IsClicked) _mainMenuMultiButton.Update(deltaTime);
+    }
+
+    void MainMenuButtonsUpdate()
+    {
+        if (_mainMenuXTCircle.IsClicked)
+        {
+            if (!_mainMenuSoloButton.IsAppearing)
+            {
+                _mainMenuSoloButton.IsAppearing = true;
+                _mainMenuSoloButton.IsDisappearing = false;
+            }
+
+            _mainMenuSoloButton.Update(deltaTime);
+        }
+        else if (_mainMenuXTCircle.IsUnClicked)
+        {
+            if (!_mainMenuSoloButton.IsDisappearing)
+            {
+                _mainMenuSoloButton.IsAppearing = false;
+                _mainMenuSoloButton.IsDisappearing = true;
+            }
+
+            _mainMenuSoloButton.Update(deltaTime);
+        }
     }
 
     public void Draw(SpriteBatch spriteBatch)
     {
         _mainMenuBackground.Draw(spriteBatch);
-        _mainMenuXTCircle.Draw(spriteBatch);
         MainMenuButtonsDraw(spriteBatch);
+        _mainMenuXTCircle.Draw(spriteBatch);
     }
 
     void MainMenuButtonsDraw(SpriteBatch spriteBatch)
     {
-        if (_mainMenuXTCircle.IsClicked)
+        if (_mainMenuSoloButton.IsAppearing || (_mainMenuSoloButton.IsDisappearing && _mainMenuXTCircle.IsUnClicked))
         {
             _mainMenuSoloButton.Draw(spriteBatch);
             _mainMenuMultiButton.Draw(spriteBatch);

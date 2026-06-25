@@ -16,9 +16,13 @@ public class MainMenuXTCircle : IContainsCursor
     IContainsCursor[] containsCursors;
 
     Texture2D _texture;
-    Vector2 _position, newPosition, _origin;
+    public int TextureWidth => _texture.Width;
+    public Vector2 Position { get; private set; }
+    Vector2 newPosition;
+    public Vector2 Origin { get; private set; }
     int screenWidth, screenHeight;
-    float _scale, newScale;
+    public float Scale { get; private set; }
+    float newScale;
     float _speedAnimation;
     
     Stopwatch stopwatch;
@@ -28,14 +32,14 @@ public class MainMenuXTCircle : IContainsCursor
     
     public MainMenuXTCircle(int screenWidth, int screenHeight, IContainsCursor[] containsCursors)
     {
-        _position = new(screenWidth / 2, screenHeight / 2);
-        newPosition = _position;
+        Position = new(screenWidth / 2, screenHeight / 2);
+        newPosition = Position;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
         this.containsCursors = containsCursors;
 
-        _scale = 0.7f;
-        newScale = _scale;
+        Scale = 0.7f;
+        newScale = Scale;
         _speedAnimation = SPEED_ANIMATION_CLICK;
 
         stopwatch = Stopwatch.StartNew();
@@ -47,7 +51,7 @@ public class MainMenuXTCircle : IContainsCursor
     public void LoadContent(ContentManager content)
     {
         _texture = content.Load<Texture2D>("MainMenu/mainMenuXTCircle");
-        _origin = new(_texture.Width / 2, _texture.Height / 2);
+        Origin = new(_texture.Width / 2, _texture.Height / 2);
     }
 
     public void Update(double deltaTime)
@@ -57,15 +61,15 @@ public class MainMenuXTCircle : IContainsCursor
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        spriteBatch.Draw(_texture, _position, null, Color.White, 0, _origin, _scale, SpriteEffects.None, 0f);
+        spriteBatch.Draw(_texture, Position, null, Color.White, 0, Origin, Scale, SpriteEffects.None, 0f);
     }
 
     public bool ContainsCursor()
     {
-        float dx = _position.X - MouseInputManager.MousePosition.X;
-        float dy = _position.Y - MouseInputManager.MousePosition.Y;
+        float dx = Position.X - MouseInputManager.MousePosition.X;
+        float dy = Position.Y - MouseInputManager.MousePosition.Y;
 
-        float radius = _texture.Width / 2f * _scale;
+        float radius = _texture.Width / 2f * Scale;
 
         return (dx * dx + dy * dy) <= (radius * radius);
     }
@@ -102,17 +106,17 @@ public class MainMenuXTCircle : IContainsCursor
         UpdateDirectionForAnimation();
 
 
-        if (_scale != newScale || _position != newPosition)
+        if (Scale != newScale || Position != newPosition)
         {
             float lerpFactor = 1 - (float)Math.Exp(-_speedAnimation * deltaTime);
 
-            _position += (newPosition - _position) * lerpFactor;
-            _scale += (newScale - _scale) * lerpFactor;
+            Position += (newPosition - Position) * lerpFactor;
+            Scale += (newScale - Scale) * lerpFactor;
 
-            if (Vector2.Distance(_position, newPosition) < 1f) _position = newPosition;
-            if (Math.Abs(_scale - newScale) < 0.001f) _scale = newScale;
+            if (Vector2.Distance(Position, newPosition) < 1f) Position = newPosition;
+            if (Math.Abs(Scale - newScale) < 0.001f) Scale = newScale;
 
-            if (IsUnClicked && _position == newPosition) IsUnClicked = false;
+            if (IsUnClicked && Position == newPosition) IsUnClicked = false;
         }
     }
 

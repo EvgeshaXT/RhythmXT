@@ -64,12 +64,13 @@ public class Main : Game
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.Black);
-        _spriteBatch.Begin();
-
+        
         _mainMenu.Draw(_spriteBatch);
+        
+        _spriteBatch.Begin();
         _cursor.Draw(_spriteBatch);
-
         _spriteBatch.End();
+
         base.Draw(gameTime);
     }
 

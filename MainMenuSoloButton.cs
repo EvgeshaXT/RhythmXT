@@ -88,7 +88,7 @@ public class MainMenuSoloButton : IContainsCursor
 
         if (_position != newPosition)
         {
-            float lerpFactor = 1 - (float)Math.Exp(-12f * deltaTime);
+            float lerpFactor = 1 - (float)Math.Exp(-16f * deltaTime);
             _position += (newPosition - _position) * lerpFactor;
 
             if (Vector2.Distance(_position, newPosition) < 1f)

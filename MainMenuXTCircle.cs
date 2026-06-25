@@ -17,7 +17,8 @@ public class MainMenuXTCircle
     Stopwatch stopwatch, stopwatchMainMenuXTCircle_ClickedAnimation;
     double deltaTime, lastUpdateTime;
 
-    bool _isClicked, _isUnClicked;
+    public bool IsClicked { get; private set; }
+    bool _isUnClicked;
     
     public MainMenuXTCircle(int screenWidth, int screenHeight)
     {
@@ -33,13 +34,13 @@ public class MainMenuXTCircle
         stopwatchMainMenuXTCircle_ClickedAnimation = new();
         deltaTime = 0d; lastUpdateTime = 0d;
 
-        _isClicked = false;
+        IsClicked = false;
         _isUnClicked = false;
     }
 
     public void LoadContent(ContentManager content)
     {
-        _texture = content.Load<Texture2D>("mainMenuXTCircle");
+        _texture = content.Load<Texture2D>("MainMenu/mainMenuXTCircle");
         _origin = new(_texture.Width / 2, _texture.Height / 2);
         CalculateRadius();
     }
@@ -56,9 +57,9 @@ public class MainMenuXTCircle
         spriteBatch.Draw(_texture, _position, null, Color.White, 0, _origin, _scale, SpriteEffects.None, 0f);
     }
 
-    bool ContainsCursor(Vector2 cursorPosition)
+    bool ContainsCursor()
     {
-        float distance = Vector2.Distance(_position, cursorPosition);
+        float distance = Vector2.Distance(_position, MouseInputManager.MousePosition);
 
         return distance <= radius;
     }
@@ -74,9 +75,9 @@ public class MainMenuXTCircle
 
     void mainMenuXTCircle_Clicked()
     {
-        if (MouseInputManager.MouseLeftClickPressed && ContainsCursor(MouseInputManager.MousePosition))
+        if (MouseInputManager.MouseLeftClickPressed && ContainsCursor())
         {
-            _isClicked = true;
+            IsClicked = true;
             _isUnClicked = false;
 
             if (stopwatchMainMenuXTCircle_ClickedAnimation.IsRunning) stopwatchMainMenuXTCircle_ClickedAnimation.Restart();
@@ -87,16 +88,19 @@ public class MainMenuXTCircle
 
     void mainMenuXTCircle_Animation()
     {
-        if (_isClicked)
+        if (IsClicked)
         {
             if (MouseInputManager.MouseLeftClickPrReleased) stopwatchMainMenuXTCircle_ClickedAnimation.Start();
+
+            if (ContainsCursor()) stopwatchMainMenuXTCircle_ClickedAnimation.Stop();
+            else stopwatchMainMenuXTCircle_ClickedAnimation.Start();
 
             if (stopwatchMainMenuXTCircle_ClickedAnimation.Elapsed.TotalSeconds >= 5d)
             {
                 stopwatchMainMenuXTCircle_ClickedAnimation.Reset();
 
                 _isUnClicked = true;
-                _isClicked = false;
+                IsClicked = false;
             }
         }
 
@@ -121,7 +125,7 @@ public class MainMenuXTCircle
 
     void UpdateDirectionForAnimation()
     {
-        if (_isClicked)
+        if (IsClicked)
         {
             newPosition = new(screenWidth / 3, screenHeight / 2);
             newScale = 0.45f;
@@ -130,7 +134,7 @@ public class MainMenuXTCircle
         {
             newPosition = new(screenWidth / 2, screenHeight / 2);
 
-            if (ContainsCursor(MouseInputManager.MousePosition)) newScale = 0.75f;
+            if (ContainsCursor()) newScale = 0.75f;
             else newScale = 0.7f;
         }
     }

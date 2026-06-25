@@ -26,7 +26,7 @@ public class MainMenu
     public void Update()
     {
         _mainMenuXTCircle.Update();
-        _mainMenuSoloButton.Update();
+        if (_mainMenuXTCircle.IsClicked) _mainMenuSoloButton.Update();
     }
 
     public void Draw(SpriteBatch spriteBatch)

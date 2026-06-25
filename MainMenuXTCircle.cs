@@ -12,7 +12,6 @@ public class MainMenuXTCircle
     Vector2 _position, newPosition, _origin;
     int screenWidth, screenHeight;
     float _scale, newScale;
-    float radius;
     
     Stopwatch stopwatch, stopwatchMainMenuXTCircle_ClickedAnimation;
     double deltaTime, lastUpdateTime;
@@ -42,7 +41,6 @@ public class MainMenuXTCircle
     {
         _texture = content.Load<Texture2D>("MainMenu/mainMenuXTCircle");
         _origin = new(_texture.Width / 2, _texture.Height / 2);
-        CalculateRadius();
     }
 
     public void Update()
@@ -59,12 +57,13 @@ public class MainMenuXTCircle
 
     bool ContainsCursor()
     {
-        float distance = Vector2.Distance(_position, MouseInputManager.MousePosition);
+        float dx = _position.X - MouseInputManager.MousePosition.X;
+        float dy = _position.Y - MouseInputManager.MousePosition.Y;
 
-        return distance <= radius;
+        float radius = _texture.Width / 2f * _scale;
+
+        return (dx * dx + dy * dy) <= (radius * radius);
     }
-
-    void CalculateRadius() => radius = _texture.Width / 2 * _scale;
 
     void UpdateDeltaTime()
     {
@@ -92,7 +91,7 @@ public class MainMenuXTCircle
         {
             if (MouseInputManager.MouseLeftClickPrReleased) stopwatchMainMenuXTCircle_ClickedAnimation.Start();
 
-            if (ContainsCursor()) stopwatchMainMenuXTCircle_ClickedAnimation.Stop();
+            if (ContainsCursor()) stopwatchMainMenuXTCircle_ClickedAnimation.Reset();
             else stopwatchMainMenuXTCircle_ClickedAnimation.Start();
 
             if (stopwatchMainMenuXTCircle_ClickedAnimation.Elapsed.TotalSeconds >= 5d)
@@ -109,8 +108,6 @@ public class MainMenuXTCircle
 
         if (_scale != newScale || _position != newPosition)
         {
-            CalculateRadius();
-
             float lerpFactor = 1 - (float)Math.Exp(-12f * deltaTime);
 
             _position += (newPosition - _position) * lerpFactor;

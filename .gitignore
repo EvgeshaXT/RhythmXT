@@ -1,3 +1,5 @@
 .vscode/
 bin/
 obj/
+installer.iss
+RhytmXT_Setup.exe

@@ -1,4 +1,3 @@
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -6,15 +5,18 @@ namespace RhytmXT;
 
 public class MainMenu
 {
+    MainMenuBackground _mainMenuBackground;
     MainMenuXTCircle _mainMenuXTCircle;
 
-    public MainMenu(int screenWidth, int screenHeight)
+    public MainMenu(GraphicsDevice graphicsDevice, int screenWidth, int screenHeight)
     {
+        _mainMenuBackground = new(graphicsDevice, screenWidth, screenHeight);
         _mainMenuXTCircle = new(screenWidth, screenHeight);
     }
 
     public void LoadContent(ContentManager content)
     {
+        _mainMenuBackground.LoadContent();
         _mainMenuXTCircle.LoadContent(content);
     }
 
@@ -25,6 +27,7 @@ public class MainMenu
 
     public void Draw(SpriteBatch spriteBatch)
     {
+        _mainMenuBackground.Draw(spriteBatch);
         _mainMenuXTCircle.Draw(spriteBatch);
     }
 }

@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.IO;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -30,7 +32,7 @@ public class Main : Game
         _screenWidth = GraphicsDevice.Viewport.Width;
         _screenHeight = GraphicsDevice.Viewport.Height;
 
-        _mainMenu = new(_screenWidth, _screenHeight);
+        _mainMenu = new(GraphicsDevice, _screenWidth, _screenHeight);
         _cursor = new();
 
         base.Initialize();

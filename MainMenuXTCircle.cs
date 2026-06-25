@@ -107,7 +107,7 @@ public class MainMenuXTCircle
         {
             CalculateRadius();
 
-            float lerpFactor = 1 - (float)Math.Exp(-8f * deltaTime);
+            float lerpFactor = 1 - (float)Math.Exp(-12f * deltaTime);
 
             _position += (newPosition - _position) * lerpFactor;
             _scale += (newScale - _scale) * lerpFactor;

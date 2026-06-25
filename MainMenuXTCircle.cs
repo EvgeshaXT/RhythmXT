@@ -9,12 +9,17 @@ namespace RhytmXT;
 
 public class MainMenuXTCircle : IContainsCursor
 {
+    readonly double DURATION = 10d;
+    readonly float SPEED_ANIMATION_CLICK = 12f;
+    readonly float SPEED_ANIMATION_ELSE = 8f;
+
     IContainsCursor[] containsCursors;
 
     Texture2D _texture;
     Vector2 _position, newPosition, _origin;
     int screenWidth, screenHeight;
     float _scale, newScale;
+    float _speedAnimation;
     
     Stopwatch stopwatch;
 
@@ -31,6 +36,7 @@ public class MainMenuXTCircle : IContainsCursor
 
         _scale = 0.7f;
         newScale = _scale;
+        _speedAnimation = SPEED_ANIMATION_CLICK;
 
         stopwatch = Stopwatch.StartNew();
 
@@ -84,7 +90,7 @@ public class MainMenuXTCircle : IContainsCursor
             if (ContainsCursor() || containsCursors.Any(c => c.ContainsCursor())) stopwatch.Reset();
             else stopwatch.Start();
 
-            if (stopwatch.Elapsed.TotalSeconds >= 5d)
+            if (stopwatch.Elapsed.TotalSeconds >= DURATION)
             {
                 stopwatch.Reset();
 
@@ -98,7 +104,7 @@ public class MainMenuXTCircle : IContainsCursor
 
         if (_scale != newScale || _position != newPosition)
         {
-            float lerpFactor = 1 - (float)Math.Exp(-12f * deltaTime);
+            float lerpFactor = 1 - (float)Math.Exp(-_speedAnimation * deltaTime);
 
             _position += (newPosition - _position) * lerpFactor;
             _scale += (newScale - _scale) * lerpFactor;
@@ -116,6 +122,7 @@ public class MainMenuXTCircle : IContainsCursor
         {
             newPosition = new(screenWidth / 3, screenHeight / 2);
             newScale = 0.45f;
+            _speedAnimation = SPEED_ANIMATION_CLICK;
         }
         else
         {
@@ -123,6 +130,8 @@ public class MainMenuXTCircle : IContainsCursor
 
             if (ContainsCursor()) newScale = 0.75f;
             else newScale = 0.7f;
+
+            _speedAnimation = SPEED_ANIMATION_ELSE;
         }
     }
 }

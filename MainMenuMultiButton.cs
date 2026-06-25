@@ -5,7 +5,7 @@ using System;
 
 namespace RhytmXT;
 
-public class MainMenuSoloButton : IContainsCursor
+public class MainMenuMultiButton : IContainsCursor
 {
     Texture2D _texture;
     Vector2 _position, _origin;
@@ -13,9 +13,9 @@ public class MainMenuSoloButton : IContainsCursor
     readonly float scaleNormal, scaleMousehover;
     Rectangle _area;
     
-    public MainMenuSoloButton(int screenWidth, int screenHeight)
+    public MainMenuMultiButton(int screenWidth, int screenHeight)
     {
-        _position = new(screenWidth / 2f, screenHeight / 3.25f);
+        _position = new(screenWidth / 2f + 25f, screenHeight / 2f);
         _scale = 0.55f;
         newScale = _scale;
         scaleNormal = _scale;
@@ -24,7 +24,7 @@ public class MainMenuSoloButton : IContainsCursor
 
     public void LoadContent(ContentManager content)
     {
-        _texture = content.Load<Texture2D>("MainMenu/Solo");
+        _texture = content.Load<Texture2D>("MainMenu/Multi");
         _origin = new(0, _texture.Height / 2);
         UpdateArea();
     }

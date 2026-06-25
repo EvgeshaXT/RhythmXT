@@ -4,6 +4,11 @@ using Microsoft.Xna.Framework.Input;
 
 namespace RhytmXT;
 
+public interface IContainsCursor
+{
+    bool ContainsCursor();
+}
+
 public class Main : Game
 {
     private GraphicsDeviceManager _graphics;

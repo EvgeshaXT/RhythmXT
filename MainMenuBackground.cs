@@ -36,7 +36,7 @@ public class MainMenuBackground
         string[] files = Directory.GetFiles("Content/bg/");
         string file = files[_random.Next(files.Length)];
 
-        using var stream = File.OpenRead(file);
+        using Stream stream = File.OpenRead(file);
         return Texture2D.FromStream(graphicsDevice, stream);
     }
 }

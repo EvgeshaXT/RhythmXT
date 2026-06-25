@@ -3,11 +3,14 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System; // Math
 using System.Diagnostics; // Stopwatch only
+using System.Linq;
 
 namespace RhytmXT;
 
-public class MainMenuXTCircle
+public class MainMenuXTCircle : IContainsCursor
 {
+    IContainsCursor[] containsCursors;
+
     Texture2D _texture;
     Vector2 _position, newPosition, _origin;
     int screenWidth, screenHeight;
@@ -19,12 +22,13 @@ public class MainMenuXTCircle
     public bool IsClicked { get; private set; }
     bool _isUnClicked;
     
-    public MainMenuXTCircle(int screenWidth, int screenHeight)
+    public MainMenuXTCircle(int screenWidth, int screenHeight, IContainsCursor[] containsCursors)
     {
         _position = new(screenWidth / 2, screenHeight / 2);
         newPosition = _position;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
+        this.containsCursors = containsCursors;
 
         _scale = 0.7f;
         newScale = _scale;
@@ -55,7 +59,7 @@ public class MainMenuXTCircle
         spriteBatch.Draw(_texture, _position, null, Color.White, 0, _origin, _scale, SpriteEffects.None, 0f);
     }
 
-    bool ContainsCursor()
+    public bool ContainsCursor()
     {
         float dx = _position.X - MouseInputManager.MousePosition.X;
         float dy = _position.Y - MouseInputManager.MousePosition.Y;
@@ -91,7 +95,7 @@ public class MainMenuXTCircle
         {
             if (MouseInputManager.MouseLeftClickPrReleased) stopwatchMainMenuXTCircle_ClickedAnimation.Start();
 
-            if (ContainsCursor()) stopwatchMainMenuXTCircle_ClickedAnimation.Reset();
+            if (ContainsCursor() || containsCursors.Any(c => c.ContainsCursor())) stopwatchMainMenuXTCircle_ClickedAnimation.Reset();
             else stopwatchMainMenuXTCircle_ClickedAnimation.Start();
 
             if (stopwatchMainMenuXTCircle_ClickedAnimation.Elapsed.TotalSeconds >= 5d)

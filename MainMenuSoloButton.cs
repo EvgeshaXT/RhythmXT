@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace RhytmXT;
 
-public class MainMenuSoloButton
+public class MainMenuSoloButton : IContainsCursor
 {
     Texture2D _texture;
     Vector2 _position, _origin;
@@ -36,13 +36,13 @@ public class MainMenuSoloButton
 
     void mainMenuSolo_Mousehover()
     {
-        if (ObjectContainsCursor())_scale = 0.6f;
+        if (ContainsCursor())_scale = 0.6f;
         else _scale = 0.55f;
 
         UpdateArea();
     }
 
-    bool ObjectContainsCursor() =>_area.Contains(MouseInputManager.MousePosition);
+    public bool ContainsCursor() =>_area.Contains(MouseInputManager.MousePosition);
 
     void UpdateArea()
     {

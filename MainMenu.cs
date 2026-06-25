@@ -12,8 +12,10 @@ public class MainMenu
     public MainMenu(GraphicsDevice graphicsDevice, int screenWidth, int screenHeight)
     {
         _mainMenuBackground = new(graphicsDevice, screenWidth, screenHeight);
-        _mainMenuXTCircle = new(screenWidth, screenHeight);
+        
         _mainMenuSoloButton = new(screenWidth, screenHeight);
+        IContainsCursor[] clickables = [_mainMenuSoloButton];
+        _mainMenuXTCircle = new(screenWidth, screenHeight, clickables);
     }
 
     public void LoadContent(ContentManager content)

@@ -16,8 +16,7 @@ public class MainMenuXTCircle : IContainsCursor
     int screenWidth, screenHeight;
     float _scale, newScale;
     
-    Stopwatch stopwatch, stopwatchMainMenuXTCircle_ClickedAnimation;
-    double deltaTime, lastUpdateTime;
+    Stopwatch stopwatch;
 
     public bool IsClicked { get; private set; }
     bool _isUnClicked;
@@ -34,8 +33,6 @@ public class MainMenuXTCircle : IContainsCursor
         newScale = _scale;
 
         stopwatch = Stopwatch.StartNew();
-        stopwatchMainMenuXTCircle_ClickedAnimation = new();
-        deltaTime = 0d; lastUpdateTime = 0d;
 
         IsClicked = false;
         _isUnClicked = false;
@@ -47,11 +44,9 @@ public class MainMenuXTCircle : IContainsCursor
         _origin = new(_texture.Width / 2, _texture.Height / 2);
     }
 
-    public void Update()
+    public void Update(double deltaTime)
     {
-        UpdateDeltaTime();
-
-        mainMenuXTCircle_Clicked();
+        mainMenuXTCircle_Clicked(deltaTime);
     }
 
     public void Draw(SpriteBatch spriteBatch)
@@ -69,38 +64,31 @@ public class MainMenuXTCircle : IContainsCursor
         return (dx * dx + dy * dy) <= (radius * radius);
     }
 
-    void UpdateDeltaTime()
-    {
-        double nowUpdateTime = stopwatch.Elapsed.TotalSeconds;
-        deltaTime = nowUpdateTime - lastUpdateTime;
-        lastUpdateTime = nowUpdateTime;
-    }
-
-    void mainMenuXTCircle_Clicked()
+    void mainMenuXTCircle_Clicked(double deltaTime)
     {
         if (MouseInputManager.MouseLeftClickPressed && ContainsCursor())
         {
             IsClicked = true;
             _isUnClicked = false;
 
-            if (stopwatchMainMenuXTCircle_ClickedAnimation.IsRunning) stopwatchMainMenuXTCircle_ClickedAnimation.Restart();
+            if (stopwatch.IsRunning) stopwatch.Restart();
         }
 
-        mainMenuXTCircle_Animation();
+        mainMenuXTCircle_Animation(deltaTime);
     }
 
-    void mainMenuXTCircle_Animation()
+    void mainMenuXTCircle_Animation(double deltaTime)
     {
         if (IsClicked)
         {
-            if (MouseInputManager.MouseLeftClickPrReleased) stopwatchMainMenuXTCircle_ClickedAnimation.Start();
+            if (MouseInputManager.MouseLeftClickPrReleased) stopwatch.Start();
 
-            if (ContainsCursor() || containsCursors.Any(c => c.ContainsCursor())) stopwatchMainMenuXTCircle_ClickedAnimation.Reset();
-            else stopwatchMainMenuXTCircle_ClickedAnimation.Start();
+            if (ContainsCursor() || containsCursors.Any(c => c.ContainsCursor())) stopwatch.Reset();
+            else stopwatch.Start();
 
-            if (stopwatchMainMenuXTCircle_ClickedAnimation.Elapsed.TotalSeconds >= 5d)
+            if (stopwatch.Elapsed.TotalSeconds >= 5d)
             {
-                stopwatchMainMenuXTCircle_ClickedAnimation.Reset();
+                stopwatch.Reset();
 
                 _isUnClicked = true;
                 IsClicked = false;

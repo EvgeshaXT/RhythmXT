@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -9,8 +10,13 @@ public class MainMenu
     MainMenuXTCircle _mainMenuXTCircle;
     MainMenuSoloButton _mainMenuSoloButton;
 
+    Stopwatch stopwatch;
+    double deltaTime, lastUpdateTime;
+
     public MainMenu(GraphicsDevice graphicsDevice, int screenWidth, int screenHeight)
     {
+        stopwatch = Stopwatch.StartNew();
+
         _mainMenuBackground = new(graphicsDevice, screenWidth, screenHeight);
         
         _mainMenuSoloButton = new(screenWidth, screenHeight);
@@ -27,8 +33,10 @@ public class MainMenu
 
     public void Update()
     {
-        _mainMenuXTCircle.Update();
-        if (_mainMenuXTCircle.IsClicked) _mainMenuSoloButton.Update();
+        UpdateDeltaTime();
+
+        _mainMenuXTCircle.Update(deltaTime);
+        if (_mainMenuXTCircle.IsClicked) _mainMenuSoloButton.Update(deltaTime);
     }
 
     public void Draw(SpriteBatch spriteBatch)
@@ -36,6 +44,13 @@ public class MainMenu
         _mainMenuBackground.Draw(spriteBatch);
         _mainMenuXTCircle.Draw(spriteBatch);
         MainMenuSoloButtonDraw(spriteBatch);
+    }
+
+    void UpdateDeltaTime()
+    {
+        double nowUpdateTime = stopwatch.Elapsed.TotalSeconds;
+        deltaTime = nowUpdateTime - lastUpdateTime;
+        lastUpdateTime = nowUpdateTime;
     }
 
     void MainMenuSoloButtonDraw(SpriteBatch spriteBatch)

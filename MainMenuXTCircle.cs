@@ -81,8 +81,6 @@ public class MainMenuXTCircle : IContainsCursor
     {
         if (IsClicked)
         {
-            if (MouseInputManager.MouseLeftClickPrReleased) stopwatch.Start();
-
             if (ContainsCursor() || containsCursors.Any(c => c.ContainsCursor())) stopwatch.Reset();
             else stopwatch.Start();
 

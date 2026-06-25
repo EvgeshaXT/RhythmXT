@@ -5,14 +5,11 @@ namespace RhytmXT;
 
 public static class MouseInputManager
 {
-    static MouseState _lastMouseState;
-    static MouseState _nowMouseState;
-    public static Vector2 MousePosition => _nowMouseState.Position.ToVector2();
-    public static bool MouseLeftClickPressed => _nowMouseState.LeftButton == ButtonState.Pressed;
-    public static bool MouseLeftClickPrReleased => _lastMouseState.LeftButton == ButtonState.Pressed && _nowMouseState.LeftButton == ButtonState.Released;
+    static MouseState _mouseState;
+    public static Vector2 MousePosition => _mouseState.Position.ToVector2();
+    public static bool MouseLeftClickPressed => _mouseState.LeftButton == ButtonState.Pressed;
     public static void Update()
     {
-        _lastMouseState = _nowMouseState;
-        _nowMouseState = Mouse.GetState();
+        _mouseState = Mouse.GetState();
     }
 }

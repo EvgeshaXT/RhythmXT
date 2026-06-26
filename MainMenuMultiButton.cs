@@ -37,7 +37,6 @@ internal class MainMenuMultiButton : IContainsCursor
     {
         _texture = content.Load<Texture2D>("MainMenu/Multi");
         _origin = new(0, _texture.Height / 2);
-        UpdateArea();
     }
 
     internal void Update(double deltaTime)
@@ -52,9 +51,7 @@ internal class MainMenuMultiButton : IContainsCursor
         spriteBatch.Draw(_texture, _position, null, Color.White, 0, _origin, _scale, SpriteEffects.None, 0f);
     }
 
-    public bool ContainsCursor() =>_area.Contains(MouseInputManager.MousePosition);
-
-    void UpdateArea()
+    public bool ContainsCursor()
     {
         int Width = (int)(_texture.Width * _scale);
         int Height = (int)(_texture.Height * _scale);
@@ -63,6 +60,8 @@ internal class MainMenuMultiButton : IContainsCursor
                     (int)_position.Y - Height / 2,
                     Width,
                     Height);
+
+        return _area.Contains(MouseInputManager.MousePosition);
     }
 
     void mainMenuMulti_Mousehover(double deltaTime)
@@ -78,8 +77,6 @@ internal class MainMenuMultiButton : IContainsCursor
 
             if (Math.Abs(_scale - newScale) < 0.001f) _scale = newScale;
         }
-
-        UpdateArea();
     }
 
     void mainMenuMulti_AppearingAnimation(double deltaTime)
@@ -91,12 +88,7 @@ internal class MainMenuMultiButton : IContainsCursor
             float lerpFactor = 1 - (float)Math.Exp(-16f * deltaTime);
             _position += (newPosition - _position) * lerpFactor;
 
-            if (Vector2.Distance(_position, newPosition) < 1f)
-            {
-                _position = newPosition;
-            }
-
-            UpdateArea();
+            if (Vector2.Distance(_position, newPosition) < 1f) _position = newPosition;
         }
     }
 

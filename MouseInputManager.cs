@@ -3,12 +3,12 @@ using Microsoft.Xna.Framework.Input;
 
 namespace RhytmXT;
 
-public static class MouseInputManager
+internal static class MouseInputManager
 {
     static MouseState _mouseState;
-    public static Vector2 MousePosition => _mouseState.Position.ToVector2();
-    public static bool MouseLeftClickPressed => _mouseState.LeftButton == ButtonState.Pressed;
-    public static void Update()
+    internal static Vector2 MousePosition => _mouseState.Position.ToVector2();
+    internal static bool MouseLeftClickPressed => _mouseState.LeftButton == ButtonState.Pressed;
+    internal static void Update()
     {
         _mouseState = Mouse.GetState();
     }

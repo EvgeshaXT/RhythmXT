@@ -1,4 +1,3 @@
-using System;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -6,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace RhytmXT;
 
-public class MainMenu
+internal class MainMenu
 {
     MainMenuBackground _mainMenuBackground;
     MainMenuXTCircle _mainMenuXTCircle;
@@ -44,7 +43,7 @@ public class MainMenu
         };
     }
 
-    public void LoadContent(ContentManager content)
+    internal void LoadContent(ContentManager content)
     {
         _mainMenuBackground.LoadContent();
         _mainMenuXTCircle.LoadContent(content);
@@ -54,7 +53,7 @@ public class MainMenu
         CreateMaskCircleTexture();
     }
 
-    public void Update()
+    internal void Update()
     {
         UpdateDeltaTime();
 
@@ -102,7 +101,7 @@ public class MainMenu
 
     // =============== DRAW =============== //
     // ! spriteBatch Begin() / End() self
-    public void Draw(SpriteBatch spriteBatch)
+    internal void Draw(SpriteBatch spriteBatch)
     {
         RenderMaskedButtons(spriteBatch);
 

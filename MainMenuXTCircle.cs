@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace RhytmXT;
 
-public class MainMenuXTCircle : IContainsCursor
+internal class MainMenuXTCircle : IContainsCursor
 {
     readonly double DURATION = 10d;
     readonly float SPEED_ANIMATION_CLICK = 12f;
@@ -16,19 +16,19 @@ public class MainMenuXTCircle : IContainsCursor
     IContainsCursor[] containsCursors;
 
     Texture2D _texture;
-    public int TextureWidth => _texture.Width;
-    public Vector2 Position { get; private set; }
+    internal int TextureWidth => _texture.Width;
+    internal Vector2 Position { get; private set; }
     Vector2 newPosition;
-    public Vector2 Origin { get; private set; }
+    internal Vector2 Origin { get; private set; }
     int screenWidth, screenHeight;
-    public float Scale { get; private set; }
+    internal float Scale { get; private set; }
     float newScale;
     float _speedAnimation;
     
     Stopwatch stopwatch;
 
-    public bool IsClicked { get; private set; }
-    public bool IsUnClicked { get; private set; }
+    internal bool IsClicked { get; private set; }
+    internal bool IsUnClicked { get; private set; }
     
     public MainMenuXTCircle(int screenWidth, int screenHeight, IContainsCursor[] containsCursors)
     {
@@ -48,18 +48,18 @@ public class MainMenuXTCircle : IContainsCursor
         IsUnClicked = false;
     }
 
-    public void LoadContent(ContentManager content)
+    internal void LoadContent(ContentManager content)
     {
         _texture = content.Load<Texture2D>("MainMenu/mainMenuXTCircle");
         Origin = new(_texture.Width / 2, _texture.Height / 2);
     }
 
-    public void Update(double deltaTime)
+    internal void Update(double deltaTime)
     {
         mainMenuXTCircle_Clicked(deltaTime);
     }
 
-    public void Draw(SpriteBatch spriteBatch)
+    internal void Draw(SpriteBatch spriteBatch)
     {
         spriteBatch.Draw(_texture, Position, null, Color.White, 0, Origin, Scale, SpriteEffects.None, 0f);
     }

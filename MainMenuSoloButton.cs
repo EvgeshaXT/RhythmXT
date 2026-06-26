@@ -5,7 +5,7 @@ using System;
 
 namespace RhytmXT;
 
-public class MainMenuSoloButton : IContainsCursor
+internal class MainMenuSoloButton : IContainsCursor
 {
     Texture2D _texture;
     Vector2 _position, newPosition, _origin;
@@ -13,8 +13,8 @@ public class MainMenuSoloButton : IContainsCursor
     int screenWidth, screenHeight;
     readonly float scaleNormal, scaleMousehover;
     Rectangle _area;
-    public bool IsAppearing { get; set; }
-    public bool IsDisappearing { get; set; }
+    internal bool IsAppearing { get; set; }
+    internal bool IsDisappearing { get; set; }
     
     public MainMenuSoloButton(int screenWidth, int screenHeight)
     {
@@ -33,21 +33,21 @@ public class MainMenuSoloButton : IContainsCursor
         IsDisappearing = false;
     }
 
-    public void LoadContent(ContentManager content)
+    internal void LoadContent(ContentManager content)
     {
         _texture = content.Load<Texture2D>("MainMenu/Solo");
         _origin = new(0, _texture.Height / 2);
         UpdateArea();
     }
 
-    public void Update(double deltaTime)
+    internal void Update(double deltaTime)
     {
         if (IsAppearing || IsDisappearing) mainMenuSolo_AppearingAnimation(deltaTime);
 
         mainMenuSolo_Mousehover(deltaTime);
     }
 
-    public void Draw(SpriteBatch spriteBatch)
+    internal void Draw(SpriteBatch spriteBatch)
     {
         spriteBatch.Draw(_texture, _position, null, Color.White, 0, _origin, _scale, SpriteEffects.None, 0f);
     }

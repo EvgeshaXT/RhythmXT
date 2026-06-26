@@ -9,7 +9,7 @@ public interface IContainsCursor
     bool ContainsCursor();
 }
 
-public class Main : Game
+internal class Main : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;

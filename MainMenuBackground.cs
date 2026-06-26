@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace RhytmXT;
 
-public class MainMenuBackground
+internal class MainMenuBackground
 {
     GraphicsDevice graphicsDevice;
     Texture2D _texture;
@@ -20,13 +20,13 @@ public class MainMenuBackground
         _random = new();
     }
     
-    public void LoadContent()
+    internal void LoadContent()
     {
         _texture = LoadTexture();
         _origin = new(_texture.Width / 2, _texture.Height / 2);
     }
 
-    public void Draw(SpriteBatch spriteBatch)
+    internal void Draw(SpriteBatch spriteBatch)
     {
         spriteBatch.Draw(_texture, _position, null, Color.White * 0.5f, 0, _origin, 1f, SpriteEffects.None, 0f);
     }

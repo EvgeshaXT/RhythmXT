@@ -9,6 +9,7 @@ internal abstract class MainMenuButtonBase : IContainsCursor
 {
     internal Vector2 CLICKED_POSITION;
     internal Vector2 HIDDEN_POSITION;
+    internal float SPEED_CLICK_ANIMATION;
     internal string _textureName;
 
     Texture2D _texture;
@@ -94,7 +95,7 @@ internal abstract class MainMenuButtonBase : IContainsCursor
 
         if (_position != newPosition)
         {
-            float lerpFactor = 1 - (float)Math.Exp(-16f * deltaTime);
+            float lerpFactor = 1 - (float)Math.Exp(-SPEED_CLICK_ANIMATION * deltaTime);
             _position += (newPosition - _position) * lerpFactor;
 
             if (Vector2.Distance(_position, newPosition) < 1f) _position = newPosition;

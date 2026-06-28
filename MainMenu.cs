@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -14,7 +15,8 @@ internal class MainMenu
     MainMenuExitButton _mainMenuExitButton;
     internal bool StopUpdateAndDraw { get; private set; }
     internal bool SoloClicked { get; private set; }
-    internal bool ExitClicked { get; private set; }
+    bool ExitClicked { get; set; }
+    internal bool ExitAllowed { get; private set; }
 
     GraphicsDevice graphicsDevice;
 
@@ -23,7 +25,7 @@ internal class MainMenu
     BlendState blendState;
     Color _generalColor;
 
-    public MainMenu(GraphicsDevice graphicsDevice, int screenWidth, int screenHeight)
+    internal MainMenu(GraphicsDevice graphicsDevice, int screenWidth, int screenHeight)
     {
         this.graphicsDevice = graphicsDevice;
         StopUpdateAndDraw = false;
@@ -69,7 +71,7 @@ internal class MainMenu
     {
         if (!StopUpdateAndDraw)
         {
-            if (SoloClicked) ColorToBlackout(deltaTime);
+            if (SoloClicked || ExitClicked) ColorToBlackout(deltaTime);
             else
             {
                 _mainMenuXTCircle.Update(deltaTime, AnyButtonHaveCursor());
@@ -148,7 +150,12 @@ internal class MainMenu
     {
         if (_generalColor.R != 0)
         {
-            float lerpFactor = 1 - (float)Math.Exp(-14f * deltaTime);
+            float animationSpeed = 0f;
+            
+            if (SoloClicked) animationSpeed = 14f;
+            else if (ExitClicked) animationSpeed = 6f;
+
+            float lerpFactor = 1 - (float)Math.Exp(-animationSpeed * deltaTime);
             byte step = (byte)(255f * lerpFactor);
 
             _generalColor.R -= step;
@@ -156,7 +163,15 @@ internal class MainMenu
             _generalColor.B -= step;
         }
 
-        else StopUpdateAndDraw = true;
+        else
+        {
+            if (SoloClicked) StopUpdateAndDraw = true;
+            else if (ExitClicked)
+            {
+                Thread.Sleep(300);
+                ExitAllowed = true;
+            }
+        }
     }
 
     void CreateMaskCircleTexture()

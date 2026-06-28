@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -57,7 +58,7 @@ internal class Main : Game
         MouseInputManager.Update();
         KeyboardInputManager.Update();
 
-        if (KeyboardInputManager.EscapePressed || _mainMenu.ExitClicked) Exit();
+        if (KeyboardInputManager.EscapePressed || _mainMenu.ExitAllowed) Exit();
 
         _cursor.Update();
         _mainMenu.Update(_deltaTime);

@@ -60,7 +60,7 @@ internal abstract class MainMenuButtonBase
         if (State != ButtonState.Hidden)
         {
             Mousehover(deltaTime);
-            if (ContainsCursor() && MouseInputManager.MouseLeftClickPressed) Clicked();
+            if (ContainsCursor() && MouseInputManager.MouseLeftButtonRePressed) Clicked();
         }
     }
 

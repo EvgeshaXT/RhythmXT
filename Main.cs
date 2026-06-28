@@ -57,7 +57,7 @@ internal class Main : Game
         MouseInputManager.Update();
         KeyboardInputManager.Update();
 
-        if (KeyboardInputManager.EscapePressed || _mainMenu.ToExit) Exit();
+        if (KeyboardInputManager.EscapePressed || _mainMenu.ExitClicked) Exit();
 
         _cursor.Update();
         _mainMenu.Update(_deltaTime);

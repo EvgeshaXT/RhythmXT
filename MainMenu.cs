@@ -1,4 +1,4 @@
-using System.Diagnostics;
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,26 +12,33 @@ internal class MainMenu
     MainMenuSoloButton _mainMenuSoloButton;
     MainMenuMultiButton _mainMenuMultiButton;
     MainMenuExitButton _mainMenuExitButton;
-    internal bool ToExit { get; private set; }
+    internal bool StopUpdateAndDraw { get; private set; }
+    internal bool SoloClicked { get; private set; }
+    internal bool ExitClicked { get; private set; }
 
     GraphicsDevice graphicsDevice;
 
     RenderTarget2D _buttonRenderTarget;
     Texture2D _maskCircleTexture;
     BlendState blendState;
+    Color _generalColor;
 
     public MainMenu(GraphicsDevice graphicsDevice, int screenWidth, int screenHeight)
     {
         this.graphicsDevice = graphicsDevice;
+        StopUpdateAndDraw = false;
 
         _mainMenuBackground = new(graphicsDevice, screenWidth, screenHeight);
         
+        SoloClicked = false;
         _mainMenuSoloButton = new(screenWidth, screenHeight);
+        _mainMenuSoloButton.ClickedEvent += () => SoloClicked = true;
+
         _mainMenuMultiButton = new(screenWidth, screenHeight);
 
-        ToExit = false;
+        ExitClicked = false;
         _mainMenuExitButton = new(screenWidth, screenHeight);
-        _mainMenuExitButton.ClickedEvent += () => ToExit = true;
+        _mainMenuExitButton.ClickedEvent += () => ExitClicked = true;
 
         _mainMenuXTCircle = new(screenWidth, screenHeight);
 
@@ -43,6 +50,8 @@ internal class MainMenu
             ColorSourceBlend = Blend.Zero,
             ColorDestinationBlend = Blend.InverseSourceAlpha
         };
+
+        _generalColor = Color.White;
     }
 
     internal void LoadContent(ContentManager content)
@@ -58,8 +67,15 @@ internal class MainMenu
 
     internal void Update(double deltaTime)
     {
-        _mainMenuXTCircle.Update(deltaTime, AnyButtonHaveCursor());
-        MainMenuButtonsUpdate(deltaTime);
+        if (!StopUpdateAndDraw)
+        {
+            if (SoloClicked) ColorToBlackout(deltaTime);
+            else
+            {
+                _mainMenuXTCircle.Update(deltaTime, AnyButtonHaveCursor());
+                MainMenuButtonsUpdate(deltaTime);
+            }
+        }
     }
 
     void MainMenuButtonsUpdate(double deltaTime)
@@ -91,15 +107,18 @@ internal class MainMenu
     // ! spriteBatch Begin() / End() self
     internal void Draw(SpriteBatch spriteBatch)
     {
-        RenderMaskedButtons(spriteBatch);
+        if (!StopUpdateAndDraw)
+        {
+            RenderMaskedButtons(spriteBatch);
 
-        spriteBatch.Begin();
+            spriteBatch.Begin();
 
-        _mainMenuBackground.Draw(spriteBatch);
-        spriteBatch.Draw(_buttonRenderTarget, Vector2.Zero, Color.White);
-        _mainMenuXTCircle.Draw(spriteBatch);
+            _mainMenuBackground.Draw(spriteBatch, _generalColor);
+            spriteBatch.Draw(_buttonRenderTarget, Vector2.Zero, _generalColor);
+            _mainMenuXTCircle.Draw(spriteBatch, _generalColor);
 
-        spriteBatch.End();
+            spriteBatch.End();
+        }
     }
 
     void RenderMaskedButtons(SpriteBatch spriteBatch)
@@ -112,7 +131,7 @@ internal class MainMenu
         spriteBatch.End();
 
         spriteBatch.Begin(blendState: blendState);
-        spriteBatch.Draw(_maskCircleTexture, _mainMenuXTCircle.Position, null, Color.White, 0f, _mainMenuXTCircle.Origin, _mainMenuXTCircle.Scale, SpriteEffects.None, 0f);
+        spriteBatch.Draw(_maskCircleTexture, _mainMenuXTCircle.Position, null, _generalColor, 0f, _mainMenuXTCircle.Origin, _mainMenuXTCircle.Scale, SpriteEffects.None, 0f);
         spriteBatch.End();
 
         graphicsDevice.SetRenderTarget(null);
@@ -123,6 +142,21 @@ internal class MainMenu
         if (_mainMenuSoloButton.State != MainMenuButtonBase.ButtonState.Hidden) _mainMenuSoloButton.Draw(spriteBatch);
         if (_mainMenuMultiButton.State != MainMenuButtonBase.ButtonState.Hidden) _mainMenuMultiButton.Draw(spriteBatch);
         if (_mainMenuExitButton.State != MainMenuButtonBase.ButtonState.Hidden) _mainMenuExitButton.Draw(spriteBatch);
+    }
+
+    internal void ColorToBlackout(double deltaTime)
+    {
+        if (_generalColor.R != 0)
+        {
+            float lerpFactor = 1 - (float)Math.Exp(-14f * deltaTime);
+            byte step = (byte)(255f * lerpFactor);
+
+            _generalColor.R -= step;
+            _generalColor.G -= step;
+            _generalColor.B -= step;
+        }
+
+        else StopUpdateAndDraw = true;
     }
 
     void CreateMaskCircleTexture()

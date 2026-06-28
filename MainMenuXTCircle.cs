@@ -55,9 +55,9 @@ internal class MainMenuXTCircle
         mainMenuXTCircle_Clicked(deltaTime, anyButtonHaveCursor);
     }
 
-    internal void Draw(SpriteBatch spriteBatch)
+    internal void Draw(SpriteBatch spriteBatch, Color color)
     {
-        spriteBatch.Draw(_texture, Position, null, Color.White, 0, Origin, Scale, SpriteEffects.None, 0f);
+        spriteBatch.Draw(_texture, Position, null, color, 0, Origin, Scale, SpriteEffects.None, 0f);
     }
 
     internal bool ContainsCursor()

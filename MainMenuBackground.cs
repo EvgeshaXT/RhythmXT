@@ -26,9 +26,9 @@ internal class MainMenuBackground
         _origin = new(_texture.Width / 2, _texture.Height / 2);
     }
 
-    internal void Draw(SpriteBatch spriteBatch)
+    internal void Draw(SpriteBatch spriteBatch, Color color)
     {
-        spriteBatch.Draw(_texture, _position, null, Color.White * 0.5f, 0, _origin, 1f, SpriteEffects.None, 0f);
+        spriteBatch.Draw(_texture, _position, null, color * 0.5f, 0, _origin, 1f, SpriteEffects.None, 0f);
     }
 
     Texture2D LoadTexture()

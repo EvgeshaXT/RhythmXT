@@ -14,8 +14,6 @@ internal class MainMenu
     MainMenuExitButton _mainMenuExitButton;
     internal bool ToExit { get; private set; }
 
-    Stopwatch stopwatch;
-    double deltaTime, lastUpdateTime;
     GraphicsDevice graphicsDevice;
 
     RenderTarget2D _buttonRenderTarget;
@@ -24,7 +22,6 @@ internal class MainMenu
 
     public MainMenu(GraphicsDevice graphicsDevice, int screenWidth, int screenHeight)
     {
-        stopwatch = Stopwatch.StartNew();
         this.graphicsDevice = graphicsDevice;
 
         _mainMenuBackground = new(graphicsDevice, screenWidth, screenHeight);
@@ -59,15 +56,13 @@ internal class MainMenu
         CreateMaskCircleTexture();
     }
 
-    internal void Update()
+    internal void Update(double deltaTime)
     {
-        UpdateDeltaTime();
-
         _mainMenuXTCircle.Update(deltaTime, AnyButtonHaveCursor());
-        MainMenuButtonsUpdate();
+        MainMenuButtonsUpdate(deltaTime);
     }
 
-    void MainMenuButtonsUpdate()
+    void MainMenuButtonsUpdate(double deltaTime)
     {
         if (_mainMenuXTCircle.IsClicked)
         {
@@ -162,12 +157,5 @@ internal class MainMenu
         return (_mainMenuSoloButton.State != MainMenuButtonBase.ButtonState.Hidden && _mainMenuSoloButton.ContainsCursor()) ||
                (_mainMenuMultiButton.State != MainMenuButtonBase.ButtonState.Hidden && _mainMenuMultiButton.ContainsCursor()) ||
                (_mainMenuExitButton.State != MainMenuButtonBase.ButtonState.Hidden && _mainMenuExitButton.ContainsCursor());
-    }
-
-    void UpdateDeltaTime()
-    {
-        double nowUpdateTime = stopwatch.Elapsed.TotalSeconds;
-        deltaTime = nowUpdateTime - lastUpdateTime;
-        lastUpdateTime = nowUpdateTime;
     }
 }

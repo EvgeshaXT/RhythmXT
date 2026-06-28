@@ -1,12 +1,16 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Diagnostics;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace RhythmXT;
 
 internal class Main : Game
 {
-    private GraphicsDeviceManager _graphics;
-    private SpriteBatch _spriteBatch;
+    GraphicsDeviceManager _graphics;
+    SpriteBatch _spriteBatch;
+
+    Stopwatch _stopwatch;
+    double _deltaTime, _lastUpdateTime;
 
     Cursor _cursor;
     MainMenu _mainMenu;
@@ -16,6 +20,9 @@ internal class Main : Game
     {
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
+
+        _stopwatch = Stopwatch.StartNew();
+        _deltaTime = 0d; _lastUpdateTime = 0d;
 
         IsFixedTimeStep = false;
         _graphics.SynchronizeWithVerticalRetrace = false;
@@ -45,13 +52,15 @@ internal class Main : Game
 
     protected override void Update(GameTime gameTime)
     {
+        UpdateDeltaTime();
+
         MouseInputManager.Update();
         KeyboardInputManager.Update();
 
         if (KeyboardInputManager.EscapePressed || _mainMenu.ToExit) Exit();
 
         _cursor.Update();
-        _mainMenu.Update();
+        _mainMenu.Update(_deltaTime);
 
         base.Update(gameTime);
     }
@@ -67,6 +76,13 @@ internal class Main : Game
         _spriteBatch.End();
 
         base.Draw(gameTime);
+    }
+
+    void UpdateDeltaTime()
+    {
+        double nowUpdateTime = _stopwatch.Elapsed.TotalSeconds;
+        _deltaTime = nowUpdateTime - _lastUpdateTime;
+        _lastUpdateTime = nowUpdateTime;
     }
 
     void FullScreen(GraphicsDeviceManager graphics)

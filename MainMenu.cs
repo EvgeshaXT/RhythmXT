@@ -153,7 +153,7 @@ internal class MainMenu
             float animationSpeed = 0f;
             
             if (SoloClicked) animationSpeed = 14f;
-            else if (ExitClicked) animationSpeed = 6f;
+            else if (ExitClicked) animationSpeed = 9f;
 
             float lerpFactor = 1 - (float)Math.Exp(-animationSpeed * deltaTime);
             byte step = (byte)(255f * lerpFactor);
@@ -168,7 +168,7 @@ internal class MainMenu
             if (SoloClicked) StopUpdateAndDraw = true;
             else if (ExitClicked)
             {
-                Thread.Sleep(300);
+                Thread.Sleep(250);
                 ExitAllowed = true;
             }
         }

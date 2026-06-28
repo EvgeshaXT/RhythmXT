@@ -3,4 +3,3 @@ bin/
 obj/
 installer.iss
 RhythmXT_Setup.exe
-MapSelectionMenu.cs

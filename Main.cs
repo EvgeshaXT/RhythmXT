@@ -1,5 +1,5 @@
-﻿using System.Diagnostics;
-using System.IO;
+﻿using System;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -15,6 +15,7 @@ internal class Main : Game
 
     Cursor _cursor;
     MainMenu _mainMenu;
+    MapSelectionMenu _mapSelectionMenu;
     int _screenWidth, _screenHeight;
 
     public Main()
@@ -38,6 +39,7 @@ internal class Main : Game
         _screenHeight = GraphicsDevice.Viewport.Height;
 
         _mainMenu = new(GraphicsDevice, _screenWidth, _screenHeight);
+        _mapSelectionMenu = new(_screenWidth, _screenHeight);
         _cursor = new();
 
         base.Initialize();
@@ -48,6 +50,7 @@ internal class Main : Game
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
         _mainMenu.LoadContent(Content);
+        _mapSelectionMenu.LoadContent(Content);
         _cursor.LoadContent(Content);
     }
 
@@ -62,6 +65,7 @@ internal class Main : Game
 
         _cursor.Update();
         _mainMenu.Update(_deltaTime);
+        if (_mainMenu.StopUpdateAndDraw) _mapSelectionMenu.Update(_deltaTime);
 
         base.Update(gameTime);
     }
@@ -73,6 +77,7 @@ internal class Main : Game
         _mainMenu.Draw(_spriteBatch);
         
         _spriteBatch.Begin();
+        if (_mainMenu.StopUpdateAndDraw) _mapSelectionMenu.Draw(_spriteBatch);
         _cursor.Draw(_spriteBatch);
         _spriteBatch.End();
 

@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework.Input;
 
-namespace RhytmXT;
+namespace RhythmXT;
 
 internal static class KeyboardInputManager
 {

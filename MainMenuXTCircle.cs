@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System; // Math
 using System.Diagnostics; // Stopwatch only
 
-namespace RhytmXT;
+namespace RhythmXT;
 
 internal class MainMenuXTCircle
 {

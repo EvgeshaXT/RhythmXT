@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
-namespace RhytmXT;
+namespace RhythmXT;
 
 internal abstract class MainMenuButtonBase
 {

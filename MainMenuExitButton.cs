@@ -1,4 +1,4 @@
-namespace RhytmXT;
+namespace RhythmXT;
 
 internal class MainMenuExitButton : MainMenuButtonBase
 {

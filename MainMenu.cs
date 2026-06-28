@@ -11,6 +11,8 @@ internal class MainMenu
     MainMenuXTCircle _mainMenuXTCircle;
     MainMenuSoloButton _mainMenuSoloButton;
     MainMenuMultiButton _mainMenuMultiButton;
+    MainMenuExitButton _mainMenuExitButton;
+    internal bool ToExit { get; private set; }
 
     Stopwatch stopwatch;
     double deltaTime, lastUpdateTime;
@@ -30,8 +32,11 @@ internal class MainMenu
         _mainMenuSoloButton = new(screenWidth, screenHeight);
         _mainMenuMultiButton = new(screenWidth, screenHeight);
 
-        IContainsCursor[] clickables = [_mainMenuSoloButton, _mainMenuMultiButton];
-        _mainMenuXTCircle = new(screenWidth, screenHeight, clickables);
+        ToExit = false;
+        _mainMenuExitButton = new(screenWidth, screenHeight);
+        _mainMenuExitButton.ClickedEvent += () => ToExit = true;
+
+        _mainMenuXTCircle = new(screenWidth, screenHeight);
 
         _buttonRenderTarget = new(graphicsDevice, screenWidth, screenHeight);
         blendState = new()
@@ -49,6 +54,7 @@ internal class MainMenu
         _mainMenuXTCircle.LoadContent(content);
         _mainMenuSoloButton.LoadContent(content);
         _mainMenuMultiButton.LoadContent(content);
+        _mainMenuExitButton.LoadContent(content);
 
         CreateMaskCircleTexture();
     }
@@ -57,7 +63,7 @@ internal class MainMenu
     {
         UpdateDeltaTime();
 
-        _mainMenuXTCircle.Update(deltaTime);
+        _mainMenuXTCircle.Update(deltaTime, AnyButtonHaveCursor());
         MainMenuButtonsUpdate();
     }
 
@@ -65,37 +71,24 @@ internal class MainMenu
     {
         if (_mainMenuXTCircle.IsClicked)
         {
-            if (!_mainMenuSoloButton.IsAppearing)
-            {
-                _mainMenuSoloButton.IsAppearing = true;
-                _mainMenuSoloButton.IsDisappearing = false;
-            }
+            if (_mainMenuSoloButton.State != MainMenuButtonBase.ButtonState.Appearing) _mainMenuSoloButton.Show();
+            if (_mainMenuMultiButton.State != MainMenuButtonBase.ButtonState.Appearing) _mainMenuMultiButton.Show();
+            if (_mainMenuExitButton.State != MainMenuButtonBase.ButtonState.Appearing) _mainMenuExitButton.Show();
 
-            if (!_mainMenuMultiButton.IsAppearing)
-            {
-                _mainMenuMultiButton.IsAppearing = true;
-                _mainMenuMultiButton.IsDisappearing = false;
-            }
-
-            _mainMenuSoloButton.Update(deltaTime);
-            _mainMenuMultiButton.Update(deltaTime);
+            _mainMenuSoloButton.Update(deltaTime, _mainMenuXTCircle.ContainsCursor());
+            _mainMenuMultiButton.Update(deltaTime, _mainMenuXTCircle.ContainsCursor());
+            _mainMenuExitButton.Update(deltaTime, _mainMenuXTCircle.ContainsCursor());
         }
+        
         else if (_mainMenuXTCircle.IsUnClicked)
         {
-            if (!_mainMenuSoloButton.IsDisappearing)
-            {
-                _mainMenuSoloButton.IsAppearing = false;
-                _mainMenuSoloButton.IsDisappearing = true;
-            }
+            if (_mainMenuSoloButton.State != MainMenuButtonBase.ButtonState.Disappearing) _mainMenuSoloButton.Hide();
+            if (_mainMenuMultiButton.State != MainMenuButtonBase.ButtonState.Disappearing) _mainMenuMultiButton.Hide();
+            if (_mainMenuExitButton.State != MainMenuButtonBase.ButtonState.Disappearing) _mainMenuExitButton.Hide();
 
-            if (!_mainMenuMultiButton.IsDisappearing)
-            {
-                _mainMenuMultiButton.IsAppearing = false;
-                _mainMenuMultiButton.IsDisappearing = true;
-            }
-
-            _mainMenuSoloButton.Update(deltaTime);
-            _mainMenuMultiButton.Update(deltaTime);
+            _mainMenuSoloButton.Update(deltaTime, _mainMenuXTCircle.ContainsCursor());
+            _mainMenuMultiButton.Update(deltaTime, _mainMenuXTCircle.ContainsCursor());
+            _mainMenuExitButton.Update(deltaTime, _mainMenuXTCircle.ContainsCursor());
         }
     }
 
@@ -132,15 +125,9 @@ internal class MainMenu
 
     void MainMenuButtonsDraw(SpriteBatch spriteBatch)
     {
-        if (_mainMenuSoloButton.IsAppearing || (_mainMenuSoloButton.IsDisappearing && _mainMenuXTCircle.IsUnClicked))
-        {
-            _mainMenuSoloButton.Draw(spriteBatch);
-        }
-
-        if (_mainMenuMultiButton.IsAppearing || (_mainMenuMultiButton.IsDisappearing && _mainMenuXTCircle.IsUnClicked))
-        {
-            _mainMenuMultiButton.Draw(spriteBatch);
-        }
+        if (_mainMenuSoloButton.State != MainMenuButtonBase.ButtonState.Hidden) _mainMenuSoloButton.Draw(spriteBatch);
+        if (_mainMenuMultiButton.State != MainMenuButtonBase.ButtonState.Hidden) _mainMenuMultiButton.Draw(spriteBatch);
+        if (_mainMenuExitButton.State != MainMenuButtonBase.ButtonState.Hidden) _mainMenuExitButton.Draw(spriteBatch);
     }
 
     void CreateMaskCircleTexture()
@@ -168,6 +155,13 @@ internal class MainMenu
         }
 
         _maskCircleTexture.SetData(colorData);
+    }
+
+    bool AnyButtonHaveCursor()
+    {
+        return (_mainMenuSoloButton.State != MainMenuButtonBase.ButtonState.Hidden && _mainMenuSoloButton.ContainsCursor()) ||
+               (_mainMenuMultiButton.State != MainMenuButtonBase.ButtonState.Hidden && _mainMenuMultiButton.ContainsCursor()) ||
+               (_mainMenuExitButton.State != MainMenuButtonBase.ButtonState.Hidden && _mainMenuExitButton.ContainsCursor());
     }
 
     void UpdateDeltaTime()

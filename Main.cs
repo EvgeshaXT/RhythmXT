@@ -1,13 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace RhytmXT;
-
-public interface IContainsCursor
-{
-    bool ContainsCursor();
-}
 
 internal class Main : Game
 {
@@ -51,10 +45,11 @@ internal class Main : Game
 
     protected override void Update(GameTime gameTime)
     {
-        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-            Exit();
-
         MouseInputManager.Update();
+        KeyboardInputManager.Update();
+
+        if (KeyboardInputManager.EscapePressed || _mainMenu.ToExit) Exit();
+
         _cursor.Update();
         _mainMenu.Update();
 

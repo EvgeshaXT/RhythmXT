@@ -3,17 +3,14 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System; // Math
 using System.Diagnostics; // Stopwatch only
-using System.Linq;
 
 namespace RhytmXT;
 
-internal class MainMenuXTCircle : IContainsCursor
+internal class MainMenuXTCircle
 {
     readonly double DURATION = 10d;
     readonly float SPEED_ANIMATION_CLICK = 12f;
     readonly float SPEED_ANIMATION_ELSE = 8f;
-
-    IContainsCursor[] containsCursors;
 
     Texture2D _texture;
     internal int TextureWidth => _texture.Width;
@@ -30,13 +27,12 @@ internal class MainMenuXTCircle : IContainsCursor
     internal bool IsClicked { get; private set; }
     internal bool IsUnClicked { get; private set; }
     
-    public MainMenuXTCircle(int screenWidth, int screenHeight, IContainsCursor[] containsCursors)
+    public MainMenuXTCircle(int screenWidth, int screenHeight)
     {
         Position = new(screenWidth / 2, screenHeight / 2);
         newPosition = Position;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
-        this.containsCursors = containsCursors;
 
         Scale = 0.7f;
         newScale = Scale;
@@ -54,9 +50,9 @@ internal class MainMenuXTCircle : IContainsCursor
         Origin = new(_texture.Width / 2, _texture.Height / 2);
     }
 
-    internal void Update(double deltaTime)
+    internal void Update(double deltaTime, bool anyButtonHaveCursor)
     {
-        mainMenuXTCircle_Clicked(deltaTime);
+        mainMenuXTCircle_Clicked(deltaTime, anyButtonHaveCursor);
     }
 
     internal void Draw(SpriteBatch spriteBatch)
@@ -64,7 +60,7 @@ internal class MainMenuXTCircle : IContainsCursor
         spriteBatch.Draw(_texture, Position, null, Color.White, 0, Origin, Scale, SpriteEffects.None, 0f);
     }
 
-    public bool ContainsCursor()
+    internal bool ContainsCursor()
     {
         float dx = Position.X - MouseInputManager.MousePosition.X;
         float dy = Position.Y - MouseInputManager.MousePosition.Y;
@@ -74,9 +70,9 @@ internal class MainMenuXTCircle : IContainsCursor
         return (dx * dx + dy * dy) <= (radius * radius);
     }
 
-    void mainMenuXTCircle_Clicked(double deltaTime)
+    void mainMenuXTCircle_Clicked(double deltaTime, bool anyButtonHaveCursor)
     {
-        if (MouseInputManager.MouseLeftClickPressed && ContainsCursor())
+        if ((MouseInputManager.MouseLeftClickPressed && ContainsCursor()) || KeyboardInputManager.EnterPressed)
         {
             IsClicked = true;
             IsUnClicked = false;
@@ -84,14 +80,14 @@ internal class MainMenuXTCircle : IContainsCursor
             if (stopwatch.IsRunning) stopwatch.Restart();
         }
 
-        mainMenuXTCircle_Animation(deltaTime);
+        mainMenuXTCircle_Animation(deltaTime, anyButtonHaveCursor);
     }
 
-    void mainMenuXTCircle_Animation(double deltaTime)
+    void mainMenuXTCircle_Animation(double deltaTime, bool anyButtonHaveCursor)
     {
         if (IsClicked)
         {
-            if (ContainsCursor() || containsCursors.Any(c => c.ContainsCursor())) stopwatch.Reset();
+            if (ContainsCursor() || anyButtonHaveCursor) stopwatch.Reset();
             else stopwatch.Start();
 
             if (stopwatch.Elapsed.TotalSeconds >= DURATION)

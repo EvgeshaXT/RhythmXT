@@ -66,7 +66,7 @@ internal class MainMenu
         CreateMaskCircleTexture();
     }
 
-    internal void Update(float deltaTime)
+    internal void Update(double deltaTime)
     {
         if (!StopUpdateAndDraw)
         {
@@ -79,7 +79,7 @@ internal class MainMenu
         }
     }
 
-    void MainMenuButtonsUpdate(float deltaTime)
+    void MainMenuButtonsUpdate(double deltaTime)
     {
         if (_mainMenuXTCircle.IsClicked)
         {
@@ -145,14 +145,14 @@ internal class MainMenu
         if (_mainMenuExitButton.State != MainMenuButtonBase.ButtonState.Hidden) _mainMenuExitButton.Draw(spriteBatch);
     }
 
-    internal void ColorToBlackout(float deltaTime)
+    internal void ColorToBlackout(double deltaTime)
     {
         if (_generalColor.R != 0)
         {
             float animationSpeed = 0f;
             
-            if (SoloClicked) animationSpeed = 14f;
-            else if (ExitClicked) animationSpeed = 9f;
+            if (SoloClicked) animationSpeed = 18f;
+            else if (ExitClicked) animationSpeed = 12f;
 
             float lerpFactor = 1 - (float)Math.Exp(-animationSpeed * deltaTime);
             byte step = (byte)(255f * lerpFactor);

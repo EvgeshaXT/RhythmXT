@@ -54,7 +54,7 @@ internal abstract class MainMenuButtonBase
         _origin = new(0, _texture.Height / 2);
     }
 
-    internal void Update(float deltaTime, bool isInsideOfCircle)
+    internal void Update(double deltaTime, bool isInsideOfCircle)
     {
         _isInsideOfCircle = isInsideOfCircle;
         if (State == ButtonState.Appearing || State == ButtonState.Disappearing) AppearingAnimation(deltaTime);
@@ -96,7 +96,7 @@ internal abstract class MainMenuButtonBase
         IsContainsCursor = _area.Contains(MouseInputManager.MousePosition);
     }
 
-    void Mousehover(float deltaTime)
+    void Mousehover(double deltaTime)
     {
         if (IsContainsCursor) newScale = scaleMousehover;
         else newScale = scaleNormal;
@@ -111,7 +111,7 @@ internal abstract class MainMenuButtonBase
         }
     }
 
-    void AppearingAnimation(float deltaTime)
+    void AppearingAnimation(double deltaTime)
     {
         UpdateDirectionForAnimation();
 

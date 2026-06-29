@@ -50,7 +50,7 @@ internal class MainMenuXTCircle
         Origin = new(_texture.Width / 2, _texture.Height / 2);
     }
 
-    internal void Update(float deltaTime, bool anyButtonHaveCursor)
+    internal void Update(double deltaTime, bool anyButtonHaveCursor)
     {
         mainMenuXTCircle_Clicked(deltaTime, anyButtonHaveCursor);
     }
@@ -70,7 +70,7 @@ internal class MainMenuXTCircle
         return (dx * dx + dy * dy) <= (radius * radius);
     }
 
-    void mainMenuXTCircle_Clicked(float deltaTime, bool anyButtonHaveCursor)
+    void mainMenuXTCircle_Clicked(double deltaTime, bool anyButtonHaveCursor)
     {
         if ((MouseInputManager.MouseLeftButtonRePressed && ContainsCursor()) || KeyboardInputManager.EnterPressed)
         {
@@ -83,7 +83,7 @@ internal class MainMenuXTCircle
         mainMenuXTCircle_Animation(deltaTime, anyButtonHaveCursor);
     }
 
-    void mainMenuXTCircle_Animation(float deltaTime, bool anyButtonHaveCursor)
+    void mainMenuXTCircle_Animation(double deltaTime, bool anyButtonHaveCursor)
     {
         if (IsClicked)
         {

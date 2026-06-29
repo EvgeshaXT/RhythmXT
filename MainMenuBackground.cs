@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -33,7 +34,7 @@ internal class MainMenuBackground
 
     Texture2D LoadTexture()
     {
-        string[] files = Directory.GetFiles("Content/bg/");
+        string[] files = [.. Directory.GetFiles("Content/bg/"), .. Directory.GetFiles("Songs/Camellia - GHOST (2020 Halloween+++++++++ VIP)/")];
         string file = files[_random.Next(files.Length)];
 
         using Stream stream = File.OpenRead(file);

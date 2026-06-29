@@ -10,7 +10,7 @@ internal class Main : Game
     SpriteBatch _spriteBatch;
 
     Stopwatch _stopwatch;
-    float _deltaTime, _lastUpdateTime;
+    double _deltaTime, _lastUpdateTime;
 
     Cursor _cursor;
     MainMenu _mainMenu;
@@ -85,7 +85,7 @@ internal class Main : Game
 
     void UpdateDeltaTime()
     {
-        float nowUpdateTime = (float)_stopwatch.Elapsed.TotalSeconds;
+        double nowUpdateTime = _stopwatch.Elapsed.TotalSeconds;
         _deltaTime = nowUpdateTime - _lastUpdateTime;
         _lastUpdateTime = nowUpdateTime;
     }

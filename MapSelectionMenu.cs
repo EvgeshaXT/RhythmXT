@@ -26,7 +26,7 @@ internal class MapSelectionMenu
         _mapButton0.LoadContent(content);
     }
 
-    internal void Update(float deltaTime)
+    internal void Update(double deltaTime)
     {
         if (state == State.Appearing) AppearanceAnimation(deltaTime);
     }

@@ -49,7 +49,7 @@ internal class Main : Game
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
         _mainMenu.LoadContent(Content);
-        _mapSelectionMenu.LoadContent(Content);
+        _mapSelectionMenu.LoadContent(Content, GraphicsDevice);
         _cursor.LoadContent(Content);
     }
 

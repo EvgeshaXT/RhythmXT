@@ -12,18 +12,18 @@ internal class MapSelectionMenu
 
     Color _generalColor;
 
-    MapSelectionButton _mapButton0;
+    MapSelectionMainButton _mapMainButton0;
     internal MapSelectionMenu(int screenWidth, int screenHeight)
     {
         state = State.Appearing;
         _generalColor = Color.Black;
 
-        _mapButton0 = new(screenWidth, screenHeight);
+        _mapMainButton0 = new(screenWidth, screenHeight, "Camellia - GHOST (2020 Halloween+++++++++ VIP)");
     }
 
-    internal void LoadContent(ContentManager content)
+    internal void LoadContent(ContentManager content, GraphicsDevice graphicsDevice)
     {
-        _mapButton0.LoadContent(content);
+        _mapMainButton0.LoadContent(content, graphicsDevice);
     }
 
     internal void Update(double deltaTime)
@@ -33,7 +33,7 @@ internal class MapSelectionMenu
 
     internal void Draw(SpriteBatch spriteBatch)
     {
-        _mapButton0.Draw(spriteBatch, _generalColor);
+        _mapMainButton0.Draw(spriteBatch, _generalColor);
     }
     
     void AppearanceAnimation(double deltaTime)

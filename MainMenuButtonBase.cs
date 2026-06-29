@@ -21,6 +21,7 @@ internal abstract class MainMenuButtonBase
     readonly float scaleNormal, scaleMousehover;
     Rectangle _area;
     bool _isInsideOfCircle;
+    internal bool IsContainsCursor { get; private set; }
     internal ButtonState State { get; private set; }
 
     protected MainMenuButtonBase()
@@ -37,6 +38,7 @@ internal abstract class MainMenuButtonBase
         scaleMousehover = 0.6f;
 
         _isInsideOfCircle = false;
+        IsContainsCursor = false;
         State = ButtonState.Hidden;
     }
 
@@ -52,15 +54,16 @@ internal abstract class MainMenuButtonBase
         _origin = new(0, _texture.Height / 2);
     }
 
-    internal void Update(double deltaTime, bool isInsideOfCircle)
+    internal void Update(float deltaTime, bool isInsideOfCircle)
     {
         _isInsideOfCircle = isInsideOfCircle;
         if (State == ButtonState.Appearing || State == ButtonState.Disappearing) AppearingAnimation(deltaTime);
+        ContainsCursor();
 
         if (State != ButtonState.Hidden)
         {
             Mousehover(deltaTime);
-            if (ContainsCursor() && MouseInputManager.MouseLeftButtonRePressed) Clicked();
+            if (IsContainsCursor && MouseInputManager.MouseLeftButtonRePressed) Clicked();
         }
     }
 
@@ -78,9 +81,9 @@ internal abstract class MainMenuButtonBase
         if (State == ButtonState.Appearing || State == ButtonState.Visible) State = ButtonState.Disappearing;
     }
 
-    internal bool ContainsCursor()
+    internal void ContainsCursor()
     {
-        if (_isInsideOfCircle) return false;
+        if (_isInsideOfCircle) return;
 
         int Width = (int)(_texture.Width * _scale);
         int Height = (int)(_texture.Height * _scale);
@@ -90,12 +93,12 @@ internal abstract class MainMenuButtonBase
                     Width,
                     Height);
 
-        return _area.Contains(MouseInputManager.MousePosition);
+        IsContainsCursor = _area.Contains(MouseInputManager.MousePosition);
     }
 
-    void Mousehover(double deltaTime)
+    void Mousehover(float deltaTime)
     {
-        if (ContainsCursor()) newScale = scaleMousehover;
+        if (IsContainsCursor) newScale = scaleMousehover;
         else newScale = scaleNormal;
 
         if (_scale != newScale)
@@ -108,7 +111,7 @@ internal abstract class MainMenuButtonBase
         }
     }
 
-    void AppearingAnimation(double deltaTime)
+    void AppearingAnimation(float deltaTime)
     {
         UpdateDirectionForAnimation();
 

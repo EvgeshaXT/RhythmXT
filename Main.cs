@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -11,7 +10,7 @@ internal class Main : Game
     SpriteBatch _spriteBatch;
 
     Stopwatch _stopwatch;
-    double _deltaTime, _lastUpdateTime;
+    float _deltaTime, _lastUpdateTime;
 
     Cursor _cursor;
     MainMenu _mainMenu;
@@ -24,7 +23,7 @@ internal class Main : Game
         Content.RootDirectory = "Content";
 
         _stopwatch = Stopwatch.StartNew();
-        _deltaTime = 0d; _lastUpdateTime = 0d;
+        _deltaTime = 0f; _lastUpdateTime = 0f;
 
         IsFixedTimeStep = false;
         _graphics.SynchronizeWithVerticalRetrace = false;
@@ -86,7 +85,7 @@ internal class Main : Game
 
     void UpdateDeltaTime()
     {
-        double nowUpdateTime = _stopwatch.Elapsed.TotalSeconds;
+        float nowUpdateTime = (float)_stopwatch.Elapsed.TotalSeconds;
         _deltaTime = nowUpdateTime - _lastUpdateTime;
         _lastUpdateTime = nowUpdateTime;
     }

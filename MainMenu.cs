@@ -66,7 +66,7 @@ internal class MainMenu
         CreateMaskCircleTexture();
     }
 
-    internal void Update(double deltaTime)
+    internal void Update(float deltaTime)
     {
         if (!StopUpdateAndDraw)
         {
@@ -79,7 +79,7 @@ internal class MainMenu
         }
     }
 
-    void MainMenuButtonsUpdate(double deltaTime)
+    void MainMenuButtonsUpdate(float deltaTime)
     {
         if (_mainMenuXTCircle.IsClicked)
         {
@@ -145,7 +145,7 @@ internal class MainMenu
         if (_mainMenuExitButton.State != MainMenuButtonBase.ButtonState.Hidden) _mainMenuExitButton.Draw(spriteBatch);
     }
 
-    internal void ColorToBlackout(double deltaTime)
+    internal void ColorToBlackout(float deltaTime)
     {
         if (_generalColor.R != 0)
         {
@@ -198,8 +198,8 @@ internal class MainMenu
 
     bool AnyButtonHaveCursor()
     {
-        return (_mainMenuSoloButton.State != MainMenuButtonBase.ButtonState.Hidden && _mainMenuSoloButton.ContainsCursor()) ||
-               (_mainMenuMultiButton.State != MainMenuButtonBase.ButtonState.Hidden && _mainMenuMultiButton.ContainsCursor()) ||
-               (_mainMenuExitButton.State != MainMenuButtonBase.ButtonState.Hidden && _mainMenuExitButton.ContainsCursor());
+        return (_mainMenuSoloButton.State != MainMenuButtonBase.ButtonState.Hidden && _mainMenuSoloButton.IsContainsCursor) ||
+               (_mainMenuMultiButton.State != MainMenuButtonBase.ButtonState.Hidden && _mainMenuMultiButton.IsContainsCursor) ||
+               (_mainMenuExitButton.State != MainMenuButtonBase.ButtonState.Hidden && _mainMenuExitButton.IsContainsCursor);
     }
 }

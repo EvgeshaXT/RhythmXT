@@ -15,6 +15,7 @@ internal class MapSelectionMenu
     MapSelectionButton _mapButton0;
     internal MapSelectionMenu(int screenWidth, int screenHeight)
     {
+        state = State.Appearing;
         _generalColor = Color.Black;
 
         _mapButton0 = new(screenWidth, screenHeight);
@@ -25,7 +26,7 @@ internal class MapSelectionMenu
         _mapButton0.LoadContent(content);
     }
 
-    internal void Update(double deltaTime)
+    internal void Update(float deltaTime)
     {
         if (state == State.Appearing) AppearanceAnimation(deltaTime);
     }
@@ -45,7 +46,6 @@ internal class MapSelectionMenu
             _generalColor.R += step;
             _generalColor.G += step;
             _generalColor.B += step;
-            _generalColor.A += step;
         }
 
         else state = State.Visible;

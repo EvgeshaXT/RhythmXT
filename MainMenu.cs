@@ -1,5 +1,4 @@
 using System;
-using System.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -166,11 +165,7 @@ internal class MainMenu
         else
         {
             if (SoloClicked) StopUpdateAndDraw = true;
-            else if (ExitClicked)
-            {
-                Thread.Sleep(250);
-                ExitAllowed = true;
-            }
+            else if (ExitClicked) ExitAllowed = true;
         }
     }
 

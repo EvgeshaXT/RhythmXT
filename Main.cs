@@ -64,11 +64,16 @@ internal class Main : Game
         MouseInputManager.Update();
         KeyboardInputManager.Update();
 
-        if (KeyboardInputManager.EscapePressed || _mainMenu.ExitAllowed) Exit();
+        if (_mainMenu.ExitAllowed) Exit();
 
         _cursor.Update();
         _mainMenu.Update(_deltaTime);
         if (_mainMenu.StopUpdateAndDraw) _mapSelectionMenu.Update(_deltaTime);
+        if (_mapSelectionMenu.State == MapSelectionMenu.MenuState.Hidden)
+        {
+            _mainMenu.StopUpdateAndDraw = false;
+            _mainMenu._generalColor = Color.White;
+        }
 
         base.Update(gameTime);
     }
@@ -81,6 +86,7 @@ internal class Main : Game
         
         _spriteBatch.Begin();
         if (_mainMenu.StopUpdateAndDraw) _mapSelectionMenu.Draw(_spriteBatch);
+        
         _cursor.Draw(_spriteBatch);
         _spriteBatch.End();
 

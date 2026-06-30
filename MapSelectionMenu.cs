@@ -9,8 +9,8 @@ namespace RhythmXT;
 
 internal class MapSelectionMenu
 {
-    enum State { Appearing, Visible, Disappearing }
-    State state { get; set; }
+    internal enum MenuState { Hidden, Appearing, Visible, Disappearing }
+    internal MenuState State { get; private set; }
 
     Color _generalColor;
     Random random;
@@ -19,7 +19,7 @@ internal class MapSelectionMenu
     List<MapSelectionMainButton> _mapSelectionMainButtonList;
     internal MapSelectionMenu(int screenWidth, int screenHeight)
     {
-        state = State.Appearing;
+        State = MenuState.Appearing;
         _generalColor = Color.Black;
 
         _mapSelectionMainButtonList = [];
@@ -50,7 +50,10 @@ internal class MapSelectionMenu
 
     internal void Update(double deltaTime)
     {
-        if (state == State.Appearing) AppearanceAnimation(deltaTime);
+        if (KeyboardInputManager.EscapeRePressed) State = MenuState.Disappearing;
+
+        if (State == MenuState.Appearing) AppearanceAnimation(deltaTime);
+        else if (State == MenuState.Disappearing) DisappearanceAnimation(deltaTime);
 
         float height = 0;
 
@@ -100,6 +103,30 @@ internal class MapSelectionMenu
             }
         }
 
-        else state = State.Visible;
+        else State = MenuState.Visible;
+    }
+
+    void DisappearanceAnimation(double deltaTime)
+    {
+        if (_generalColor.R != 0)
+        {
+            float stepFloat = 255f * 18f /*(animationSpeed)*/ * (float)deltaTime;
+            int stepInt = (int)stepFloat;
+
+            if (stepInt >= _generalColor.R)
+            {
+                _generalColor.R = 0;
+                _generalColor.G = 0;
+                _generalColor.B = 0;
+            }
+            else
+            {
+                _generalColor.R -= (byte)stepInt;
+                _generalColor.G -= (byte)stepInt;
+                _generalColor.B -= (byte)stepInt;
+            }
+        }
+
+        else State = MenuState.Hidden;
     }
 }

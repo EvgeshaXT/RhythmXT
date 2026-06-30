@@ -14,7 +14,7 @@ internal class MainMenu
     MainMenuSoloButton _mainMenuSoloButton;
     MainMenuMultiButton _mainMenuMultiButton;
     MainMenuExitButton _mainMenuExitButton;
-    internal bool StopUpdateAndDraw { get; private set; }
+    internal bool StopUpdateAndDraw { get; set; }
     internal bool SoloClicked { get; private set; }
     bool ExitClicked { get; set; }
     internal bool ExitAllowed { get; private set; }
@@ -24,7 +24,7 @@ internal class MainMenu
     RenderTarget2D _buttonRenderTarget;
     Texture2D _maskCircleTexture;
     BlendState blendState;
-    Color _generalColor;
+    internal Color _generalColor;
 
     internal MainMenu(GraphicsDevice graphicsDevice, int screenWidth, int screenHeight)
     {
@@ -88,6 +88,8 @@ internal class MainMenu
     {
         if (!StopUpdateAndDraw)
         {
+            if (KeyboardInputManager.EscapeRePressed) ExitClicked = true;
+
             if (SoloClicked || ExitClicked) ColorToBlackout(deltaTime);
             else
             {

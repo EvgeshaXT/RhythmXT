@@ -74,7 +74,7 @@ internal class MainMenuXTCircle
 
     void mainMenuXTCircle_Clicked(double deltaTime, bool anyButtonHaveCursor)
     {
-        if ((MouseInputManager.MouseLeftButtonRePressed && ContainsCursor()) || KeyboardInputManager.EnterPressed)
+        if ((MouseInputManager.MouseLeftButtonRePressed && ContainsCursor()) || KeyboardInputManager.EnterRePressed)
         {
             ClickedEvent?.Invoke();
             IsClicked = true;

@@ -63,7 +63,7 @@ internal abstract class MainMenuButtonBase
         if (State != ButtonState.Hidden)
         {
             Mousehover(deltaTime);
-            if (IsContainsCursor && MouseInputManager.MouseLeftButtonRePressed) Clicked();
+            if (IsContainsCursor && MouseInputManager.MouseLeftButtonRePressed && !MouseInputManager.Handled) Clicked();
         }
     }
 
@@ -79,6 +79,12 @@ internal abstract class MainMenuButtonBase
     internal void Hide()
     {
         if (State == ButtonState.Appearing || State == ButtonState.Visible) State = ButtonState.Disappearing;
+    }
+    internal void HideForced()
+    {
+        _position = HIDDEN_POSITION;
+        newPosition = HIDDEN_POSITION;
+        State = ButtonState.Hidden;
     }
 
     internal void ContainsCursor()

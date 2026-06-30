@@ -146,6 +146,13 @@ internal class MainMenu
         if (State == MenuState.Disappearing || State == MenuState.Hidden)
         {
             SoloClicked = false;
+
+            _mainMenuSoloButton.HideForced();
+            _mainMenuMultiButton.HideForced();
+            _mainMenuExitButton.HideForced();
+
+            _mainMenuXTCircle.ResetToCentre();
+
             State = MenuState.Appearing;
         }
     }

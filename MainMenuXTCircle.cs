@@ -62,6 +62,14 @@ internal class MainMenuXTCircle
         spriteBatch.Draw(_texture, Position, null, color, 0, Origin, Scale, SpriteEffects.None, 0f);
     }
 
+    internal void ResetToCentre()
+    {
+        IsUnClicked = true;
+        IsClicked = false;
+        Position = new(screenWidth / 2, screenHeight / 2);
+        Scale = 0.7f;
+    }
+
     internal bool ContainsCursor()
     {
         float dx = Position.X - MouseInputManager.MousePosition.X;
@@ -76,6 +84,8 @@ internal class MainMenuXTCircle
     {
         if ((MouseInputManager.MouseLeftButtonRePressed && ContainsCursor()) || KeyboardInputManager.EnterRePressed)
         {
+            MouseInputManager.Handled = true;
+            
             ClickedEvent?.Invoke();
             IsClicked = true;
             IsUnClicked = false;

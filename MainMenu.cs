@@ -7,6 +7,8 @@ namespace RhythmXT;
 
 internal class MainMenu
 {
+    internal event Action ClickedEvent;
+
     MainMenuBackground _mainMenuBackground;
     MainMenuXTCircle _mainMenuXTCircle;
     MainMenuSoloButton _mainMenuSoloButton;
@@ -33,15 +35,31 @@ internal class MainMenu
         
         SoloClicked = false;
         _mainMenuSoloButton = new(screenWidth, screenHeight);
-        _mainMenuSoloButton.ClickedEvent += () => SoloClicked = true;
+        _mainMenuSoloButton.ClickedEvent += () =>
+        {
+            SoloClicked = true;
+            ClickedEvent?.Invoke();
+        };
 
         _mainMenuMultiButton = new(screenWidth, screenHeight);
+        _mainMenuMultiButton.ClickedEvent += () =>
+        {
+            ClickedEvent?.Invoke();
+        };
 
         ExitClicked = false;
         _mainMenuExitButton = new(screenWidth, screenHeight);
-        _mainMenuExitButton.ClickedEvent += () => ExitClicked = true;
+        _mainMenuExitButton.ClickedEvent += () =>
+        {
+            ExitClicked = true;
+            ClickedEvent?.Invoke();
+        };
 
         _mainMenuXTCircle = new(screenWidth, screenHeight);
+        _mainMenuXTCircle.ClickedEvent += () =>
+        {
+            ClickedEvent?.Invoke();
+        };
 
         _buttonRenderTarget = new(graphicsDevice, screenWidth, screenHeight);
         blendState = new()

@@ -12,6 +12,8 @@ internal class MainMenuXTCircle
     readonly float SPEED_ANIMATION_CLICK = 12f;
     readonly float SPEED_ANIMATION_ELSE = 8f;
 
+    internal event Action ClickedEvent;
+
     Texture2D _texture;
     internal int TextureWidth => _texture.Width;
     internal Vector2 Position { get; private set; }
@@ -74,6 +76,7 @@ internal class MainMenuXTCircle
     {
         if ((MouseInputManager.MouseLeftButtonRePressed && ContainsCursor()) || KeyboardInputManager.EnterPressed)
         {
+            ClickedEvent?.Invoke();
             IsClicked = true;
             IsUnClicked = false;
 

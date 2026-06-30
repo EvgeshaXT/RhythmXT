@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -38,6 +39,8 @@ internal class Main : Game
         _screenHeight = GraphicsDevice.Viewport.Height;
 
         _mainMenu = new(GraphicsDevice, _screenWidth, _screenHeight);
+        _mainMenu.ClickedEvent += SoundEffects.Click;
+
         _mapSelectionMenu = new(_screenWidth, _screenHeight);
         _cursor = new();
 
@@ -47,6 +50,7 @@ internal class Main : Game
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
+        SoundEffects.LoadContent(Content);
 
         _mainMenu.LoadContent(Content);
         _mapSelectionMenu.LoadContent(Content, GraphicsDevice);

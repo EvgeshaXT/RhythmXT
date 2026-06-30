@@ -1,4 +1,3 @@
-using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -7,30 +6,28 @@ namespace RhythmXT;
 
 internal class MapSelectionMainButton
 {
-    MapSelectionMainBackground mapSelectionMainBackground;
+    string _songName;
 
     Texture2D _texture;
     Vector2 _position;
     Vector2 _origin;
+    static internal float TextureHeight { get; set; }
+    internal float PositionY
+    {
+        get => _position.Y;
+        set => _position.Y = value;
+    }
     internal MapSelectionMainButton(int screenWidth, int screenHeight, string songName)
     {
         _position = new(screenWidth, screenHeight / 2);
-
-        string mapPath = $"Songs/{songName}";
-        string[] mapFiles = Directory.GetFiles(mapPath);
-
-        string mapMainXTFile = GetMainXTFile(mapFiles);
-        string mapMainImageFile = GetMainImageFile(mapMainXTFile);
-
-        mapSelectionMainBackground = new(screenWidth, screenHeight, $"{mapPath}/{mapMainImageFile}");
+        _songName = songName;
     }
 
-    internal void LoadContent(ContentManager content, GraphicsDevice graphicsDevice)
+    internal void LoadContent(ContentManager content)
     {
         _texture = content.Load<Texture2D>("MapSelectionMenu/MapSelectionButton");
-        _origin = new(_texture.Width, _texture.Height / 2);
-
-        mapSelectionMainBackground.LoadContent(graphicsDevice);
+        TextureHeight = _texture.Height;
+        _origin = new(_texture.Width, TextureHeight / 2);
     }
 
     internal void Update()
@@ -40,27 +37,6 @@ internal class MapSelectionMainButton
 
     internal void Draw(SpriteBatch spriteBatch, Color color)
     {
-        mapSelectionMainBackground.Draw(spriteBatch, color);
         spriteBatch.Draw(_texture, _position, null, color, 0f, _origin, 0.9f, SpriteEffects.None, 0f);
-    }
-
-    static string GetMainXTFile(string[] mapFiles)
-    {
-        foreach (string mapFile in mapFiles)
-        {
-            string extension = Path.GetExtension(mapFile);
-
-            if (extension == ".xt") return mapFile;
-        }
-
-        return "";
-    }
-
-    string GetMainImageFile(string mapMainXTFile)
-    {
-        string[] lines = File.ReadAllLines(mapMainXTFile);
-        string[] parts = lines[0].Split(": ");
-
-        return parts[1];
     }
 }

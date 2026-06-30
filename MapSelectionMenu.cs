@@ -1,4 +1,5 @@
-using System;
+using System.Collections.Generic;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,19 +12,40 @@ internal class MapSelectionMenu
     State state { get; set; }
 
     Color _generalColor;
+    int screenHeightHalf;
 
-    MapSelectionMainButton _mapMainButton0;
+    MapSelectionMainBackground _mapSelectionMainBackground;
+    List<MapSelectionMainButton> _mapSelectionMainButtonList;
     internal MapSelectionMenu(int screenWidth, int screenHeight)
     {
         state = State.Appearing;
         _generalColor = Color.Black;
+        screenHeightHalf = screenHeight / 2;
 
-        _mapMainButton0 = new(screenWidth, screenHeight, "Camellia - GHOST (2020 Halloween+++++++++ VIP)");
+        string mapDefault = "The Quick Brown Fox - The Big Black";
+
+        _mapSelectionMainBackground = new(screenWidth, screenHeight, mapDefault);
+        _mapSelectionMainButtonList = [];
+
+        string[] songsFolders = GetSongsFolders();
+
+        foreach (string songFolder in songsFolders)
+        {
+            string songName = Path.GetFileName(songFolder);
+
+            MapSelectionMainButton mapSelectionMainButton = new(screenWidth, screenHeight, songName);
+            _mapSelectionMainButtonList.Add(mapSelectionMainButton);
+        }
     }
 
     internal void LoadContent(ContentManager content, GraphicsDevice graphicsDevice)
     {
-        _mapMainButton0.LoadContent(content, graphicsDevice);
+        _mapSelectionMainBackground.LoadContent(graphicsDevice);
+
+        foreach (MapSelectionMainButton mapSelectionMainButton in _mapSelectionMainButtonList)
+        {
+            mapSelectionMainButton.LoadContent(content);
+        }
     }
 
     internal void Update(double deltaTime)
@@ -33,7 +55,24 @@ internal class MapSelectionMenu
 
     internal void Draw(SpriteBatch spriteBatch)
     {
-        _mapMainButton0.Draw(spriteBatch, _generalColor);
+        _mapSelectionMainBackground.Draw(spriteBatch, _generalColor);
+
+        float height = 0;
+        
+        foreach (MapSelectionMainButton mapSelectionMainButton in _mapSelectionMainButtonList)
+        {
+            mapSelectionMainButton.PositionY = screenHeightHalf + height;
+            mapSelectionMainButton.Draw(spriteBatch, _generalColor);
+            height += MapSelectionMainButton.TextureHeight * 0.9f;
+        }
+    }
+
+    string[] GetSongsFolders()
+    {
+        string songsPath = "Songs";
+        string[] songsFolders = Directory.GetDirectories(songsPath);
+
+        return songsFolders;
     }
     
     void AppearanceAnimation(double deltaTime)

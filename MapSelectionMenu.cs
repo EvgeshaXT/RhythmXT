@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Microsoft.Xna.Framework;
@@ -13,6 +14,7 @@ internal class MapSelectionMenu
 
     Color _generalColor;
     int screenHeightHalf;
+    Random random;
 
     MapSelectionMainBackground _mapSelectionMainBackground;
     List<MapSelectionMainButton> _mapSelectionMainButtonList;
@@ -22,13 +24,9 @@ internal class MapSelectionMenu
         _generalColor = Color.Black;
         screenHeightHalf = screenHeight / 2;
 
-        string mapDefault = "The Quick Brown Fox - The Big Black";
-
-        _mapSelectionMainBackground = new(screenWidth, screenHeight, mapDefault);
         _mapSelectionMainButtonList = [];
 
         string[] songsFolders = GetSongsFolders();
-
         foreach (string songFolder in songsFolders)
         {
             string songName = Path.GetFileName(songFolder);
@@ -36,6 +34,10 @@ internal class MapSelectionMenu
             MapSelectionMainButton mapSelectionMainButton = new(screenWidth, screenHeight, songName);
             _mapSelectionMainButtonList.Add(mapSelectionMainButton);
         }
+
+        random = new();
+        string mapDefault = songsFolders[random.Next(songsFolders.Length)];
+        _mapSelectionMainBackground = new(screenWidth, screenHeight, mapDefault);
     }
 
     internal void LoadContent(ContentManager content, GraphicsDevice graphicsDevice)
@@ -79,7 +81,7 @@ internal class MapSelectionMenu
     {
         if (_generalColor.R != 255)
         {
-            float stepFloat = 255f * 20f /*(animationSpeed)*/ * (float)deltaTime;
+            float stepFloat = 255f * 18f /*(animationSpeed)*/ * (float)deltaTime;
             int stepInt = (int)stepFloat;
 
             if (_generalColor.R + stepInt >= 255)

@@ -7,24 +7,23 @@ namespace RhythmXT;
 internal class MapSelectionMainBackground
 {
     int screenWidth, screenHeight;
-    string currentSongName, _imagePath;
+    string currentSongPath, _imagePath;
     Texture2D _texture;
-    internal MapSelectionMainBackground(int screenWidth, int screenHeight, string currentSongName)
+    internal MapSelectionMainBackground(int screenWidth, int screenHeight, string currentSongPath)
     {
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
-        this.currentSongName = currentSongName;
+        this.currentSongPath = currentSongPath;
     }
 
     internal void LoadContent(GraphicsDevice graphicsDevice)
     {
-        string songPath = $"Songs/{currentSongName}";
-        string[] songFiles = Directory.GetFiles(songPath);
+        string[] songFiles = Directory.GetFiles(currentSongPath);
 
         string songMainXTFile = GetMainXTFile(songFiles);
         string songMainImageFile = GetMainImageFile(songMainXTFile);
 
-        _imagePath = $"{songPath}/{songMainImageFile}";
+        _imagePath = $"{currentSongPath}/{songMainImageFile}";
 
         using Stream stream = File.OpenRead(_imagePath);
         _texture = Texture2D.FromStream(graphicsDevice, stream);

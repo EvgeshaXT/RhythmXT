@@ -151,7 +151,7 @@ internal class MainMenu
         {
             float animationSpeed = 0f;
             
-            if (SoloClicked) animationSpeed = 20f;
+            if (SoloClicked) animationSpeed = 15f;
             else if (ExitClicked) animationSpeed = 12f;
 
             float stepFloat = 255f * animationSpeed * (float)deltaTime;

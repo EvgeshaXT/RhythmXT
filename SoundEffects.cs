@@ -9,7 +9,7 @@ static internal class SoundEffects
 
     static internal void LoadContent(ContentManager content)
     {
-        SoundEffect.MasterVolume = 0.5f;
+        SoundEffect.MasterVolume = 0.4f;
         _soundEffect_Click = content.Load<SoundEffect>("click");
     }
 

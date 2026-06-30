@@ -53,6 +53,11 @@ internal class MapSelectionMenu
     internal void Update(double deltaTime)
     {
         if (state == State.Appearing) AppearanceAnimation(deltaTime);
+
+        foreach (MapSelectionMainButton mapSelectionMainButton in _mapSelectionMainButtonList)
+        {
+            mapSelectionMainButton.Update();
+        }
     }
 
     internal void Draw(SpriteBatch spriteBatch)
@@ -65,7 +70,7 @@ internal class MapSelectionMenu
         {
             mapSelectionMainButton.PositionY = screenHeightHalf + height;
             mapSelectionMainButton.Draw(spriteBatch, _generalColor);
-            height += MapSelectionMainButton.TextureHeight * 0.9f;
+            height += MapSelectionMainButton.TextureHeight;
         }
     }
 

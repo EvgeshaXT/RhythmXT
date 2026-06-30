@@ -11,6 +11,7 @@ internal class MapSelectionMenu
 {
     internal enum MenuState { Hidden, Appearing, Visible, Disappearing }
     internal MenuState State { get; private set; }
+    internal event Action ToMainMenuEvent;
 
     Color _generalColor;
     Random random;
@@ -19,7 +20,7 @@ internal class MapSelectionMenu
     List<MapSelectionMainButton> _mapSelectionMainButtonList;
     internal MapSelectionMenu(int screenWidth, int screenHeight)
     {
-        State = MenuState.Appearing;
+        State = MenuState.Hidden;
         _generalColor = Color.Black;
 
         _mapSelectionMainButtonList = [];
@@ -72,6 +73,11 @@ internal class MapSelectionMenu
         {
             mapSelectionMainButton.Draw(spriteBatch, _generalColor);
         }
+    }
+
+    internal void Show()
+    {
+        if (State == MenuState.Disappearing || State == MenuState.Hidden) State = MenuState.Appearing;
     }
 
     string[] GetSongsFolders()
@@ -127,6 +133,10 @@ internal class MapSelectionMenu
             }
         }
 
-        else State = MenuState.Hidden;
+        else
+        {
+            State = MenuState.Hidden;
+            ToMainMenuEvent?.Invoke();
+        }
     }
 }

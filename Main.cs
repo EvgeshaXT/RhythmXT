@@ -39,9 +39,13 @@ internal class Main : Game
         _screenHeight = GraphicsDevice.Viewport.Height;
 
         _mainMenu = new(GraphicsDevice, _screenWidth, _screenHeight);
-        _mainMenu.ClickedEvent += SoundEffects.Click;
-
         _mapSelectionMenu = new(_screenWidth, _screenHeight);
+
+        _mainMenu.ClickedEvent += SoundEffects.Click;
+        _mainMenu.ClickAnimationIsFinishedEvent += () => _mapSelectionMenu.Show();
+
+        _mapSelectionMenu.ToMainMenuEvent += () => _mainMenu.Show();
+
         _cursor = new();
 
         base.Initialize();
@@ -60,20 +64,14 @@ internal class Main : Game
     protected override void Update(GameTime gameTime)
     {
         UpdateDeltaTime();
-
         MouseInputManager.Update();
         KeyboardInputManager.Update();
 
         if (_mainMenu.ExitAllowed) Exit();
 
         _cursor.Update();
-        _mainMenu.Update(_deltaTime);
-        if (_mainMenu.StopUpdateAndDraw) _mapSelectionMenu.Update(_deltaTime);
-        if (_mapSelectionMenu.State == MapSelectionMenu.MenuState.Hidden)
-        {
-            _mainMenu.StopUpdateAndDraw = false;
-            _mainMenu._generalColor = Color.White;
-        }
+        if (!(_mainMenu.State == MainMenu.MenuState.Hidden)) _mainMenu.Update(_deltaTime);
+        if (!(_mapSelectionMenu.State == MapSelectionMenu.MenuState.Hidden)) _mapSelectionMenu.Update(_deltaTime);
 
         base.Update(gameTime);
     }
@@ -82,12 +80,13 @@ internal class Main : Game
     {
         GraphicsDevice.Clear(Color.Black);
         
-        _mainMenu.Draw(_spriteBatch);
+        if (!(_mainMenu.State == MainMenu.MenuState.Hidden)) _mainMenu.Draw(_spriteBatch);
         
         _spriteBatch.Begin();
-        if (_mainMenu.StopUpdateAndDraw) _mapSelectionMenu.Draw(_spriteBatch);
-        
+
+        if (!(_mapSelectionMenu.State == MapSelectionMenu.MenuState.Hidden)) _mapSelectionMenu.Draw(_spriteBatch);
         _cursor.Draw(_spriteBatch);
+
         _spriteBatch.End();
 
         base.Draw(gameTime);

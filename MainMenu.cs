@@ -7,14 +7,16 @@ namespace RhythmXT;
 
 internal class MainMenu
 {
+    internal enum MenuState { Hidden, Appearing, Visible, Disappearing }
+    internal MenuState State { get; private set; }
     internal event Action ClickedEvent;
+    internal event Action ClickAnimationIsFinishedEvent;
 
     MainMenuBackground _mainMenuBackground;
     MainMenuXTCircle _mainMenuXTCircle;
     MainMenuSoloButton _mainMenuSoloButton;
     MainMenuMultiButton _mainMenuMultiButton;
     MainMenuExitButton _mainMenuExitButton;
-    internal bool StopUpdateAndDraw { get; set; }
     internal bool SoloClicked { get; private set; }
     bool ExitClicked { get; set; }
     internal bool ExitAllowed { get; private set; }
@@ -28,8 +30,8 @@ internal class MainMenu
 
     internal MainMenu(GraphicsDevice graphicsDevice, int screenWidth, int screenHeight)
     {
+        State = MenuState.Visible;
         this.graphicsDevice = graphicsDevice;
-        StopUpdateAndDraw = false;
 
         _mainMenuBackground = new(graphicsDevice, screenWidth, screenHeight);
         
@@ -86,17 +88,17 @@ internal class MainMenu
 
     internal void Update(double deltaTime)
     {
-        if (!StopUpdateAndDraw)
-        {
-            if (KeyboardInputManager.EscapeRePressed) ExitClicked = true;
+        if (KeyboardInputManager.EscapeRePressed) ExitClicked = true;
 
-            if (SoloClicked || ExitClicked) ColorToBlackout(deltaTime);
-            else
-            {
-                _mainMenuXTCircle.Update(deltaTime, AnyButtonHaveCursor());
-                MainMenuButtonsUpdate(deltaTime);
-            }
+        if (SoloClicked || ExitClicked) State = MenuState.Disappearing;
+
+        if (State == MenuState.Appearing) AppearanceAnimation(deltaTime);
+        else if (State == MenuState.Visible)
+        {
+            _mainMenuXTCircle.Update(deltaTime, AnyButtonHaveCursor());
+            MainMenuButtonsUpdate(deltaTime);
         }
+        else DisappearanceAnimation(deltaTime);
     }
 
     void MainMenuButtonsUpdate(double deltaTime)
@@ -128,17 +130,23 @@ internal class MainMenu
     // ! spriteBatch Begin() / End() self
     internal void Draw(SpriteBatch spriteBatch)
     {
-        if (!StopUpdateAndDraw)
+        RenderMaskedButtons(spriteBatch);
+
+        spriteBatch.Begin();
+
+        _mainMenuBackground.Draw(spriteBatch, _generalColor);
+        spriteBatch.Draw(_buttonRenderTarget, Vector2.Zero, _generalColor);
+        _mainMenuXTCircle.Draw(spriteBatch, _generalColor);
+
+        spriteBatch.End();
+    }
+
+    internal void Show()
+    {
+        if (State == MenuState.Disappearing || State == MenuState.Hidden)
         {
-            RenderMaskedButtons(spriteBatch);
-
-            spriteBatch.Begin();
-
-            _mainMenuBackground.Draw(spriteBatch, _generalColor);
-            spriteBatch.Draw(_buttonRenderTarget, Vector2.Zero, _generalColor);
-            _mainMenuXTCircle.Draw(spriteBatch, _generalColor);
-
-            spriteBatch.End();
+            SoloClicked = false;
+            State = MenuState.Appearing;
         }
     }
 
@@ -164,8 +172,32 @@ internal class MainMenu
         if (_mainMenuMultiButton.State != MainMenuButtonBase.ButtonState.Hidden) _mainMenuMultiButton.Draw(spriteBatch);
         if (_mainMenuExitButton.State != MainMenuButtonBase.ButtonState.Hidden) _mainMenuExitButton.Draw(spriteBatch);
     }
+    
+    void AppearanceAnimation(double deltaTime)
+    {
+        if (_generalColor.R != 255)
+        {
+            float stepFloat = 255f * 18f /*(animationSpeed)*/ * (float)deltaTime;
+            int stepInt = (int)stepFloat;
 
-    internal void ColorToBlackout(double deltaTime)
+            if (_generalColor.R + stepInt >= 255)
+            {
+                _generalColor.R = 255;
+                _generalColor.G = 255;
+                _generalColor.B = 255;
+            }
+            else
+            {
+                _generalColor.R += (byte)stepInt;
+                _generalColor.G += (byte)stepInt;
+                _generalColor.B += (byte)stepInt;
+            }
+        }
+
+        else State = MenuState.Visible;
+    }
+
+    internal void DisappearanceAnimation(double deltaTime)
     {
         if (_generalColor.R != 0)
         {
@@ -193,7 +225,11 @@ internal class MainMenu
 
         else
         {
-            if (SoloClicked) StopUpdateAndDraw = true;
+            if (SoloClicked)
+            {
+                State = MenuState.Hidden;
+                ClickAnimationIsFinishedEvent?.Invoke();
+            }
             else if (ExitClicked) ExitAllowed = true;
         }
     }

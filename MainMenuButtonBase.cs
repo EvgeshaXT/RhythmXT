@@ -54,15 +54,15 @@ internal abstract class MainMenuButtonBase
         _origin = new(0, _texture.Height / 2);
     }
 
-    internal void Update(double deltaTime, bool isInsideOfCircle)
+    internal void Update(double gameDeltaTime, bool isInsideOfCircle)
     {
         _isInsideOfCircle = isInsideOfCircle;
-        if (State == ButtonState.Appearing || State == ButtonState.Disappearing) AppearingAnimation(deltaTime);
+        if (State == ButtonState.Appearing || State == ButtonState.Disappearing) AppearingAnimation(gameDeltaTime);
         ContainsCursor();
 
         if (State != ButtonState.Hidden)
         {
-            Mousehover(deltaTime);
+            Mousehover(gameDeltaTime);
             if (IsContainsCursor && MouseInputManager.MouseLeftButtonRePressed && !MouseInputManager.Handled) Clicked();
         }
     }
@@ -102,14 +102,14 @@ internal abstract class MainMenuButtonBase
         IsContainsCursor = _area.Contains(MouseInputManager.MousePosition);
     }
 
-    void Mousehover(double deltaTime)
+    void Mousehover(double gameDeltaTime)
     {
         if (IsContainsCursor) newScale = scaleMousehover;
         else newScale = scaleNormal;
 
         if (_scale != newScale)
         {
-            float lerpFactor = 1 - (float)Math.Exp(-16f * deltaTime);
+            float lerpFactor = 1 - (float)Math.Exp(-16f * gameDeltaTime);
 
             _scale += (newScale - _scale) * lerpFactor;
 
@@ -117,13 +117,13 @@ internal abstract class MainMenuButtonBase
         }
     }
 
-    void AppearingAnimation(double deltaTime)
+    void AppearingAnimation(double gameDeltaTime)
     {
         UpdateDirectionForAnimation();
 
         if (_position != newPosition)
         {
-            float lerpFactor = 1 - (float)Math.Exp(-SPEED_CLICK_ANIMATION * deltaTime);
+            float lerpFactor = 1 - (float)Math.Exp(-SPEED_CLICK_ANIMATION * gameDeltaTime);
             _position += (newPosition - _position) * lerpFactor;
 
             if (Vector2.Distance(_position, newPosition) < 1f)

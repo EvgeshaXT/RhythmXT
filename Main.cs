@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -9,8 +10,7 @@ internal class Main : Game
     GraphicsDeviceManager _graphics;
     SpriteBatch _spriteBatch;
 
-    Stopwatch _stopwatch;
-    double _deltaTime, _lastUpdateTime;
+    double _gameDeltaTime;
 
     Cursor _cursor;
     MainMenu _mainMenu;
@@ -20,14 +20,14 @@ internal class Main : Game
     public Main()
     {
         _graphics = new GraphicsDeviceManager(this);
-        Content.RootDirectory = "Content";
+        Content.RootDirectory = "Content";    
 
-        _stopwatch = Stopwatch.StartNew();
-        _deltaTime = 0f; _lastUpdateTime = 0f;
-
-        IsFixedTimeStep = false;
+        TargetElapsedTime = TimeSpan.FromSeconds(1.0 / 1000.0);
+        IsFixedTimeStep = true;
         _graphics.SynchronizeWithVerticalRetrace = false;
         _graphics.ApplyChanges();
+
+        _gameDeltaTime = 0d;
     }
 
     protected override void Initialize()
@@ -62,15 +62,16 @@ internal class Main : Game
 
     protected override void Update(GameTime gameTime)
     {
-        UpdateDeltaTime();
+        _gameDeltaTime = gameTime.ElapsedGameTime.TotalSeconds;
+
         MouseInputManager.Update();
         KeyboardInputManager.Update();
 
         if (_mainMenu.ExitAllowed) Exit();
 
         _cursor.Update();
-        if (!(_mainMenu.State == MainMenu.MenuState.Hidden)) _mainMenu.Update(_deltaTime);
-        if (!(_mapSelectionMenu.State == MapSelectionMenu.MenuState.Hidden)) _mapSelectionMenu.Update(_deltaTime);
+        if (!(_mainMenu.State == MainMenu.MenuState.Hidden)) _mainMenu.Update(_gameDeltaTime);
+        if (!(_mapSelectionMenu.State == MapSelectionMenu.MenuState.Hidden)) _mapSelectionMenu.Update(_gameDeltaTime);
 
         base.Update(gameTime);
     }
@@ -89,13 +90,6 @@ internal class Main : Game
         _spriteBatch.End();
 
         base.Draw(gameTime);
-    }
-
-    void UpdateDeltaTime()
-    {
-        double nowUpdateTime = _stopwatch.Elapsed.TotalSeconds;
-        _deltaTime = nowUpdateTime - _lastUpdateTime;
-        _lastUpdateTime = nowUpdateTime;
     }
 
     void FullScreen(GraphicsDeviceManager graphics)

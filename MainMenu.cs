@@ -86,19 +86,19 @@ internal class MainMenu
         CreateMaskCircleTexture();
     }
 
-    internal void Update(double deltaTime)
+    internal void Update(double gameDeltaTime)
     {
         if (KeyboardInputManager.EscapeRePressed) ExitClicked = true;
 
         if (SoloClicked || ExitClicked) State = MenuState.Disappearing;
 
-        if (State == MenuState.Appearing) AppearanceAnimation(deltaTime);
+        if (State == MenuState.Appearing) AppearanceAnimation(gameDeltaTime);
         else if (State == MenuState.Visible)
         {
-            _mainMenuXTCircle.Update(deltaTime, AnyButtonHaveCursor());
-            MainMenuButtonsUpdate(deltaTime);
+            _mainMenuXTCircle.Update(gameDeltaTime, AnyButtonHaveCursor());
+            MainMenuButtonsUpdate(gameDeltaTime);
         }
-        else DisappearanceAnimation(deltaTime);
+        else DisappearanceAnimation(gameDeltaTime);
     }
 
     void MainMenuButtonsUpdate(double deltaTime)
@@ -177,11 +177,11 @@ internal class MainMenu
         if (_mainMenuExitButton.State != MainMenuButtonBase.ButtonState.Hidden) _mainMenuExitButton.Draw(spriteBatch);
     }
     
-    void AppearanceAnimation(double deltaTime)
+    void AppearanceAnimation(double gameDeltaTime)
     {
         if (_generalColor.R != 255)
         {
-            float stepFloat = 255f * 18f /*(animationSpeed)*/ * (float)deltaTime;
+            double stepFloat = 255d * 8d /*(animationSpeed)*/ * gameDeltaTime;
             int stepInt = (int)stepFloat;
 
             if (_generalColor.R + stepInt >= 255)
@@ -201,16 +201,16 @@ internal class MainMenu
         else State = MenuState.Visible;
     }
 
-    internal void DisappearanceAnimation(double deltaTime)
+    internal void DisappearanceAnimation(double gameDeltaTime)
     {
         if (_generalColor.R != 0)
         {
-            float animationSpeed = 0f;
+            double animationSpeed = 0d;
             
-            if (SoloClicked) animationSpeed = 15f;
-            else if (ExitClicked) animationSpeed = 12f;
+            if (SoloClicked) animationSpeed = 8d;
+            else if (ExitClicked) animationSpeed = 4d;
 
-            float stepFloat = 255f * animationSpeed * (float)deltaTime;
+            double stepFloat = 255d * animationSpeed * gameDeltaTime;
             int stepInt = (int)stepFloat;
 
             if (stepInt >= _generalColor.R)

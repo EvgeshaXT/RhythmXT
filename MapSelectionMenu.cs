@@ -49,12 +49,12 @@ internal class MapSelectionMenu
         }
     }
 
-    internal void Update(double deltaTime)
+    internal void Update(double gameDeltaTime)
     {
         if (KeyboardInputManager.EscapeRePressed) State = MenuState.Disappearing;
 
-        if (State == MenuState.Appearing) AppearanceAnimation(deltaTime);
-        else if (State == MenuState.Disappearing) DisappearanceAnimation(deltaTime);
+        if (State == MenuState.Appearing) AppearanceAnimation(gameDeltaTime);
+        else if (State == MenuState.Disappearing) DisappearanceAnimation(gameDeltaTime);
 
         float height = 0;
 
@@ -88,11 +88,11 @@ internal class MapSelectionMenu
         return songsFolders;
     }
     
-    void AppearanceAnimation(double deltaTime)
+    void AppearanceAnimation(double gameDeltaTime)
     {
         if (_generalColor.R != 255)
         {
-            float stepFloat = 255f * 18f /*(animationSpeed)*/ * (float)deltaTime;
+            double stepFloat = 255d * 8d /*(animationSpeed)*/ * gameDeltaTime;
             int stepInt = (int)stepFloat;
 
             if (_generalColor.R + stepInt >= 255)
@@ -112,11 +112,11 @@ internal class MapSelectionMenu
         else State = MenuState.Visible;
     }
 
-    void DisappearanceAnimation(double deltaTime)
+    void DisappearanceAnimation(double gameDeltaTime)
     {
         if (_generalColor.R != 0)
         {
-            float stepFloat = 255f * 18f /*(animationSpeed)*/ * (float)deltaTime;
+            double stepFloat = 255d * 8d /*(animationSpeed)*/ * gameDeltaTime;
             int stepInt = (int)stepFloat;
 
             if (stepInt >= _generalColor.R)

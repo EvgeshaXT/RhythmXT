@@ -52,9 +52,9 @@ internal class MainMenuXTCircle
         Origin = new(_texture.Width / 2, _texture.Height / 2);
     }
 
-    internal void Update(double deltaTime, bool anyButtonHaveCursor)
+    internal void Update(double gameDeltaTime, bool anyButtonHaveCursor)
     {
-        mainMenuXTCircle_Clicked(deltaTime, anyButtonHaveCursor);
+        mainMenuXTCircle_Clicked(gameDeltaTime, anyButtonHaveCursor);
     }
 
     internal void Draw(SpriteBatch spriteBatch, Color color)
@@ -80,7 +80,7 @@ internal class MainMenuXTCircle
         return (dx * dx + dy * dy) <= (radius * radius);
     }
 
-    void mainMenuXTCircle_Clicked(double deltaTime, bool anyButtonHaveCursor)
+    void mainMenuXTCircle_Clicked(double gameDeltaTime, bool anyButtonHaveCursor)
     {
         if ((MouseInputManager.MouseLeftButtonRePressed && ContainsCursor()) || KeyboardInputManager.EnterRePressed)
         {
@@ -93,10 +93,10 @@ internal class MainMenuXTCircle
             if (stopwatch.IsRunning) stopwatch.Restart();
         }
 
-        mainMenuXTCircle_Animation(deltaTime, anyButtonHaveCursor);
+        mainMenuXTCircle_Animation(gameDeltaTime, anyButtonHaveCursor);
     }
 
-    void mainMenuXTCircle_Animation(double deltaTime, bool anyButtonHaveCursor)
+    void mainMenuXTCircle_Animation(double gameDeltaTime, bool anyButtonHaveCursor)
     {
         if (IsClicked)
         {
@@ -117,7 +117,7 @@ internal class MainMenuXTCircle
 
         if (Scale != newScale || Position != newPosition)
         {
-            float lerpFactor = 1 - (float)Math.Exp(-_speedAnimation * deltaTime);
+            float lerpFactor = 1 - (float)Math.Exp(-_speedAnimation * gameDeltaTime);
 
             Position += (newPosition - Position) * lerpFactor;
             Scale += (newScale - Scale) * lerpFactor;

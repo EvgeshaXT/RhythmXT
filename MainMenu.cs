@@ -151,15 +151,24 @@ internal class MainMenu
         {
             float animationSpeed = 0f;
             
-            if (SoloClicked) animationSpeed = 18f;
+            if (SoloClicked) animationSpeed = 20f;
             else if (ExitClicked) animationSpeed = 12f;
 
-            float lerpFactor = 1 - (float)Math.Exp(-animationSpeed * deltaTime);
-            byte step = (byte)(255f * lerpFactor);
+            float stepFloat = 255f * animationSpeed * (float)deltaTime;
+            int stepInt = (int)stepFloat;
 
-            _generalColor.R -= step;
-            _generalColor.G -= step;
-            _generalColor.B -= step;
+            if (stepInt >= _generalColor.R)
+            {
+                _generalColor.R = 0;
+                _generalColor.G = 0;
+                _generalColor.B = 0;
+            }
+            else
+            {
+                _generalColor.R -= (byte)stepInt;
+                _generalColor.G -= (byte)stepInt;
+                _generalColor.B -= (byte)stepInt;
+            }
         }
 
         else

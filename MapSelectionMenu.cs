@@ -40,12 +40,21 @@ internal class MapSelectionMenu
     {
         if (_generalColor.R != 255)
         {
-            float lerpFactor = 1 - (float)Math.Exp(-16f * deltaTime);
-            byte step = (byte)(255f * lerpFactor);
+            float stepFloat = 255f * 20f /*(animationSpeed)*/ * (float)deltaTime;
+            int stepInt = (int)stepFloat;
 
-            _generalColor.R += step;
-            _generalColor.G += step;
-            _generalColor.B += step;
+            if (_generalColor.R + stepInt >= 255)
+            {
+                _generalColor.R = 255;
+                _generalColor.G = 255;
+                _generalColor.B = 255;
+            }
+            else
+            {
+                _generalColor.R += (byte)stepInt;
+                _generalColor.G += (byte)stepInt;
+                _generalColor.B += (byte)stepInt;
+            }
         }
 
         else state = State.Visible;

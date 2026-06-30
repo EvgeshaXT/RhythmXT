@@ -143,18 +143,15 @@ internal class MainMenu
 
     internal void Show()
     {
-        if (State == MenuState.Disappearing || State == MenuState.Hidden)
-        {
-            SoloClicked = false;
+        SoloClicked = false;
 
-            _mainMenuSoloButton.HideForced();
-            _mainMenuMultiButton.HideForced();
-            _mainMenuExitButton.HideForced();
+        _mainMenuSoloButton.HideForced();
+        _mainMenuMultiButton.HideForced();
+        _mainMenuExitButton.HideForced();
 
-            _mainMenuXTCircle.ResetToCentre();
+        _mainMenuXTCircle.ResetToCentre();
 
-            State = MenuState.Appearing;
-        }
+        State = MenuState.Appearing;
     }
 
     void RenderMaskedButtons(SpriteBatch spriteBatch)

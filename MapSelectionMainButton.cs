@@ -6,6 +6,7 @@ namespace RhythmXT;
 
 internal class MapSelectionMainButton
 {
+    int screenHeightHalf;
     string _songArtist, _songTitle;
 
     Texture2D _texture;
@@ -20,7 +21,8 @@ internal class MapSelectionMainButton
     }
     internal MapSelectionMainButton(int screenWidth, int screenHeight, string songName)
     {
-        _position = new(screenWidth, screenHeight / 2);
+        screenHeightHalf = screenHeight / 2;
+        _position = new(screenWidth, screenHeightHalf);
 
         string[] parts = songName.Split(" - ");
         _songArtist = parts[0];
@@ -36,8 +38,10 @@ internal class MapSelectionMainButton
         _origin = new(_texture.Width, TextureHeight / 2);
     }
 
-    internal void Update()
+    internal void Update(float height)
     {
+        PositionY = screenHeightHalf + height;
+
         _positionArtist.X = _position.X + 25;
         _positionArtist.Y = PositionY + 65;
         

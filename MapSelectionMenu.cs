@@ -13,7 +13,6 @@ internal class MapSelectionMenu
     State state { get; set; }
 
     Color _generalColor;
-    int screenHeightHalf;
     Random random;
 
     MapSelectionMainBackground _mapSelectionMainBackground;
@@ -22,7 +21,6 @@ internal class MapSelectionMenu
     {
         state = State.Appearing;
         _generalColor = Color.Black;
-        screenHeightHalf = screenHeight / 2;
 
         _mapSelectionMainButtonList = [];
 
@@ -54,23 +52,22 @@ internal class MapSelectionMenu
     {
         if (state == State.Appearing) AppearanceAnimation(deltaTime);
 
+        float height = 0;
+
         foreach (MapSelectionMainButton mapSelectionMainButton in _mapSelectionMainButtonList)
         {
-            mapSelectionMainButton.Update();
+            mapSelectionMainButton.Update(height);
+            height += MapSelectionMainButton.TextureHeight;
         }
     }
 
     internal void Draw(SpriteBatch spriteBatch)
     {
         _mapSelectionMainBackground.Draw(spriteBatch, _generalColor);
-
-        float height = 0;
         
         foreach (MapSelectionMainButton mapSelectionMainButton in _mapSelectionMainButtonList)
         {
-            mapSelectionMainButton.PositionY = screenHeightHalf + height;
             mapSelectionMainButton.Draw(spriteBatch, _generalColor);
-            height += MapSelectionMainButton.TextureHeight;
         }
     }
 

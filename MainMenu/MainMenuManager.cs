@@ -27,7 +27,7 @@ internal class MainMenuManager
     RenderTarget2D _buttonRenderTarget;
     Texture2D _maskCircleTexture;
     BlendState blendState;
-    internal Color _generalColor;
+    Color _generalColor;
 
     internal MainMenuManager(GraphicsDevice graphicsDevice, int screenWidth, int screenHeight)
     {
@@ -182,20 +182,14 @@ internal class MainMenuManager
     {
         if (_generalColor.R != 255)
         {
-            double stepFloat = 255d * 8d /*(animationSpeed)*/ * gameDeltaTime;
-            int stepInt = (int)stepFloat;
+            int stepInt = (int)(255d * 8d /*(animationSpeed)*/ * gameDeltaTime);
 
-            if (_generalColor.R + stepInt >= 255)
-            {
-                _generalColor.R = 255;
-                _generalColor.G = 255;
-                _generalColor.B = 255;
-            }
+            if (_generalColor.R + stepInt >= 255) _generalColor = new Color(255, 255, 255, 255);
             else
             {
-                _generalColor.R += (byte)stepInt;
-                _generalColor.G += (byte)stepInt;
-                _generalColor.B += (byte)stepInt;
+                int newValue = _generalColor.R + stepInt;
+
+                _generalColor = new Color(newValue, newValue, newValue, 255);
             }
         }
 
@@ -211,20 +205,14 @@ internal class MainMenuManager
             if (SoloClicked) animationSpeed = 8d;
             else if (ExitClicked) animationSpeed = 4d;
 
-            double stepFloat = 255d * animationSpeed * gameDeltaTime;
-            int stepInt = (int)stepFloat;
+            int stepInt = (int)(255d * animationSpeed * gameDeltaTime);
 
-            if (stepInt >= _generalColor.R)
-            {
-                _generalColor.R = 0;
-                _generalColor.G = 0;
-                _generalColor.B = 0;
-            }
+            if (stepInt >= _generalColor.R) _generalColor = new Color(0, 0, 0, 255);
             else
             {
-                _generalColor.R -= (byte)stepInt;
-                _generalColor.G -= (byte)stepInt;
-                _generalColor.B -= (byte)stepInt;
+                int newValue = _generalColor.R - stepInt;
+
+                _generalColor = new Color(newValue, newValue, newValue, 255);
             }
         }
 

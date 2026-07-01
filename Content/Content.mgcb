@@ -31,12 +31,19 @@
 /processorParam:TextureFormat=Color
 /build:cursor.png
 
-#begin DefaultFont.spritefont
+#begin FontComicSansMS18.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:DefaultFont.spritefont
+/build:FontComicSansMS18.spritefont
+
+#begin FontComicSansMS22.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:FontComicSansMS22.spritefont
 
 #begin MainMenu/Exit.png
 /importer:TextureImporter

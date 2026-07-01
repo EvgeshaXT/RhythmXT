@@ -61,7 +61,7 @@ internal class MapSelectionMenuManager
 
         foreach (MapSelectionMainButton mapSelectionMainButton in _mapSelectionMainButtonList)
         {
-            mapSelectionMainButton.Update(height);
+            mapSelectionMainButton.Update(height, _generalColor);
             height += MapSelectionMainButton.TextureHeight;
         }
     }
@@ -72,7 +72,7 @@ internal class MapSelectionMenuManager
         
         foreach (MapSelectionMainButton mapSelectionMainButton in _mapSelectionMainButtonList)
         {
-            mapSelectionMainButton.Draw(spriteBatch, _generalColor);
+            mapSelectionMainButton.Draw(spriteBatch);
         }
     }
 

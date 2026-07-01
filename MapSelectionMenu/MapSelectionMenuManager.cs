@@ -93,20 +93,14 @@ internal class MapSelectionMenuManager
     {
         if (_generalColor.R != 255)
         {
-            double stepFloat = 255d * 8d /*(animationSpeed)*/ * gameDeltaTime;
-            int stepInt = (int)stepFloat;
+            int stepInt = (int)(255d * 8d /*(animationSpeed)*/ * gameDeltaTime);
 
-            if (_generalColor.R + stepInt >= 255)
-            {
-                _generalColor.R = 255;
-                _generalColor.G = 255;
-                _generalColor.B = 255;
-            }
+            if (_generalColor.R + stepInt >= 255) _generalColor = new(255, 255, 255, 255);
             else
             {
-                _generalColor.R += (byte)stepInt;
-                _generalColor.G += (byte)stepInt;
-                _generalColor.B += (byte)stepInt;
+                int newValue = _generalColor.R + stepInt;
+
+                _generalColor = new Color(newValue, newValue, newValue, 255);
             }
         }
 
@@ -117,20 +111,14 @@ internal class MapSelectionMenuManager
     {
         if (_generalColor.R != 0)
         {
-            double stepFloat = 255d * 8d /*(animationSpeed)*/ * gameDeltaTime;
-            int stepInt = (int)stepFloat;
+            int stepInt = (int)(255d * 8d /*(animationSpeed)*/ * gameDeltaTime);
 
-            if (stepInt >= _generalColor.R)
-            {
-                _generalColor.R = 0;
-                _generalColor.G = 0;
-                _generalColor.B = 0;
-            }
+            if (stepInt >= _generalColor.R) _generalColor = new Color(0, 0, 0, 255);
             else
             {
-                _generalColor.R -= (byte)stepInt;
-                _generalColor.G -= (byte)stepInt;
-                _generalColor.B -= (byte)stepInt;
+                int newValue = _generalColor.R - stepInt;
+
+                _generalColor = new Color(newValue, newValue, newValue, 255);
             }
         }
 

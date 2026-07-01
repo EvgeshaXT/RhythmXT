@@ -2,10 +2,11 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using RhythmXT.Input;
 
-namespace RhythmXT;
+namespace RhythmXT.MainMenu;
 
-internal class MainMenu
+internal class MainMenuManager
 {
     internal enum MenuState { Hidden, Appearing, Visible, Disappearing }
     internal MenuState State { get; private set; }
@@ -28,7 +29,7 @@ internal class MainMenu
     BlendState blendState;
     internal Color _generalColor;
 
-    internal MainMenu(GraphicsDevice graphicsDevice, int screenWidth, int screenHeight)
+    internal MainMenuManager(GraphicsDevice graphicsDevice, int screenWidth, int screenHeight)
     {
         State = MenuState.Visible;
         this.graphicsDevice = graphicsDevice;

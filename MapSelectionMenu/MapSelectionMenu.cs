@@ -4,10 +4,11 @@ using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using RhythmXT.Input;
 
-namespace RhythmXT;
+namespace RhythmXT.MapSelectionMenu;
 
-internal class MapSelectionMenu
+internal class MapSelectionMenuManager
 {
     internal enum MenuState { Hidden, Appearing, Visible, Disappearing }
     internal MenuState State { get; private set; }
@@ -18,7 +19,7 @@ internal class MapSelectionMenu
 
     MapSelectionMainBackground _mapSelectionMainBackground;
     List<MapSelectionMainButton> _mapSelectionMainButtonList;
-    internal MapSelectionMenu(int screenWidth, int screenHeight)
+    internal MapSelectionMenuManager(int screenWidth, int screenHeight)
     {
         State = MenuState.Hidden;
         _generalColor = Color.Black;

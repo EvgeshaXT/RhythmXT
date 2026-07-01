@@ -1,7 +1,9 @@
 ﻿using System;
-using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using RhythmXT.Input;
+using RhythmXT.MainMenu;
+using RhythmXT.MapSelectionMenu;
 
 namespace RhythmXT;
 
@@ -13,8 +15,8 @@ internal class Main : Game
     double _gameDeltaTime;
 
     Cursor _cursor;
-    MainMenu _mainMenu;
-    MapSelectionMenu _mapSelectionMenu;
+    MainMenuManager _mainMenuManager;
+    MapSelectionMenuManager _mapSelectionMenuManager;
     int _screenWidth, _screenHeight;
 
     public Main()
@@ -37,13 +39,13 @@ internal class Main : Game
         _screenWidth = GraphicsDevice.Viewport.Width;
         _screenHeight = GraphicsDevice.Viewport.Height;
 
-        _mainMenu = new(GraphicsDevice, _screenWidth, _screenHeight);
-        _mapSelectionMenu = new(_screenWidth, _screenHeight);
+        _mainMenuManager = new(GraphicsDevice, _screenWidth, _screenHeight);
+        _mapSelectionMenuManager = new(_screenWidth, _screenHeight);
 
-        _mainMenu.ClickedEvent += SoundEffects.Click;
-        _mainMenu.ClickAnimationIsFinishedEvent += () => _mapSelectionMenu.Show();
+        _mainMenuManager.ClickedEvent += SoundEffects.Click;
+        _mainMenuManager.ClickAnimationIsFinishedEvent += () => _mapSelectionMenuManager.Show();
 
-        _mapSelectionMenu.ToMainMenuEvent += () => _mainMenu.Show();
+        _mapSelectionMenuManager.ToMainMenuEvent += () => _mainMenuManager.Show();
 
         _cursor = new();
 
@@ -55,8 +57,8 @@ internal class Main : Game
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         SoundEffects.LoadContent(Content);
 
-        _mainMenu.LoadContent(Content);
-        _mapSelectionMenu.LoadContent(Content, GraphicsDevice);
+        _mainMenuManager.LoadContent(Content);
+        _mapSelectionMenuManager.LoadContent(Content, GraphicsDevice);
         _cursor.LoadContent(Content);
     }
 
@@ -67,11 +69,11 @@ internal class Main : Game
         MouseInputManager.Update();
         KeyboardInputManager.Update();
 
-        if (_mainMenu.ExitAllowed) Exit();
+        if (_mainMenuManager.ExitAllowed) Exit();
 
         _cursor.Update();
-        if (!(_mainMenu.State == MainMenu.MenuState.Hidden)) _mainMenu.Update(_gameDeltaTime);
-        if (!(_mapSelectionMenu.State == MapSelectionMenu.MenuState.Hidden)) _mapSelectionMenu.Update(_gameDeltaTime);
+        if (!(_mainMenuManager.State == MainMenuManager.MenuState.Hidden)) _mainMenuManager.Update(_gameDeltaTime);
+        if (!(_mapSelectionMenuManager.State == MapSelectionMenuManager.MenuState.Hidden)) _mapSelectionMenuManager.Update(_gameDeltaTime);
 
         base.Update(gameTime);
     }
@@ -80,11 +82,11 @@ internal class Main : Game
     {
         GraphicsDevice.Clear(Color.Black);
         
-        if (!(_mainMenu.State == MainMenu.MenuState.Hidden)) _mainMenu.Draw(_spriteBatch);
+        if (!(_mainMenuManager.State == MainMenuManager.MenuState.Hidden)) _mainMenuManager.Draw(_spriteBatch);
         
         _spriteBatch.Begin();
 
-        if (!(_mapSelectionMenu.State == MapSelectionMenu.MenuState.Hidden)) _mapSelectionMenu.Draw(_spriteBatch);
+        if (!(_mapSelectionMenuManager.State == MapSelectionMenuManager.MenuState.Hidden)) _mapSelectionMenuManager.Draw(_spriteBatch);
         _cursor.Draw(_spriteBatch);
 
         _spriteBatch.End();

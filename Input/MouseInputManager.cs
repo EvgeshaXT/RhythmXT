@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace RhythmXT;
+namespace RhythmXT.Input;
 
 internal static class MouseInputManager
 {

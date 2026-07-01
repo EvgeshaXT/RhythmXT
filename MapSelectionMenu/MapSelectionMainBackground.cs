@@ -54,8 +54,16 @@ internal class MapSelectionMainBackground
     string GetMainImageFile(string songMainXTFile)
     {
         string[] lines = File.ReadAllLines(songMainXTFile);
-        string[] parts = lines[0].Split(": ");
+        
+        foreach (string line in lines)
+        {
+            if (line.StartsWith("Image: "))
+            {
+                string[] parts = line.Split(": ");
+                return parts[1];
+            }
+        }
 
-        return parts[1];
+        return "";
     }
 }

@@ -20,15 +20,19 @@ internal class MapSelectionMainButton
         get => _position.Y;
         set => _position.Y = value;
     }
-    internal MapSelectionMainButton(int screenWidth, int screenHeight, string songName)
+    internal MapSelectionMainButton(int screenWidth, int screenHeight, string songFullName, string artistName = "", string titleName = "")
     {
         screenHeightHalf = screenHeight / 2;
         _position = new(screenWidth, screenHeightHalf);
 
-        string[] parts = songName.Split(" - ");
+        string[] parts = songFullName.Split(" - ");
         _songArtist = "Artist: ";
-        _songArtistName = parts[0];
-        _songTitleName = parts[1];
+
+        if (artistName == "") _songArtistName = parts[0];
+        else _songArtistName = artistName;
+
+        if (titleName == "") _songTitleName = parts[1];
+        else _songTitleName = titleName;
     }
 
     internal void LoadContent(ContentManager content)
@@ -51,7 +55,7 @@ internal class MapSelectionMainButton
         _positionArtist.X = _positionTitleName.X;
         _positionArtist.Y = PositionY + 50;
 
-        _positionArtistName.X = _positionArtist.X + 75;
+        _positionArtistName.X = _positionArtist.X + 70;
         _positionArtistName.Y = _positionArtist.Y;
 
         _defaultColor = color;

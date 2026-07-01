@@ -31,7 +31,10 @@ internal class MapSelectionMenuManager
         {
             string songName = Path.GetFileName(songFolder);
 
-            MapSelectionMainButton mapSelectionMainButton = new(screenWidth, screenHeight, songName);
+            string artistName = GetArtistName(songName);
+            string titleName = GetTitleName(songName);
+
+            MapSelectionMainButton mapSelectionMainButton = new(screenWidth, screenHeight, songName, artistName, titleName);
             _mapSelectionMainButtonList.Add(mapSelectionMainButton);
         }
 
@@ -80,14 +83,6 @@ internal class MapSelectionMenuManager
     {
         if (State == MenuState.Disappearing || State == MenuState.Hidden) State = MenuState.Appearing;
     }
-
-    string[] GetSongsFolders()
-    {
-        string songsPath = "Songs";
-        string[] songsFolders = Directory.GetDirectories(songsPath);
-
-        return songsFolders;
-    }
     
     void AppearanceAnimation(double gameDeltaTime)
     {
@@ -127,5 +122,47 @@ internal class MapSelectionMenuManager
             State = MenuState.Hidden;
             ToMainMenuEvent?.Invoke();
         }
+    }
+
+    static string[] GetSongsFolders()
+    {
+        string songsPath = "Songs";
+        string[] songsFolders = Directory.GetDirectories(songsPath);
+
+        return songsFolders;
+    }
+
+    static string GetArtistName(string songName)
+    {
+        string songXTPath = $"Songs/{songName}/main.xt";
+        string[] lines = File.ReadAllLines(songXTPath);
+        
+        foreach (string line in lines)
+        {
+            if (line.StartsWith("Artist: "))
+            {
+                string[] parts = line.Split(": ");
+                return parts[1];
+            }
+        }
+
+        return "";
+    }
+
+    static string GetTitleName(string songName)
+    {
+        string songXTPath = $"Songs/{songName}/main.xt";
+        string[] lines = File.ReadAllLines(songXTPath);
+        
+        foreach (string line in lines)
+        {
+            if (line.StartsWith("Title: "))
+            {
+                string[] parts = line.Split(": ");
+                return parts[1];
+            }
+        }
+
+        return "";
     }
 }

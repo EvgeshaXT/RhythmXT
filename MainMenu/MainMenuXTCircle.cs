@@ -52,7 +52,9 @@ internal class MainMenuXTCircle
 
     internal void Update(double gameDeltaTime, bool anyButtonHaveCursor)
     {
-        mainMenuXTCircle_Clicked(gameDeltaTime, anyButtonHaveCursor);
+        if ((MouseInputManager.MouseLeftButtonRePressed && ContainsCursor()) || KeyboardInputManager.EnterRePressed) Clicked();
+
+        mainMenuXTCircle_Animation(gameDeltaTime, anyButtonHaveCursor);
     }
 
     internal void Draw(SpriteBatch spriteBatch, Color color)
@@ -77,22 +79,17 @@ internal class MainMenuXTCircle
         return (dx * dx + dy * dy) <= (radius * radius);
     }
 
-    void mainMenuXTCircle_Clicked(double gameDeltaTime, bool anyButtonHaveCursor)
+    internal void Clicked()
     {
-        if ((MouseInputManager.MouseLeftButtonRePressed && ContainsCursor()) || KeyboardInputManager.EnterRePressed)
+        MouseInputManager.Handled = true;
+        
+        if (StatePosition == CirclePositionState.Centre)
         {
-            MouseInputManager.Handled = true;
-            
-            if (StatePosition == CirclePositionState.Centre)
-            {
-                StatePosition = CirclePositionState.ToLeft;
-                ClickedEvent?.Invoke();
-            }
-
-            if (stopwatch.IsRunning) stopwatch.Restart();
+            StatePosition = CirclePositionState.ToLeft;
+            ClickedEvent?.Invoke();
         }
 
-        mainMenuXTCircle_Animation(gameDeltaTime, anyButtonHaveCursor);
+        if (stopwatch.IsRunning) stopwatch.Restart();
     }
 
     void mainMenuXTCircle_Animation(double gameDeltaTime, bool anyButtonHaveCursor)

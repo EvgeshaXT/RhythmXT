@@ -91,6 +91,13 @@ internal class MainMenuManager
     {
         if (KeyboardInputManager.EscapeRePressed) ExitClicked = true;
 
+        if (KeyboardInputManager.EnterRePressed)
+        {
+            if (_mainMenuXTCircle.StatePosition == MainMenuXTCircle.CirclePositionState.Centre) _mainMenuXTCircle.Clicked();
+            else _mainMenuSoloButton.Clicked();
+        }
+        
+
         if (SoloClicked || ExitClicked) State = MenuState.Disappearing;
 
         if (State == MenuState.Appearing) AppearanceAnimation(gameDeltaTime);

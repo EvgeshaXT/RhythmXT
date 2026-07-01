@@ -87,8 +87,11 @@ internal class MainMenuXTCircle
         {
             MouseInputManager.Handled = true;
             
-            ClickedEvent?.Invoke();
-            IsClicked = true;
+            if (!IsClicked)
+            {
+                IsClicked = true;
+                ClickedEvent?.Invoke();
+            }
             IsUnClicked = false;
 
             if (stopwatch.IsRunning) stopwatch.Restart();

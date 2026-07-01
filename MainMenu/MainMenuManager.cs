@@ -45,10 +45,10 @@ internal class MainMenuManager
         };
 
         _mainMenuMultiButton = new(screenWidth, screenHeight);
-        _mainMenuMultiButton.ClickedEvent += () =>
+        /*_mainMenuMultiButton.ClickedEvent += () =>
         {
             ClickedEvent?.Invoke();
-        };
+        };*/
 
         ExitClicked = false;
         _mainMenuExitButton = new(screenWidth, screenHeight);

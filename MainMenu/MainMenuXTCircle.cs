@@ -13,6 +13,8 @@ internal class MainMenuXTCircle
     readonly float SPEED_ANIMATION_CLICK = 12f;
     readonly float SPEED_ANIMATION_ELSE = 8f;
 
+    internal enum CirclePositionState { Centre, ToLeft, ToCentre }
+    internal CirclePositionState StatePosition { get; private set; }
     internal event Action ClickedEvent;
 
     Texture2D _texture;
@@ -26,12 +28,10 @@ internal class MainMenuXTCircle
     float _speedAnimation;
     
     Stopwatch stopwatch;
-
-    internal bool IsClicked { get; private set; }
-    internal bool IsUnClicked { get; private set; }
     
     public MainMenuXTCircle(int screenWidth, int screenHeight)
     {
+        StatePosition = CirclePositionState.Centre;
         Position = new(screenWidth / 2, screenHeight / 2);
         newPosition = Position;
         this.screenWidth = screenWidth;
@@ -42,9 +42,6 @@ internal class MainMenuXTCircle
         _speedAnimation = SPEED_ANIMATION_CLICK;
 
         stopwatch = Stopwatch.StartNew();
-
-        IsClicked = false;
-        IsUnClicked = false;
     }
 
     internal void LoadContent(ContentManager content)
@@ -65,9 +62,8 @@ internal class MainMenuXTCircle
 
     internal void ResetToCentre()
     {
-        IsUnClicked = true;
-        IsClicked = false;
         Position = new(screenWidth / 2, screenHeight / 2);
+        StatePosition = CirclePositionState.Centre;
         Scale = 0.7f;
     }
 
@@ -87,12 +83,11 @@ internal class MainMenuXTCircle
         {
             MouseInputManager.Handled = true;
             
-            if (!IsClicked)
+            if (StatePosition == CirclePositionState.Centre)
             {
-                IsClicked = true;
+                StatePosition = CirclePositionState.ToLeft;
                 ClickedEvent?.Invoke();
             }
-            IsUnClicked = false;
 
             if (stopwatch.IsRunning) stopwatch.Restart();
         }
@@ -102,7 +97,7 @@ internal class MainMenuXTCircle
 
     void mainMenuXTCircle_Animation(double gameDeltaTime, bool anyButtonHaveCursor)
     {
-        if (IsClicked)
+        if (StatePosition == CirclePositionState.ToLeft)
         {
             if (ContainsCursor() || anyButtonHaveCursor) stopwatch.Reset();
             else stopwatch.Start();
@@ -111,8 +106,7 @@ internal class MainMenuXTCircle
             {
                 stopwatch.Reset();
 
-                IsUnClicked = true;
-                IsClicked = false;
+                StatePosition = CirclePositionState.ToCentre;
             }
         }
 
@@ -126,16 +120,18 @@ internal class MainMenuXTCircle
             Position += (newPosition - Position) * lerpFactor;
             Scale += (newScale - Scale) * lerpFactor;
 
-            if (Vector2.Distance(Position, newPosition) < 1f) Position = newPosition;
+            if (Vector2.Distance(Position, newPosition) < 1f) 
+            {
+                Position = newPosition;
+                if (StatePosition == CirclePositionState.ToCentre) StatePosition = CirclePositionState.Centre;
+            }
             if (Math.Abs(Scale - newScale) < 0.001f) Scale = newScale;
-
-            if (IsUnClicked && Position == newPosition) IsUnClicked = false;
         }
     }
 
     void UpdateDirectionForAnimation()
     {
-        if (IsClicked)
+        if (StatePosition == CirclePositionState.ToLeft)
         {
             newPosition = new(screenWidth / 3, screenHeight / 2);
             newScale = 0.45f;

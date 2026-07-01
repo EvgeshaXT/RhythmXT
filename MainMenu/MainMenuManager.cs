@@ -104,7 +104,7 @@ internal class MainMenuManager
 
     void MainMenuButtonsUpdate(double deltaTime)
     {
-        if (_mainMenuXTCircle.IsClicked)
+        if (_mainMenuXTCircle.StatePosition == MainMenuXTCircle.CirclePositionState.ToLeft)
         {
             if (_mainMenuSoloButton.State != MainMenuButtonBase.ButtonState.Appearing) _mainMenuSoloButton.Show();
             if (_mainMenuMultiButton.State != MainMenuButtonBase.ButtonState.Appearing) _mainMenuMultiButton.Show();
@@ -115,7 +115,7 @@ internal class MainMenuManager
             _mainMenuExitButton.Update(deltaTime, _mainMenuXTCircle.ContainsCursor());
         }
         
-        else if (_mainMenuXTCircle.IsUnClicked)
+        else if (_mainMenuXTCircle.StatePosition == MainMenuXTCircle.CirclePositionState.ToCentre)
         {
             if (_mainMenuSoloButton.State != MainMenuButtonBase.ButtonState.Disappearing) _mainMenuSoloButton.Hide();
             if (_mainMenuMultiButton.State != MainMenuButtonBase.ButtonState.Disappearing) _mainMenuMultiButton.Hide();

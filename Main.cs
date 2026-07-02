@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using RhythmXT.Input;
 using RhythmXT.MainMenu;
 using RhythmXT.MapSelectionMenu;
+using RhythmXT.Settings;
 
 namespace RhythmXT;
 
@@ -38,6 +39,8 @@ internal class Main : Game
 
         _screenWidth = GraphicsDevice.Viewport.Width;
         _screenHeight = GraphicsDevice.Viewport.Height;
+
+        SettingsManager.Load();
 
         _mainMenuManager = new(GraphicsDevice, _screenWidth, _screenHeight);
         _mapSelectionMenuManager = new(_screenWidth, _screenHeight);

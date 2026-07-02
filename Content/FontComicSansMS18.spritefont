@@ -55,6 +55,12 @@ with.
         <Start>&#32;</Start>
         <End>&#126;</End>
       </CharacterRegion>
+
+      <!-- Кириллица -->
+      <CharacterRegion>
+        <Start>&#1024;</Start>
+        <End>&#1279;</End>
+      </CharacterRegion>
       
       <!-- Хирагана -->
       <CharacterRegion>

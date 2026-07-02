@@ -4,12 +4,15 @@ namespace RhythmXT.Input;
 
 internal static class KeyboardInputManager
 {
-    internal static KeyboardState _nowKeyboardState;
-    internal static KeyboardState _lastKeyboardState;
+    static KeyboardState _nowKeyboardState;
+    static KeyboardState _lastKeyboardState;
+    internal static bool Handled { get; set; }
     internal static bool EscapeRePressed =>  _lastKeyboardState.IsKeyUp(Keys.Escape) && _nowKeyboardState.IsKeyDown(Keys.Escape);
     internal static bool EnterRePressed => _lastKeyboardState.IsKeyUp(Keys.Enter) && _nowKeyboardState.IsKeyDown(Keys.Enter);
     internal static void Update()
     {
+        Handled = false;
+        
         _lastKeyboardState = _nowKeyboardState;
         _nowKeyboardState = Keyboard.GetState();
     }

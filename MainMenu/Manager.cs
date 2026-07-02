@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using RhythmXT.Input;
+using RhythmXT.Settings;
 
 namespace RhythmXT.MainMenu;
 
@@ -13,7 +14,9 @@ internal class MainMenuManager
     internal event Action ClickedEvent;
     internal event Action ClickAnimationIsFinishedEvent;
 
+    SettingsForm settingsForm;
     MainMenuBackground _mainMenuBackground;
+    MainMenuSettingsButton _mainMenuSettingsButton;
     MainMenuXTCircle _mainMenuXTCircle;
     MainMenuSoloButton _mainMenuSoloButton;
     MainMenuMultiButton _mainMenuMultiButton;
@@ -35,6 +38,15 @@ internal class MainMenuManager
         this.graphicsDevice = graphicsDevice;
 
         _mainMenuBackground = new(graphicsDevice, screenWidth, screenHeight);
+
+        settingsForm = new(screenWidth, screenHeight);
+
+        _mainMenuSettingsButton = new(screenWidth);
+        _mainMenuSettingsButton.ClickedEvent += () =>
+        {
+            settingsForm.Show();
+            ClickedEvent?.Invoke();
+        };
         
         SoloClicked = false;
         _mainMenuSoloButton = new(screenWidth, screenHeight);
@@ -78,7 +90,10 @@ internal class MainMenuManager
 
     internal void LoadContent(ContentManager content)
     {
+        settingsForm.LoadContent(content);
+
         _mainMenuBackground.LoadContent();
+        _mainMenuSettingsButton.LoadContent(content);
         _mainMenuXTCircle.LoadContent(content);
         _mainMenuSoloButton.LoadContent(content);
         _mainMenuMultiButton.LoadContent(content);
@@ -89,24 +104,26 @@ internal class MainMenuManager
 
     internal void Update(double gameDeltaTime)
     {
-        if (KeyboardInputManager.EscapeRePressed) ExitClicked = true;
-
-        if (KeyboardInputManager.EnterRePressed)
+        if (settingsForm.State == SettingsForm.FormState.Show) settingsForm.Update();
+        else
         {
-            if (_mainMenuXTCircle.StatePosition == MainMenuXTCircle.CirclePositionState.Centre) _mainMenuXTCircle.Clicked();
-            else _mainMenuSoloButton.Clicked();
-        }
-        
+            if (KeyboardInputManager.EscapeRePressed && !KeyboardInputManager.Handled) ExitClicked = true;
+            if (KeyboardInputManager.EnterRePressed && !KeyboardInputManager.Handled)
+            {
+                if (_mainMenuXTCircle.StatePosition == MainMenuXTCircle.CirclePositionState.Centre) _mainMenuXTCircle.Clicked();
+                else _mainMenuSoloButton.Clicked();
+            }
 
-        if (SoloClicked || ExitClicked) State = MenuState.Disappearing;
-
-        if (State == MenuState.Appearing) AppearanceAnimation(gameDeltaTime);
-        else if (State == MenuState.Visible)
-        {
-            _mainMenuXTCircle.Update(gameDeltaTime, AnyButtonHaveCursor());
-            MainMenuButtonsUpdate(gameDeltaTime);
+            if (SoloClicked || ExitClicked) State = MenuState.Disappearing;
+            if (State == MenuState.Appearing) AppearanceAnimation(gameDeltaTime);
+            else if (State == MenuState.Visible)
+            {
+                _mainMenuSettingsButton.Update();
+                _mainMenuXTCircle.Update(gameDeltaTime, AnyButtonHaveCursor());
+                MainMenuButtonsUpdate(gameDeltaTime);
+            }
+            else DisappearanceAnimation(gameDeltaTime);
         }
-        else DisappearanceAnimation(gameDeltaTime);
     }
 
     void MainMenuButtonsUpdate(double deltaTime)
@@ -143,8 +160,10 @@ internal class MainMenuManager
         spriteBatch.Begin();
 
         _mainMenuBackground.Draw(spriteBatch, _generalColor);
+        _mainMenuSettingsButton.Draw(spriteBatch, _generalColor);
         spriteBatch.Draw(_buttonRenderTarget, Vector2.Zero, _generalColor);
         _mainMenuXTCircle.Draw(spriteBatch, _generalColor);
+        settingsForm.Draw(spriteBatch);
 
         spriteBatch.End();
     }

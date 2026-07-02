@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using RhythmXT.Settings;
 
 namespace RhythmXT.MapSelectionMenu;
 
@@ -12,6 +13,7 @@ internal class MapSelectionMainButton
     Texture2D _texture;
     SpriteFont _fontArtist, _fontTitle;
     Vector2 _position, _positionArtist, _positionArtistName, _positionTitleName;
+    Vector2 artistTextSize;
     Color _generalColor, _artistColor;
     Vector2 _origin;
     static internal float TextureHeight { get; set; }
@@ -25,11 +27,12 @@ internal class MapSelectionMainButton
         screenHeightHalf = screenHeight / 2;
         _position = new(screenWidth, screenHeightHalf);
 
-        _songArtist = "Artist: ";
-        if (songMetadata.ArtistOriginalName == "") _songArtistName = songMetadata.ArtistName;
+        _songArtist = $"{SettingsManager.GetTranslation("Artist")}: ";
+
+        if (songMetadata.ArtistOriginalName == "" || !SettingsManager.ShowOriginalNames) _songArtistName = songMetadata.ArtistName;
         else _songArtistName = songMetadata.ArtistOriginalName;
 
-        if (songMetadata.TitleOriginalName == "") _songTitleName = songMetadata.TitleName;
+        if (songMetadata.TitleOriginalName == "" || !SettingsManager.ShowOriginalNames) _songTitleName = songMetadata.TitleName;
         else _songTitleName = songMetadata.TitleOriginalName;
     }
 
@@ -53,7 +56,8 @@ internal class MapSelectionMainButton
         _positionArtist.X = _positionTitleName.X;
         _positionArtist.Y = PositionY + 50;
 
-        _positionArtistName.X = _positionArtist.X + 70;
+        artistTextSize = _fontArtist.MeasureString(_songArtist);
+        _positionArtistName.X = _positionArtist.X + artistTextSize.X;
         _positionArtistName.Y = _positionArtist.Y;
 
         _generalColor = color;

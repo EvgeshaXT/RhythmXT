@@ -5,8 +5,8 @@ namespace RhythmXT.Input;
 
 internal static class MouseInputManager
 {
-    internal static MouseState _nowMouseState;
-    internal static MouseState _lastMouseState;
+    static MouseState _nowMouseState;
+    static MouseState _lastMouseState;
     internal static bool Handled { get; set; }
     internal static Vector2 MousePosition => _nowMouseState.Position.ToVector2();
     internal static bool MouseLeftButtonRePressed => _lastMouseState.LeftButton == ButtonState.Released && _nowMouseState.LeftButton == ButtonState.Pressed;

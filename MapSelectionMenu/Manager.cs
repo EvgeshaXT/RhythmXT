@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection.Metadata;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -18,29 +19,28 @@ internal class MapSelectionMenuManager
     Random random;
 
     MapSelectionMainBackground _mapSelectionMainBackground;
+    List<SongMetadata> _songMetadataList;
     List<MapSelectionMainButton> _mapSelectionMainButtonList;
     internal MapSelectionMenuManager(int screenWidth, int screenHeight)
     {
         State = MenuState.Hidden;
         _generalColor = Color.Black;
 
+        _songMetadataList = [];
         _mapSelectionMainButtonList = [];
 
         string[] songsFolders = GetSongsFolders();
         foreach (string songFolder in songsFolders)
         {
-            string songName = Path.GetFileName(songFolder);
+            SongMetadata songMetadata = SongMetadata.ParseXTFile(songFolder);
+            _songMetadataList.Add(songMetadata);
 
-            string artistName = GetArtistName(songName);
-            string titleName = GetTitleName(songName);
-
-            MapSelectionMainButton mapSelectionMainButton = new(screenWidth, screenHeight, songName, artistName, titleName);
+            MapSelectionMainButton mapSelectionMainButton = new(screenWidth, screenHeight, songMetadata);
             _mapSelectionMainButtonList.Add(mapSelectionMainButton);
         }
 
         random = new();
-        string mapDefault = songsFolders[random.Next(songsFolders.Length)];
-        _mapSelectionMainBackground = new(screenWidth, screenHeight, mapDefault);
+        _mapSelectionMainBackground = new(screenWidth, screenHeight, _songMetadataList[random.Next(_songMetadataList.Count)].ImagePath);
     }
 
     internal void LoadContent(ContentManager content, GraphicsDevice graphicsDevice)
@@ -72,7 +72,7 @@ internal class MapSelectionMenuManager
     internal void Draw(SpriteBatch spriteBatch)
     {
         _mapSelectionMainBackground.Draw(spriteBatch, _generalColor);
-        
+
         foreach (MapSelectionMainButton mapSelectionMainButton in _mapSelectionMainButtonList)
         {
             mapSelectionMainButton.Draw(spriteBatch);

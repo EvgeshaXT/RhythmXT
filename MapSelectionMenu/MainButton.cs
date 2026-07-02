@@ -12,7 +12,7 @@ internal class MapSelectionMainButton
     Texture2D _texture;
     SpriteFont _fontArtist, _fontTitle;
     Vector2 _position, _positionArtist, _positionArtistName, _positionTitleName;
-    Color _defaultColor, _artistColor;
+    Color _generalColor, _artistColor;
     Vector2 _origin;
     static internal float TextureHeight { get; set; }
     internal float PositionY
@@ -20,19 +20,17 @@ internal class MapSelectionMainButton
         get => _position.Y;
         set => _position.Y = value;
     }
-    internal MapSelectionMainButton(int screenWidth, int screenHeight, string songFullName, string artistName = "", string titleName = "")
+    internal MapSelectionMainButton(int screenWidth, int screenHeight, SongMetadata songMetadata)
     {
         screenHeightHalf = screenHeight / 2;
         _position = new(screenWidth, screenHeightHalf);
 
-        string[] parts = songFullName.Split(" - ");
         _songArtist = "Artist: ";
+        if (songMetadata.ArtistOriginalName == "") _songArtistName = songMetadata.ArtistName;
+        else _songArtistName = songMetadata.ArtistOriginalName;
 
-        if (artistName == "") _songArtistName = parts[0];
-        else _songArtistName = artistName;
-
-        if (titleName == "") _songTitleName = parts[1];
-        else _songTitleName = titleName;
+        if (songMetadata.TitleOriginalName == "") _songTitleName = songMetadata.TitleName;
+        else _songTitleName = songMetadata.TitleOriginalName;
     }
 
     internal void LoadContent(ContentManager content)
@@ -58,15 +56,15 @@ internal class MapSelectionMainButton
         _positionArtistName.X = _positionArtist.X + 70;
         _positionArtistName.Y = _positionArtist.Y;
 
-        _defaultColor = color;
+        _generalColor = color;
         _artistColor = color * 0.75f;
     }
 
     internal void Draw(SpriteBatch spriteBatch)
     {
-        spriteBatch.Draw(_texture, _position, null, _defaultColor, 0f, _origin, 0.9f, SpriteEffects.None, 0f);
-        spriteBatch.DrawString(_fontTitle, _songTitleName, _positionTitleName, _defaultColor, 0f, _origin, 0.9f, SpriteEffects.None, 0f);
+        spriteBatch.Draw(_texture, _position, null, _generalColor, 0f, _origin, 0.9f, SpriteEffects.None, 0f);
+        if (_songTitleName != null) spriteBatch.DrawString(_fontTitle, _songTitleName, _positionTitleName, _generalColor, 0f, _origin, 0.9f, SpriteEffects.None, 0f);
         spriteBatch.DrawString(_fontArtist, _songArtist, _positionArtist, _artistColor, 0f, _origin, 0.9f, SpriteEffects.None, 0f);
-        spriteBatch.DrawString(_fontArtist, _songArtistName, _positionArtistName, _defaultColor, 0f, _origin, 0.9f, SpriteEffects.None, 0f);
+        if (_songArtistName != null) spriteBatch.DrawString(_fontArtist, _songArtistName, _positionArtistName, _generalColor, 0f, _origin, 0.9f, SpriteEffects.None, 0f);
     }
 }

@@ -48,7 +48,7 @@ internal class MapSelectionMainButton
         PositionY = screenHeightHalf + height;
         
         _positionTitleName.X = _position.X + 30;
-        _positionTitleName.Y = PositionY + 15;
+        _positionTitleName.Y = PositionY + 18;
 
         _positionArtist.X = _positionTitleName.X;
         _positionArtist.Y = PositionY + 50;
@@ -57,7 +57,7 @@ internal class MapSelectionMainButton
         _positionArtistName.Y = _positionArtist.Y;
 
         _generalColor = color;
-        _artistColor = color * 0.75f;
+        _artistColor = color * 0.7f;
     }
 
     internal void Draw(SpriteBatch spriteBatch)

@@ -67,16 +67,14 @@ internal class Main : Game
 
     protected override void Update(GameTime gameTime)
     {
-        _gameDeltaTime = gameTime.ElapsedGameTime.TotalSeconds;
-
         MouseInputManager.Update();
         KeyboardInputManager.Update();
 
         if (_mainMenuManager.ExitAllowed) Exit();
 
         _cursor.Update();
-        if (!(_mainMenuManager.State == MainMenuManager.MenuState.Hidden)) _mainMenuManager.Update(_gameDeltaTime);
-        if (!(_mapSelectionMenuManager.State == MapSelectionMenuManager.MenuState.Hidden)) _mapSelectionMenuManager.Update(_gameDeltaTime);
+        if (_mainMenuManager.State != MainMenuManager.MenuState.Hidden) _mainMenuManager.Update(gameTime.ElapsedGameTime.TotalSeconds);
+        if (_mapSelectionMenuManager.State != MapSelectionMenuManager.MenuState.Hidden) _mapSelectionMenuManager.Update(gameTime.ElapsedGameTime.TotalSeconds);
 
         base.Update(gameTime);
     }

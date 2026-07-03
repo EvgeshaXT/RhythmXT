@@ -10,23 +10,28 @@ internal static class SettingsManager
     internal static bool ShowOriginalNames { get; private set; } = true;
     internal static Dictionary<string, string> Localisation { get; private set; } = [];
 
+    static readonly string settingsPath = "settings.json";
+
     internal static void Load()
     {
-        using (FileStream fs = new("Settings/settings.json", FileMode.Open))
+        if (!File.Exists(settingsPath))
         {
-            if (fs.Length == 0)
+            SettingsData defaultSettings = new();
+            JsonSerializerOptions jsonSerializerOptions = new()
             {
-                SettingsData defaultSettings = new();
+                WriteIndented = true
+            };
 
-                string json = JsonSerializer.Serialize(defaultSettings);
-                File.WriteAllText("Settings/settings.json", json);
-            }
-            else
-            {
-                SettingsData settingsData = JsonSerializer.Deserialize<SettingsData>(fs);
-                Language = settingsData.Language;
-                ShowOriginalNames = settingsData.ShowOriginalNames;
-            }
+            string json = JsonSerializer.Serialize(defaultSettings, jsonSerializerOptions);
+            File.WriteAllText(settingsPath, json);
+        }
+
+        using (FileStream fs = new(settingsPath, FileMode.Open))
+        {
+            SettingsData settingsData = JsonSerializer.Deserialize<SettingsData>(fs);
+
+            Language = settingsData.Language;
+            ShowOriginalNames = settingsData.ShowOriginalNames;
         }
 
         LoadLocalisation();

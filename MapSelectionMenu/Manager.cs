@@ -17,6 +17,7 @@ internal class MapSelectionMenuManager
 
     Color _generalColor;
     Random random;
+    SpriteFont fontComicSansMS18, fontComicSansMS22;
 
     MapSelectionMainBackground _mapSelectionMainBackground;
     List<SongMetadata> _songMetadataList;
@@ -47,9 +48,11 @@ internal class MapSelectionMenuManager
     {
         _mapSelectionMainBackground.LoadContent(graphicsDevice);
 
+        fontComicSansMS18 = content.Load<SpriteFont>("FontComicSansMS18");
+        fontComicSansMS22 = content.Load<SpriteFont>("FontComicSansMS22");
         foreach (MapSelectionMainButton mapSelectionMainButton in _mapSelectionMainButtonList)
         {
-            mapSelectionMainButton.LoadContent(content);
+            mapSelectionMainButton.LoadContent(content, fontComicSansMS18, fontComicSansMS22);
         }
     }
 

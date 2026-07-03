@@ -36,11 +36,11 @@ internal class MapSelectionMainButton
         else _songTitleName = songMetadata.TitleOriginalName;
     }
 
-    internal void LoadContent(ContentManager content)
+    internal void LoadContent(ContentManager content, SpriteFont fontComicSansMS18, SpriteFont fontComicSansMS22)
     {
         _texture = content.Load<Texture2D>("MapSelectionMenu/MapSelectionButton");
-        _fontArtist = content.Load<SpriteFont>("FontComicSansMS18");
-        _fontTitle = content.Load<SpriteFont>("FontComicSansMS22");
+        _fontArtist = fontComicSansMS18;
+        _fontTitle = fontComicSansMS22;
 
         TextureHeight = _texture.Height;
         _origin = new(_texture.Width, TextureHeight / 2);

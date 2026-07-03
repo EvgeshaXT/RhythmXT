@@ -13,9 +13,6 @@ internal class Main : Game
     GraphicsDeviceManager _graphics;
     SpriteBatch _spriteBatch;
 
-    double _gameDeltaTime;
-
-    Cursor _cursor;
     MainMenuManager _mainMenuManager;
     MapSelectionMenuManager _mapSelectionMenuManager;
     int _screenWidth, _screenHeight;
@@ -29,8 +26,6 @@ internal class Main : Game
         IsFixedTimeStep = true;
         _graphics.SynchronizeWithVerticalRetrace = false;
         _graphics.ApplyChanges();
-
-        _gameDeltaTime = 0d;
     }
 
     protected override void Initialize()
@@ -50,8 +45,6 @@ internal class Main : Game
 
         _mapSelectionMenuManager.ToMainMenuEvent += () => _mainMenuManager.Show();
 
-        _cursor = new();
-
         base.Initialize();
     }
 
@@ -62,7 +55,7 @@ internal class Main : Game
 
         _mainMenuManager.LoadContent(Content);
         _mapSelectionMenuManager.LoadContent(Content, GraphicsDevice);
-        _cursor.LoadContent(Content);
+        Cursor.LoadContent(Content);
     }
 
     protected override void Update(GameTime gameTime)
@@ -72,7 +65,7 @@ internal class Main : Game
 
         if (_mainMenuManager.ExitAllowed) Exit();
 
-        _cursor.Update();
+        Cursor.Update();
         if (_mainMenuManager.State != MainMenuManager.MenuState.Hidden) _mainMenuManager.Update(gameTime.ElapsedGameTime.TotalSeconds);
         if (_mapSelectionMenuManager.State != MapSelectionMenuManager.MenuState.Hidden) _mapSelectionMenuManager.Update(gameTime.ElapsedGameTime.TotalSeconds);
 
@@ -88,14 +81,14 @@ internal class Main : Game
         _spriteBatch.Begin();
 
         if (!(_mapSelectionMenuManager.State == MapSelectionMenuManager.MenuState.Hidden)) _mapSelectionMenuManager.Draw(_spriteBatch);
-        _cursor.Draw(_spriteBatch);
+        Cursor.Draw(_spriteBatch);
 
         _spriteBatch.End();
 
         base.Draw(gameTime);
     }
 
-    void FullScreen(GraphicsDeviceManager graphics)
+    static void FullScreen(GraphicsDeviceManager graphics)
     {
         var displayMode = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode;
 

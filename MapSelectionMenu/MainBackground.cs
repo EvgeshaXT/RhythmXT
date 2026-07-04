@@ -6,14 +6,11 @@ namespace RhythmXT.MapSelectionMenu;
 
 internal class MapSelectionMainBackground
 {
-    int screenWidth, screenHeight;
     string _imagePath;
     Texture2D _texture;
 
-    internal MapSelectionMainBackground(int screenWidth, int screenHeight, string imagePath)
+    internal MapSelectionMainBackground(string imagePath)
     {
-        this.screenWidth = screenWidth;
-        this.screenHeight = screenHeight;
         _imagePath = imagePath;
     }
 
@@ -25,6 +22,6 @@ internal class MapSelectionMainBackground
 
     internal void Draw(SpriteBatch spriteBatch, Color color)
     {
-        spriteBatch.Draw(_texture, new Rectangle(0, 0, screenWidth, screenHeight), color * 0.7f);
+        spriteBatch.Draw(_texture, new Rectangle(0, 0, GlobalScope.ScreenWidth, GlobalScope.ScreenHeight), color * 0.7f);
     }
 }

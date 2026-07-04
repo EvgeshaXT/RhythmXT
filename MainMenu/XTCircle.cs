@@ -22,20 +22,17 @@ internal class MainMenuXTCircle
     internal Vector2 Position { get; private set; }
     Vector2 newPosition;
     internal Vector2 Origin { get; private set; }
-    int screenWidth, screenHeight;
     internal float Scale { get; private set; }
     float newScale;
     float _speedAnimation;
     
     Stopwatch stopwatch;
     
-    public MainMenuXTCircle(int screenWidth, int screenHeight)
+    public MainMenuXTCircle()
     {
         StatePosition = CirclePositionState.Centre;
-        Position = new(screenWidth / 2, screenHeight / 2);
+        Position = new(GlobalScope.ScreenWidth / 2, GlobalScope.ScreenHeight / 2);
         newPosition = Position;
-        this.screenWidth = screenWidth;
-        this.screenHeight = screenHeight;
 
         Scale = 0.7f;
         newScale = Scale;
@@ -64,7 +61,7 @@ internal class MainMenuXTCircle
 
     internal void ResetToCentre()
     {
-        Position = new(screenWidth / 2, screenHeight / 2);
+        Position = new(GlobalScope.ScreenWidth / 2, GlobalScope.ScreenHeight / 2);
         StatePosition = CirclePositionState.Centre;
         Scale = 0.7f;
     }
@@ -130,13 +127,13 @@ internal class MainMenuXTCircle
     {
         if (StatePosition == CirclePositionState.ToLeft)
         {
-            newPosition = new(screenWidth / 3, screenHeight / 2);
+            newPosition = new(GlobalScope.ScreenWidth / 3, GlobalScope.ScreenHeight / 2);
             newScale = 0.45f;
             _speedAnimation = SPEED_ANIMATION_CLICK;
         }
         else
         {
-            newPosition = new(screenWidth / 2, screenHeight / 2);
+            newPosition = new(GlobalScope.ScreenWidth / 2, GlobalScope.ScreenHeight / 2);
 
             if (ContainsCursor()) newScale = 0.75f;
             else newScale = 0.7f;

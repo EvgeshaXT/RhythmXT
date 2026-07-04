@@ -12,11 +12,11 @@ internal class MainMenuBackground
     Vector2 _position, _origin;
     Random _random;
 
-    public MainMenuBackground(GraphicsDevice graphicsDevice, int screenWidth, int screenHeight)
+    public MainMenuBackground(GraphicsDevice graphicsDevice)
     {
         this.graphicsDevice = graphicsDevice;
         
-        _position = new(screenWidth / 2, screenHeight / 2);
+        _position = new(GlobalScope.ScreenWidth / 2, GlobalScope.ScreenHeight / 2);
         _random = new();
     }
     

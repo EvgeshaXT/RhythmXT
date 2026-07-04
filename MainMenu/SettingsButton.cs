@@ -15,9 +15,9 @@ internal class MainMenuSettingsButton
     Vector2 _position, _origin;
     float _scale;
 
-    internal MainMenuSettingsButton(int screenWidth)
+    internal MainMenuSettingsButton()
     {
-        _position = new(screenWidth - 54, 54);
+        _position = new(GlobalScope.ScreenWidth - 54, 54);
         _scale = 0.15f;
 
         _settingsHoverPlate = new(_position);

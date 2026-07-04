@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using RhythmXT.Input;
 
-namespace RhythmXT.Settings;
+namespace RhythmXT.MainMenu.Settings;
 
 internal class SettingsForm
 {
@@ -13,10 +13,10 @@ internal class SettingsForm
 
     FormBackground _formBackground;
     
-    internal SettingsForm(int screenWidth, int screenHeight)
+    internal SettingsForm()
     {
         State = FormState.Hide;
-        _formBackground = new(screenWidth, screenHeight);
+        _formBackground = new();
     }
 
     internal void Update()

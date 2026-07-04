@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using RhythmXT.Input;
-using RhythmXT.Settings;
+using RhythmXT.MainMenu.Settings;
 
 namespace RhythmXT.MainMenu;
 
@@ -32,16 +32,16 @@ internal class MainMenuManager
     BlendState blendState;
     Color _generalColor;
 
-    internal MainMenuManager(GraphicsDevice graphicsDevice, int screenWidth, int screenHeight)
+    internal MainMenuManager(GraphicsDevice graphicsDevice)
     {
         State = MenuState.Visible;
         this.graphicsDevice = graphicsDevice;
 
-        _mainMenuBackground = new(graphicsDevice, screenWidth, screenHeight);
+        _mainMenuBackground = new(graphicsDevice);
 
-        settingsForm = new(screenWidth, screenHeight);
+        settingsForm = new();
 
-        _mainMenuSettingsButton = new(screenWidth);
+        _mainMenuSettingsButton = new();
         _mainMenuSettingsButton.ClickedEvent += () =>
         {
             settingsForm.Show();
@@ -49,34 +49,34 @@ internal class MainMenuManager
         };
         
         SoloClicked = false;
-        _mainMenuSoloButton = new(screenWidth, screenHeight);
+        _mainMenuSoloButton = new();
         _mainMenuSoloButton.ClickedEvent += () =>
         {
             SoloClicked = true;
             ClickedEvent?.Invoke();
         };
 
-        _mainMenuMultiButton = new(screenWidth, screenHeight);
+        _mainMenuMultiButton = new();
         /*_mainMenuMultiButton.ClickedEvent += () =>
         {
             ClickedEvent?.Invoke();
         };*/
 
         ExitClicked = false;
-        _mainMenuExitButton = new(screenWidth, screenHeight);
+        _mainMenuExitButton = new();
         _mainMenuExitButton.ClickedEvent += () =>
         {
             ExitClicked = true;
             ClickedEvent?.Invoke();
         };
 
-        _mainMenuXTCircle = new(screenWidth, screenHeight);
+        _mainMenuXTCircle = new();
         _mainMenuXTCircle.ClickedEvent += () =>
         {
             ClickedEvent?.Invoke();
         };
 
-        _buttonRenderTarget = new(graphicsDevice, screenWidth, screenHeight);
+        _buttonRenderTarget = new(graphicsDevice, GlobalScope.ScreenWidth, GlobalScope.ScreenHeight);
         blendState = new()
         {
             AlphaSourceBlend = Blend.Zero,

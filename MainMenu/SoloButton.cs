@@ -2,10 +2,10 @@ namespace RhythmXT.MainMenu;
 
 internal class MainMenuSoloButton : MainMenuButtonBase
 {
-    public MainMenuSoloButton(int screenWidth, int screenHeight)
+    public MainMenuSoloButton()
     {
-        CLICKED_POSITION = new(screenWidth / 2f, screenHeight / 3.25f);
-        HIDDEN_POSITION = new(screenWidth / 2.75f, screenHeight / 3.25f);
+        CLICKED_POSITION = new(GlobalScope.ScreenWidth / 2f, GlobalScope.ScreenHeight / 3.25f);
+        HIDDEN_POSITION = new(GlobalScope.ScreenWidth / 2.75f, GlobalScope.ScreenHeight / 3.25f);
         Initialize();
         
         SPEED_CLICK_ANIMATION = 16f;

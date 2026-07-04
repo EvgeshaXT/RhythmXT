@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using RhythmXT.Settings;
 
 namespace RhythmXT.MapSelectionMenu;
 
@@ -22,25 +21,25 @@ internal class MapSelectionMainButton
         get => _position.Y;
         set => _position.Y = value;
     }
-    internal MapSelectionMainButton(int screenWidth, int screenHeight, SongMetadata songMetadata)
+    internal MapSelectionMainButton(SongMetadata songMetadata)
     {
-        screenHeightHalf = screenHeight / 2;
-        _position = new(screenWidth, screenHeightHalf);
+        screenHeightHalf = GlobalScope.ScreenHeight / 2;
+        _position = new(GlobalScope.ScreenWidth, screenHeightHalf);
 
-        _songArtist = $"{SettingsManager.GetTranslation("Artist")}: ";
+        _songArtist = $"{Settings.GetTranslation("Artist")}: ";
 
-        if (songMetadata.ArtistOriginalName == "" || !SettingsManager.ShowOriginalNames) _songArtistName = songMetadata.ArtistName;
+        if (songMetadata.ArtistOriginalName == "" || !Settings.ShowOriginalNames) _songArtistName = songMetadata.ArtistName;
         else _songArtistName = songMetadata.ArtistOriginalName;
 
-        if (songMetadata.TitleOriginalName == "" || !SettingsManager.ShowOriginalNames) _songTitleName = songMetadata.TitleName;
+        if (songMetadata.TitleOriginalName == "" || !Settings.ShowOriginalNames) _songTitleName = songMetadata.TitleName;
         else _songTitleName = songMetadata.TitleOriginalName;
     }
 
-    internal void LoadContent(ContentManager content, SpriteFont fontComicSansMS18, SpriteFont fontComicSansMS22)
+    internal void LoadContent(ContentManager content, SpriteFont fontArtist, SpriteFont fontTitle)
     {
         _texture = content.Load<Texture2D>("MapSelectionMenu/MapSelectionButton");
-        _fontArtist = fontComicSansMS18;
-        _fontTitle = fontComicSansMS22;
+        _fontArtist = fontArtist;
+        _fontTitle = fontTitle;
 
         TextureHeight = _texture.Height;
         _origin = new(_texture.Width, TextureHeight / 2);

@@ -17,12 +17,12 @@ internal class MapSelectionMenuManager
 
     Color _generalColor;
     Random random;
-    SpriteFont fontComicSansMS18, fontComicSansMS22;
+    SpriteFont fontYuGothic18, fontYuGothic22;
 
     MapSelectionMainBackground _mapSelectionMainBackground;
     List<SongMetadata> _songMetadataList;
     List<MapSelectionMainButton> _mapSelectionMainButtonList;
-    internal MapSelectionMenuManager(int screenWidth, int screenHeight)
+    internal MapSelectionMenuManager()
     {
         State = MenuState.Hidden;
         _generalColor = Color.Black;
@@ -36,23 +36,23 @@ internal class MapSelectionMenuManager
             SongMetadata songMetadata = SongMetadata.ParseXTFile(songFolder);
             _songMetadataList.Add(songMetadata);
 
-            MapSelectionMainButton mapSelectionMainButton = new(screenWidth, screenHeight, songMetadata);
+            MapSelectionMainButton mapSelectionMainButton = new(songMetadata);
             _mapSelectionMainButtonList.Add(mapSelectionMainButton);
         }
 
         random = new();
-        _mapSelectionMainBackground = new(screenWidth, screenHeight, _songMetadataList[random.Next(_songMetadataList.Count)].ImagePath);
+        _mapSelectionMainBackground = new(_songMetadataList[random.Next(_songMetadataList.Count)].ImagePath);
     }
 
     internal void LoadContent(ContentManager content, GraphicsDevice graphicsDevice)
     {
         _mapSelectionMainBackground.LoadContent(graphicsDevice);
 
-        fontComicSansMS18 = content.Load<SpriteFont>("FontComicSansMS18");
-        fontComicSansMS22 = content.Load<SpriteFont>("FontComicSansMS22");
+        fontYuGothic18 = content.Load<SpriteFont>("Yu Gothic 18");
+        fontYuGothic22 = content.Load<SpriteFont>("Yu Gothic 22");
         foreach (MapSelectionMainButton mapSelectionMainButton in _mapSelectionMainButtonList)
         {
-            mapSelectionMainButton.LoadContent(content, fontComicSansMS18, fontComicSansMS22);
+            mapSelectionMainButton.LoadContent(content, fontYuGothic18, fontYuGothic22);
         }
     }
 

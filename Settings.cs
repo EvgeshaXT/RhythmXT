@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 
-namespace RhythmXT.Settings;
+namespace RhythmXT;
 
-internal static class SettingsManager
+internal static class Settings
 {
     internal static string Language { get; private set; } = "English";
     internal static bool ShowOriginalNames { get; private set; } = true;

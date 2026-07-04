@@ -31,19 +31,19 @@
 /processorParam:TextureFormat=Color
 /build:cursor.png
 
-#begin Yu Gothic 18.spritefont
+#begin Yu Gothic, 18.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:Yu Gothic 18.spritefont
+/build:Yu Gothic, 18.spritefont
 
-#begin Yu Gothic 22.spritefont
+#begin Yu Gothic, 22.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:Yu Gothic 22.spritefont
+/build:Yu Gothic, 22.spritefont
 
 #begin FormBackground.png
 /importer:TextureImporter

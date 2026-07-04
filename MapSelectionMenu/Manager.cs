@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection.Metadata;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -17,7 +16,6 @@ internal class MapSelectionMenuManager
 
     Color _generalColor;
     Random random;
-    SpriteFont fontYuGothic18, fontYuGothic22;
 
     MapSelectionMainBackground _mapSelectionMainBackground;
     List<SongMetadata> _songMetadataList;
@@ -48,11 +46,9 @@ internal class MapSelectionMenuManager
     {
         _mapSelectionMainBackground.LoadContent(graphicsDevice);
 
-        fontYuGothic18 = content.Load<SpriteFont>("Yu Gothic 18");
-        fontYuGothic22 = content.Load<SpriteFont>("Yu Gothic 22");
         foreach (MapSelectionMainButton mapSelectionMainButton in _mapSelectionMainButtonList)
         {
-            mapSelectionMainButton.LoadContent(content, fontYuGothic18, fontYuGothic22);
+            mapSelectionMainButton.LoadContent(content);
         }
     }
 

@@ -9,7 +9,6 @@ class MapSelectionMainButton
     int screenHeightHalf;
 
     Label _titleName, artistLabel, _artistName;
-    Vector2 artistLabelSize;
 
     Texture2D _texture;
     Vector2 _position;
@@ -76,8 +75,7 @@ class MapSelectionMainButton
         artistLabel.Position.X = _titleName.Position.X;
         artistLabel.Position.Y = PositionY + 50;
 
-        artistLabelSize = artistLabel.spriteFont.MeasureString(artistLabel.Text);
-        _artistName.Position.X = artistLabel.Position.X + artistLabelSize.X;
+        _artistName.Position.X = artistLabel.Position.X + artistLabel.Size.X;
         _artistName.Position.Y = artistLabel.Position.Y;
 
         _generalColor = color;

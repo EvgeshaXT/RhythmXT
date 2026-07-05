@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using RhythmXT.Input;
 using RhythmXT.MainMenu;
 using RhythmXT.MapSelectionMenu;
+
 namespace RhythmXT;
 
 class Main : Game

@@ -4,12 +4,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace RhythmXT.MainMenu.Settings;
 
-class FormBackground
+class Background
 {
     Texture2D _texture;
     Rectangle _rectangle;
 
-    internal FormBackground()
+    internal Background()
     {
         int width = 1024;
         int height = 1024;

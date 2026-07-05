@@ -1,4 +1,5 @@
 using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using RhythmXT.Input;
@@ -11,12 +12,24 @@ class SettingsForm
     internal event Action CloseClicked;
     internal FormState State { get; private set; }
 
-    FormBackground _formBackground;
+    Background _background;
+    Label _languageLabel/*, _showOriginalNamesLabel*/;
     
     internal SettingsForm()
     {
         State = FormState.Hide;
-        _formBackground = new();
+        _background = new();
+        _languageLabel = new()
+        {
+            Text = "Language: ",
+            Position = new(GlobalScope.ScreenWidth / 3, GlobalScope.ScreenHeight / 3f)
+        };
+    }
+
+    internal void LoadContent(ContentManager content)
+    {
+        _background.LoadContent(content);
+        _languageLabel.LoadContent(content);
     }
 
     internal void Update()
@@ -30,14 +43,13 @@ class SettingsForm
         }
     }
 
-    internal void LoadContent(ContentManager content)
-    {
-        _formBackground.LoadContent(content);
-    }
-
     internal void Draw(SpriteBatch spriteBatch)
     {
-        if (State == FormState.Show) _formBackground.Draw(spriteBatch);
+        if (State == FormState.Show) 
+        {
+            _background.Draw(spriteBatch);
+            _languageLabel.Draw(spriteBatch);
+        }
     }
 
     internal void Show() => State = FormState.Show;

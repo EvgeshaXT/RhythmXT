@@ -1,1 +1,3 @@
 Artist=Artist
+Language=Language
+ShowOriginalNames=Show original titles

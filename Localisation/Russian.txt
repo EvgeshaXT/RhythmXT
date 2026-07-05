@@ -1,1 +1,3 @@
 Artist=Артист
+Language=Язык
+ShowOriginalNames=Показывать оригинал

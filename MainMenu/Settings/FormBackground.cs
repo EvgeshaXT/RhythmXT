@@ -11,8 +11,8 @@ class Background
 
     internal Background()
     {
-        int width = 1024;
-        int height = 1024;
+        int width = 640;
+        int height = 192;
 
         _rectangle = new Rectangle((GlobalScope.ScreenWidth - width) / 2, (GlobalScope.ScreenHeight - height) / 2, width, height);
     }

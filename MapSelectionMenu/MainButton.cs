@@ -28,17 +28,20 @@ class MapSelectionMainButton
         _titleName = new()
         {
             Font = "Yu Gothic, 22",
+            Mode = Label.OriginMode.Custom,
             Scale = 0.9f
         };
 
         artistLabel = new()
         {
             Text = $"{Settings.GetTranslation("Artist")}: ",
+            Mode = Label.OriginMode.Custom,
             Scale = 0.9f
         };
 
         _artistName = new()
         {
+            Mode = Label.OriginMode.Custom,
             Scale = 0.9f
         };
 

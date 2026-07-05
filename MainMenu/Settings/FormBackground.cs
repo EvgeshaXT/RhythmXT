@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace RhythmXT.MainMenu.Settings;
 
-internal class FormBackground
+class FormBackground
 {
     Texture2D _texture;
     Rectangle _rectangle;

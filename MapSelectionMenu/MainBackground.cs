@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace RhythmXT.MapSelectionMenu;
 
-internal class MapSelectionMainBackground
+class MapSelectionMainBackground
 {
     string _imagePath;
     Texture2D _texture;

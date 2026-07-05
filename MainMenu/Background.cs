@@ -5,24 +5,21 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace RhythmXT.MainMenu;
 
-internal class MainMenuBackground
+class MainMenuBackground
 {
-    GraphicsDevice graphicsDevice;
     Texture2D _texture;
     Vector2 _position, _origin;
     Random _random;
 
-    public MainMenuBackground(GraphicsDevice graphicsDevice)
-    {
-        this.graphicsDevice = graphicsDevice;
-        
+    internal MainMenuBackground()
+    {        
         _position = new(GlobalScope.ScreenWidth / 2, GlobalScope.ScreenHeight / 2);
         _random = new();
     }
     
-    internal void LoadContent()
+    internal void LoadContent(GraphicsDevice graphicsDevice)
     {
-        _texture = LoadTexture();
+        _texture = LoadTexture(graphicsDevice);
         _origin = new(_texture.Width / 2, _texture.Height / 2);
     }
 
@@ -31,7 +28,7 @@ internal class MainMenuBackground
         spriteBatch.Draw(_texture, _position, null, color * 0.5f, 0, _origin, 1f, SpriteEffects.None, 0f);
     }
 
-    Texture2D LoadTexture()
+    Texture2D LoadTexture(GraphicsDevice graphicsDevice)
     {
         string[] files = Directory.GetFiles("Content/bg/");
         string file = files[_random.Next(files.Length)];

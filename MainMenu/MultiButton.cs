@@ -1,8 +1,8 @@
 namespace RhythmXT.MainMenu;
 
-internal class MainMenuMultiButton : MainMenuButtonBase
+class MainMenuMultiButton : MainMenuButtonBase
 {
-    public MainMenuMultiButton()
+    internal MainMenuMultiButton()
     {
         CLICKED_POSITION = new(GlobalScope.ScreenWidth / 2f + 25, GlobalScope.ScreenHeight / 2f);
         HIDDEN_POSITION = new(GlobalScope.ScreenWidth / 3f, GlobalScope.ScreenHeight / 2f);

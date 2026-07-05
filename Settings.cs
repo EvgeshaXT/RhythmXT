@@ -4,7 +4,7 @@ using System.Text.Json;
 
 namespace RhythmXT;
 
-internal static class Settings
+static class Settings
 {
     internal static string Language { get; private set; } = "English";
     internal static bool ShowOriginalNames { get; private set; } = true;

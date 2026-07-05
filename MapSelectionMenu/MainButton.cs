@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace RhythmXT.MapSelectionMenu;
 
-internal class MapSelectionMainButton
+class MapSelectionMainButton
 {
     int screenHeightHalf;
 
@@ -15,7 +15,7 @@ internal class MapSelectionMainButton
     Vector2 _position;
     Color _generalColor;
     Vector2 _origin;
-    static internal float TextureHeight { get; set; }
+    internal static float TextureHeight { get; set; }
     internal float PositionY
     {
         get => _position.Y;

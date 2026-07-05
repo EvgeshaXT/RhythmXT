@@ -8,7 +8,7 @@ using RhythmXT.Input;
 
 namespace RhythmXT.MapSelectionMenu;
 
-internal class MapSelectionMenuManager
+class MapSelectionMenuManager
 {
     internal enum MenuState { Hidden, Appearing, Visible, Disappearing }
     internal MenuState State { get; private set; }
@@ -129,39 +129,5 @@ internal class MapSelectionMenuManager
         string[] songsFolders = Directory.GetDirectories(songsPath);
 
         return songsFolders;
-    }
-
-    static string GetArtistName(string songName)
-    {
-        string songXTPath = $"Songs/{songName}/main.xt";
-        string[] lines = File.ReadAllLines(songXTPath);
-        
-        foreach (string line in lines)
-        {
-            if (line.StartsWith("Artist: "))
-            {
-                string[] parts = line.Split(": ");
-                return parts[1];
-            }
-        }
-
-        return "";
-    }
-
-    static string GetTitleName(string songName)
-    {
-        string songXTPath = $"Songs/{songName}/main.xt";
-        string[] lines = File.ReadAllLines(songXTPath);
-        
-        foreach (string line in lines)
-        {
-            if (line.StartsWith("Title: "))
-            {
-                string[] parts = line.Split(": ");
-                return parts[1];
-            }
-        }
-
-        return "";
     }
 }

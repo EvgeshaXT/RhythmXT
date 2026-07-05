@@ -1,8 +1,8 @@
 namespace RhythmXT.MainMenu;
 
-internal class MainMenuExitButton : MainMenuButtonBase
+class MainMenuExitButton : MainMenuButtonBase
 {
-    public MainMenuExitButton()
+    internal MainMenuExitButton()
     {
         CLICKED_POSITION = new(GlobalScope.ScreenWidth / 2f, GlobalScope.ScreenHeight / 1.44444f);
         HIDDEN_POSITION = new(GlobalScope.ScreenWidth / 2.75f, GlobalScope.ScreenHeight / 1.44444f);

@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace RhythmXT;
 
-internal class Label
+class Label
 {
     internal Font Font = "Yu Gothic, 18";
     internal string Text = "label";
@@ -27,7 +27,7 @@ internal class Label
     }
 }
 
-internal class Font
+class Font
 {
     internal string Name { get; set; } = "Yu Gothic";
     internal int Size { get; set; } = 18;

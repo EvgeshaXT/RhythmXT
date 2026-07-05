@@ -6,7 +6,7 @@ using RhythmXT.MainMenu;
 using RhythmXT.MapSelectionMenu;
 namespace RhythmXT;
 
-internal class Main : Game
+class Main : Game
 {
     GraphicsDeviceManager _graphics;
     SpriteBatch _spriteBatch;
@@ -15,7 +15,7 @@ internal class Main : Game
     MapSelectionMenuManager _mapSelectionMenuManager;
     int _screenWidth, _screenHeight;
 
-    public Main()
+    internal Main()
     {
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";    

@@ -2,7 +2,7 @@ using System.IO;
 
 namespace RhythmXT.MapSelectionMenu;
 
-internal class SongMetadata
+class SongMetadata
 {
     internal string ArtistOriginalName { get; private set; } = "";
     internal string ArtistName { get; private set; }
@@ -10,7 +10,7 @@ internal class SongMetadata
     internal string TitleName { get; private set; }
     internal string ImagePath { get; private set; }
 
-    static internal SongMetadata ParseXTFile(string songFolderPath)
+    internal static SongMetadata ParseXTFile(string songFolderPath)
     {
         SongMetadata songMetadata = new();
 

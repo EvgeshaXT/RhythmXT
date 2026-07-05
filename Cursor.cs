@@ -5,7 +5,7 @@ using RhythmXT.Input;
 
 namespace RhythmXT;
 
-internal static class Cursor
+static class Cursor
 {
     static Texture2D _texture;
     static Vector2 _position, _origin;

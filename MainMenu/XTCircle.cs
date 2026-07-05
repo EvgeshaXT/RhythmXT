@@ -7,7 +7,7 @@ using RhythmXT.Input;
 
 namespace RhythmXT.MainMenu;
 
-internal class MainMenuXTCircle
+class MainMenuXTCircle
 {
     readonly double DURATION = 10d;
     readonly float SPEED_ANIMATION_CLICK = 12f;
@@ -28,7 +28,7 @@ internal class MainMenuXTCircle
     
     Stopwatch stopwatch;
     
-    public MainMenuXTCircle()
+    internal MainMenuXTCircle()
     {
         StatePosition = CirclePositionState.Centre;
         Position = new(GlobalScope.ScreenWidth / 2, GlobalScope.ScreenHeight / 2);
@@ -105,7 +105,6 @@ internal class MainMenuXTCircle
         }
 
         UpdateDirectionForAnimation();
-
 
         if (Scale != newScale || Position != newPosition)
         {

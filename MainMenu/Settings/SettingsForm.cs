@@ -5,7 +5,7 @@ using RhythmXT.Input;
 
 namespace RhythmXT.MainMenu.Settings;
 
-internal class SettingsForm
+class SettingsForm
 {
     internal enum FormState { Hide, Show }
     internal event Action CloseClicked;

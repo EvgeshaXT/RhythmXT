@@ -7,7 +7,7 @@ using RhythmXT.MainMenu.Settings;
 
 namespace RhythmXT.MainMenu;
 
-internal class MainMenuManager
+class MainMenuManager
 {
     internal enum MenuState { Hidden, Appearing, Visible, Disappearing }
     internal MenuState State { get; private set; }
@@ -37,7 +37,7 @@ internal class MainMenuManager
         State = MenuState.Visible;
         this.graphicsDevice = graphicsDevice;
 
-        _mainMenuBackground = new(graphicsDevice);
+        _mainMenuBackground = new();
 
         settingsForm = new();
 
@@ -92,7 +92,7 @@ internal class MainMenuManager
     {
         settingsForm.LoadContent(content);
 
-        _mainMenuBackground.LoadContent();
+        _mainMenuBackground.LoadContent(graphicsDevice);
         _mainMenuSettingsButton.LoadContent(content);
         _mainMenuXTCircle.LoadContent(content);
         _mainMenuSoloButton.LoadContent(content);

@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace RhythmXT.Input;
 
-internal static class KeyboardInputManager
+static class KeyboardInputManager
 {
     static KeyboardState _nowKeyboardState;
     static KeyboardState _lastKeyboardState;

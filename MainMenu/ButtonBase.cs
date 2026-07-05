@@ -6,7 +6,7 @@ using RhythmXT.Input;
 
 namespace RhythmXT.MainMenu;
 
-internal abstract class MainMenuButtonBase
+abstract class MainMenuButtonBase
 {
     internal Vector2 CLICKED_POSITION;
     internal Vector2 HIDDEN_POSITION;

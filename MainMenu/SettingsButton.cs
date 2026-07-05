@@ -6,7 +6,7 @@ using RhythmXT.Input;
 
 namespace RhythmXT.MainMenu;
 
-internal class MainMenuSettingsButton
+class MainMenuSettingsButton
 {
     internal event Action ClickedEvent;
 
@@ -47,7 +47,7 @@ internal class MainMenuSettingsButton
 }
 
 // <======= HoverPlate =======> //
-internal class SettingsHoverPlate
+class SettingsHoverPlate
 {
     Texture2D _texture;
     Vector2 _position, _origin;

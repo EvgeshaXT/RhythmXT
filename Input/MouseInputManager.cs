@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace RhythmXT.Input;
 
-internal static class MouseInputManager
+static class MouseInputManager
 {
     static MouseState _nowMouseState;
     static MouseState _lastMouseState;

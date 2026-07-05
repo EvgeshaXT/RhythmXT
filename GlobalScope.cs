@@ -1,6 +1,6 @@
 namespace RhythmXT;
 
-internal static class GlobalScope
+static class GlobalScope
 {
     internal static int ScreenWidth { get; private set; }
     internal static int ScreenHeight { get; private set; }

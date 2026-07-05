@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace RhythmXT;
 
-internal static class SoundEffects
+static class SoundEffects
 {
     static SoundEffect _soundEffect_Click;
 

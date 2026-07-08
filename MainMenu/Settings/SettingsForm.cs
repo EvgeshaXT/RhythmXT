@@ -13,6 +13,7 @@ class SettingsForm
 
     Background _background;
     Label _languageLabel, _showOriginalNamesLabel;
+    OptionsLabel _languageOptions;
     
     internal SettingsForm()
     {
@@ -24,6 +25,12 @@ class SettingsForm
             Text = $"{RhythmXT.Settings.GetTranslation("Language")}: ",
             Position = new(GlobalScope.ScreenWidth / 2, GlobalScope.ScreenHeight / 2.15f),
             Mode = Label.OriginMode.Right
+        };
+        _languageOptions = new(["English", "Русский"], 0)
+        {
+            Font = "Yu Gothic, 22",
+            Position = new(GlobalScope.ScreenWidth / 2, GlobalScope.ScreenHeight / 2.15f),
+            Mode = OptionsLabel.OriginMode.Left
         };
         _showOriginalNamesLabel = new()
         {
@@ -39,6 +46,7 @@ class SettingsForm
         _background.LoadContent(content);
         _languageLabel.LoadContent(content);
         _showOriginalNamesLabel.LoadContent(content);
+        _languageOptions.LoadContent(content);
     }
 
     internal void Update()
@@ -50,6 +58,8 @@ class SettingsForm
             State = FormState.Hide;
             CloseClicked?.Invoke();
         }
+
+        if (KeyboardInputManager.EnterRePressed) _languageOptions.Update(1);
     }
 
     internal void Draw(SpriteBatch spriteBatch)
@@ -59,6 +69,7 @@ class SettingsForm
             _background.Draw(spriteBatch);
             _languageLabel.Draw(spriteBatch);
             _showOriginalNamesLabel.Draw(spriteBatch);
+            _languageOptions.Draw(spriteBatch);
         }
     }
 

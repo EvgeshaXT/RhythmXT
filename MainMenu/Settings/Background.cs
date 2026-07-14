@@ -1,6 +1,7 @@
 using static System.Math;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using RhythmXT.Input;
 
 namespace RhythmXT.MainMenu.Settings;
 
@@ -62,4 +63,6 @@ class Background
         texture.SetData(colors);
         return texture;
     }
+
+    internal bool ContainsCursor() => _rectangle.Contains(MouseInputManager.MousePosition);
 }

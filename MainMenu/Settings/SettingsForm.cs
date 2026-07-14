@@ -55,7 +55,7 @@ class SettingsForm
         MouseInputManager.Handled = true;
         KeyboardInputManager.Handled = true;
 
-        if (State == FormState.Show && KeyboardInputManager.EscapeRePressed)
+        if ((State == FormState.Show && KeyboardInputManager.EscapeRePressed) || (State == FormState.Show && !_background.ContainsCursor() && MouseInputManager.MouseLeftButtonRePressed))
         {
             State = FormState.Hide;
             CloseClicked?.Invoke();

@@ -41,7 +41,7 @@ class MainMenuManager
 
         settingsForm = new(graphicsDevice);
 
-        _mainMenuSettingsButton = new();
+        _mainMenuSettingsButton = new(graphicsDevice);
         _mainMenuSettingsButton.ClickedEvent += () =>
         {
             settingsForm.Show();

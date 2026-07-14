@@ -49,7 +49,7 @@ class MainMenuXTCircle
 
     internal void Update(double gameDeltaTime, bool anyButtonHaveCursor)
     {
-        if ((!MouseInputManager.Handled && MouseInputManager.MouseLeftButtonRePressed && ContainsCursor()) || KeyboardInputManager.EnterRePressed) Clicked();
+        if ((!MouseInputManager.Handled && MouseInputManager.MouseLeftButtonRePressed && ContainsCursor()) || (!KeyboardInputManager.Handled && KeyboardInputManager.EnterRePressed)) Clicked();
         if (!MouseInputManager.Handled) mainMenuXTCircle_Animation(gameDeltaTime, anyButtonHaveCursor);
     }
 

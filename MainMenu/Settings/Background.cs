@@ -1,7 +1,5 @@
-using System;
 using static System.Math;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace RhythmXT.MainMenu.Settings;

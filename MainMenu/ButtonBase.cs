@@ -61,7 +61,7 @@ abstract class MainMenuButtonBase
         if (State == ButtonState.Appearing || State == ButtonState.Disappearing) AppearingAnimation(gameDeltaTime);
         ContainsCursor();
 
-        if (State != ButtonState.Hidden)
+        if (State != ButtonState.Hidden && !MouseInputManager.Handled)
         {
             Mousehover(gameDeltaTime);
             if (IsContainsCursor && MouseInputManager.MouseLeftButtonRePressed && !MouseInputManager.Handled) Clicked();

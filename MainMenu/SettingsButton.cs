@@ -33,8 +33,12 @@ class MainMenuSettingsButton
 
     internal void Update()
     {
-        _settingsHoverPlate.Update();
-        if (_settingsHoverPlate.IsContainsCursor && MouseInputManager.MouseLeftButtonRePressed) Clicked();
+        if (!MouseInputManager.Handled)
+        {
+            _settingsHoverPlate.Update();
+            if (_settingsHoverPlate.IsContainsCursor && MouseInputManager.MouseLeftButtonRePressed) Clicked();
+        }
+        else _settingsHoverPlate.IsContainsCursor = false;
     }
 
     internal void Draw(SpriteBatch spriteBatch, Color color)

@@ -90,8 +90,6 @@ class MainMenuManager
 
     internal void LoadContent(ContentManager content)
     {
-        settingsForm.LoadContent(content);
-
         _mainMenuBackground.LoadContent(graphicsDevice);
         _mainMenuSettingsButton.LoadContent(content);
         _mainMenuXTCircle.LoadContent(content);
@@ -100,30 +98,30 @@ class MainMenuManager
         _mainMenuExitButton.LoadContent(content);
 
         CreateMaskCircleTexture();
+
+        settingsForm.LoadContent(content);
     }
 
     internal void Update(double gameDeltaTime)
     {
         if (settingsForm.State == SettingsForm.FormState.Show) settingsForm.Update();
-        else
+        
+        if (KeyboardInputManager.EscapeRePressed && !KeyboardInputManager.Handled) ExitClicked = true;
+        if (KeyboardInputManager.EnterRePressed && !KeyboardInputManager.Handled)
         {
-            if (KeyboardInputManager.EscapeRePressed && !KeyboardInputManager.Handled) ExitClicked = true;
-            if (KeyboardInputManager.EnterRePressed && !KeyboardInputManager.Handled)
-            {
-                if (_mainMenuXTCircle.StatePosition == MainMenuXTCircle.CirclePositionState.Centre) _mainMenuXTCircle.Clicked();
-                else _mainMenuSoloButton.Clicked();
-            }
-
-            if (SoloClicked || ExitClicked) State = MenuState.Disappearing;
-            if (State == MenuState.Appearing) AppearanceAnimation(gameDeltaTime);
-            else if (State == MenuState.Visible)
-            {
-                _mainMenuSettingsButton.Update();
-                _mainMenuXTCircle.Update(gameDeltaTime, AnyButtonHaveCursor());
-                MainMenuButtonsUpdate(gameDeltaTime);
-            }
-            else DisappearanceAnimation(gameDeltaTime);
+            if (_mainMenuXTCircle.StatePosition == MainMenuXTCircle.CirclePositionState.Centre) _mainMenuXTCircle.Clicked();
+            else _mainMenuSoloButton.Clicked();
         }
+
+        if (SoloClicked || ExitClicked) State = MenuState.Disappearing;
+        if (State == MenuState.Appearing) AppearanceAnimation(gameDeltaTime);
+        else if (State == MenuState.Visible)
+        {
+            _mainMenuSettingsButton.Update();
+            _mainMenuXTCircle.Update(gameDeltaTime, AnyButtonHaveCursor());
+            MainMenuButtonsUpdate(gameDeltaTime);
+        }
+        else DisappearanceAnimation(gameDeltaTime);
     }
 
     void MainMenuButtonsUpdate(double deltaTime)

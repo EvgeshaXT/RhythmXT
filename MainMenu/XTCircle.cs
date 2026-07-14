@@ -49,9 +49,8 @@ class MainMenuXTCircle
 
     internal void Update(double gameDeltaTime, bool anyButtonHaveCursor)
     {
-        if ((MouseInputManager.MouseLeftButtonRePressed && ContainsCursor()) || KeyboardInputManager.EnterRePressed) Clicked();
-
-        mainMenuXTCircle_Animation(gameDeltaTime, anyButtonHaveCursor);
+        if ((!MouseInputManager.Handled && MouseInputManager.MouseLeftButtonRePressed && ContainsCursor()) || KeyboardInputManager.EnterRePressed) Clicked();
+        if (!MouseInputManager.Handled) mainMenuXTCircle_Animation(gameDeltaTime, anyButtonHaveCursor);
     }
 
     internal void Draw(SpriteBatch spriteBatch, Color color)

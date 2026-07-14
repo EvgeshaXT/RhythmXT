@@ -52,6 +52,7 @@ class SettingsForm
 
     internal void Update()
     {
+        MouseInputManager.Handled = true;
         KeyboardInputManager.Handled = true;
 
         if (State == FormState.Show && KeyboardInputManager.EscapeRePressed)

@@ -16,10 +16,11 @@ class SettingsForm
     Label _languageLabel, _showOriginalNamesLabel;
     OptionsLabel _languageOptions;
     
-    internal SettingsForm()
+    internal SettingsForm(GraphicsDevice graphicsDevice)
     {
         State = FormState.Hide;
-        _background = new();
+        _background = new(graphicsDevice);
+
         _languageLabel = new()
         {
             Font = "Yu Gothic, 22",
@@ -30,7 +31,7 @@ class SettingsForm
         _languageOptions = new(["English", "Русский"], 0)
         {
             Font = "Yu Gothic, 22",
-            Position = new(GlobalScope.ScreenWidth / 2, GlobalScope.ScreenHeight / 2.15f),
+            Position = new(GlobalScope.ScreenWidth / 2 + 10, GlobalScope.ScreenHeight / 2.15f),
             Mode = OptionsLabel.OriginMode.Left
         };
         _showOriginalNamesLabel = new()
@@ -44,7 +45,6 @@ class SettingsForm
 
     internal void LoadContent(ContentManager content)
     {
-        _background.LoadContent(content);
         _languageLabel.LoadContent(content);
         _showOriginalNamesLabel.LoadContent(content);
         _languageOptions.LoadContent(content);

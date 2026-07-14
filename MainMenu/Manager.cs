@@ -39,7 +39,7 @@ class MainMenuManager
 
         _mainMenuBackground = new();
 
-        settingsForm = new();
+        settingsForm = new(graphicsDevice);
 
         _mainMenuSettingsButton = new();
         _mainMenuSettingsButton.ClickedEvent += () =>

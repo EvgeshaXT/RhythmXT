@@ -9,43 +9,39 @@ class OptionsLabel
 {
     internal enum OriginMode { LeftUp, Up, RightUp, Left, Centre, Right, LeftDown, Down, RightDown, Custom }
 
-    event Action<int> SelectedIndexChanged;
+    event Action SelectedIndexChanged;
 
     internal Font Font = "Yu Gothic, 18";
-    internal Vector2 Position { get; set; } = new(GlobalScope.ScreenWidth / 2, GlobalScope.ScreenHeight / 2);
-    internal Color Color { get; set; } = Color.White;
-    internal OriginMode Mode { get; set; } = OriginMode.Centre;
+    internal Vector2 Position = new(GlobalScope.ScreenWidth / 2, GlobalScope.ScreenHeight / 2);
+    internal Color Color = Color.White;
+    internal OriginMode Mode = OriginMode.Centre;
     internal Vector2 Origin { get; set; }
-    internal float Scale { get; set; } = 1f;
+    internal float Scale = 1f;
     internal Vector2 Size { get; private set; }
 
+    Vector2 _origin;
     SpriteFont spriteFont;
     readonly string[] _options;
     int _selectedIndex;
-    Vector2 _origin;
+
+    internal string SelectedText => _options[_selectedIndex];
+    void SelectedIndexSet(int value)
+    {
+        int newIndex = _selectedIndex + value;
+
+        if (newIndex > _options.Length - 1) newIndex -= _options.Length;
+        if (newIndex == _selectedIndex) return;
+        
+        _selectedIndex = newIndex;
+        SelectedIndexChanged?.Invoke();
+    }
 
     internal OptionsLabel(string[] options, int selectedIndex = 0)
     {
-        _options = options ?? throw new ArgumentNullException(nameof(options));
-        if (_options.Length == 0) throw new ArgumentException("Options array cannot be empty.");
-
+        _options = options;
         _selectedIndex = Math.Clamp(selectedIndex, 0, _options.Length - 1);
-        SelectedIndexChanged += _ => CalculateSize();
-    }
-
-
-    internal string SelectedText => _options[_selectedIndex];
-
-    internal int SelectedIndex
-    {
-        get => _selectedIndex;
-        set
-        {
-            int newIndex = Math.Clamp(value, 0, _options.Length - 1);
-            if (newIndex == _selectedIndex) return;
-            _selectedIndex = newIndex;
-            SelectedIndexChanged?.Invoke(_selectedIndex);
-        }
+        
+        SelectedIndexChanged += CalculateSize;
     }
 
     internal void LoadContent(ContentManager content)
@@ -56,12 +52,11 @@ class OptionsLabel
 
     internal void Update(int delta)
     {
-        SelectedIndex = (_selectedIndex + delta + _options.Length) % _options.Length;
+        SelectedIndexSet(delta);
     }
 
     internal void Draw(SpriteBatch spriteBatch)
     {
-        if (spriteFont == null) return;
         spriteBatch.DrawString(spriteFont, SelectedText, Position, Color, 0f, _origin, Scale, SpriteEffects.None, 0f);
     }
 

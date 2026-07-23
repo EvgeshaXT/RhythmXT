@@ -23,11 +23,7 @@ class Label
     internal Vector2 Position = new(GlobalScope.ScreenWidth / 2, GlobalScope.ScreenHeight / 2);
     internal Color Color = Color.White;
     internal OriginMode Mode = OriginMode.Centre;
-    internal Vector2 Origin
-    {
-        get => _origin;
-        set => _origin = value;
-    }
+    internal Vector2 Origin { get; set; }
     internal float Scale = 1f;
     internal Vector2 Size { get; private set; }
 
@@ -73,7 +69,7 @@ class Label
             case OriginMode.LeftDown: _origin = new(0, Size.Y); break;
             case OriginMode.Down: _origin = new(Size.X / 2, Size.Y); break;
             case OriginMode.RightDown: _origin = new(Size.X, Size.Y); break;
-            case OriginMode.Custom: break;
+            case OriginMode.Custom: _origin = Origin; break;
         }
     }
 }
